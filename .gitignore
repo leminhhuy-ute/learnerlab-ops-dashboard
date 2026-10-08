@@ -1,0 +1,15 @@
+.aws/
+.env
+.env.*
+!.env.example
+*credentials*
+*secret*
+*.pem
+*.key
+__pycache__/
+.venv/
+node_modules/
+dist/
+evidence/private/
+evidence/**/*.json
+!evidence/**/example*.json

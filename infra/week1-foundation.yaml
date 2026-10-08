@@ -1,0 +1,177 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  Learner Lab ops dashboard - week 1 foundation. Creates network scaffolding
+  and a private S3 artifact bucket; no compute, NAT, public IPv4 or IAM role.
+
+Parameters:
+  Project:
+    Type: String
+    Default: learnerlab-ops
+    MinLength: 1
+    MaxLength: 80
+    AllowedPattern: '[A-Za-z0-9_.@:/+=-]+'
+    Description: Project tag shared by all project resources.
+  Owner:
+    Type: String
+    MinLength: 1
+    MaxLength: 80
+    AllowedPattern: '[A-Za-z0-9_.@:/+=-]+'
+    Description: Student ID or team identifier; required and never a credential.
+  Environment:
+    Type: String
+    Default: learner-lab
+    AllowedValues: [learner-lab]
+    Description: Fixed environment tag for this coursework.
+
+# The mapping also rejects deployment outside the two allowed lab regions.
+Mappings:
+  RegionConfiguration:
+    us-east-1:
+      VpcCidr: 10.20.0.0/16
+    us-west-2:
+      VpcCidr: 10.20.0.0/16
+
+Resources:
+  ProjectVpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock:
+        Fn::FindInMap: [RegionConfiguration, {Ref: 'AWS::Region'}, VpcCidr]
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - {Key: Name, Value: {Fn::Sub: '${Project}-vpc'}}
+        - {Key: Project, Value: {Ref: Project}}
+        - {Key: Owner, Value: {Ref: Owner}}
+        - {Key: Environment, Value: {Ref: Environment}}
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - {Key: Name, Value: {Fn::Sub: '${Project}-igw'}}
+        - {Key: Project, Value: {Ref: Project}}
+        - {Key: Owner, Value: {Ref: Owner}}
+        - {Key: Environment, Value: {Ref: Environment}}
+
+  GatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: {Ref: ProjectVpc}
+      InternetGatewayId: {Ref: InternetGateway}
+
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: {Ref: ProjectVpc}
+      CidrBlock: 10.20.1.0/24
+      AvailabilityZone:
+        Fn::Select: [0, {Fn::GetAZs: ''}]
+      MapPublicIpOnLaunch: false
+      Tags:
+        - {Key: Name, Value: {Fn::Sub: '${Project}-public-a'}}
+        - {Key: Project, Value: {Ref: Project}}
+        - {Key: Owner, Value: {Ref: Owner}}
+        - {Key: Environment, Value: {Ref: Environment}}
+
+  PublicSubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: {Ref: ProjectVpc}
+      CidrBlock: 10.20.2.0/24
+      AvailabilityZone:
+        Fn::Select: [1, {Fn::GetAZs: ''}]
+      MapPublicIpOnLaunch: false
+      Tags:
+        - {Key: Name, Value: {Fn::Sub: '${Project}-public-b'}}
+        - {Key: Project, Value: {Ref: Project}}
+        - {Key: Owner, Value: {Ref: Owner}}
+        - {Key: Environment, Value: {Ref: Environment}}
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: {Ref: ProjectVpc}
+      Tags:
+        - {Key: Name, Value: {Fn::Sub: '${Project}-public-routes'}}
+        - {Key: Project, Value: {Ref: Project}}
+        - {Key: Owner, Value: {Ref: Owner}}
+        - {Key: Environment, Value: {Ref: Environment}}
+
+  InternetRoute:
+    Type: AWS::EC2::Route
+    DependsOn: GatewayAttachment
+    Properties:
+      RouteTableId: {Ref: PublicRouteTable}
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: {Ref: InternetGateway}
+
+  SubnetARouteAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: {Ref: PublicSubnetA}
+      RouteTableId: {Ref: PublicRouteTable}
+
+  SubnetBRouteAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: {Ref: PublicSubnetB}
+      RouteTableId: {Ref: PublicRouteTable}
+
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      # CloudFormation generates a globally unique name including a random suffix.
+      # This bucket stages code/evidence; website publication is a later task.
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: AbortIncompleteUploads
+            Status: Enabled
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 7
+      Tags:
+        - {Key: Name, Value: {Fn::Sub: '${Project}-artifacts'}}
+        - {Key: Project, Value: {Ref: Project}}
+        - {Key: Owner, Value: {Ref: Owner}}
+        - {Key: Environment, Value: {Ref: Environment}}
+
+Outputs:
+  AccountId:
+    Description: AWS account used by this deployment.
+    Value: {Ref: 'AWS::AccountId'}
+  Region:
+    Description: AWS region used by this deployment.
+    Value: {Ref: 'AWS::Region'}
+  VpcId:
+    Value: {Ref: ProjectVpc}
+  VpcCidr:
+    Value: {Fn::GetAtt: [ProjectVpc, CidrBlock]}
+  PublicSubnetAId:
+    Value: {Ref: PublicSubnetA}
+  PublicSubnetBId:
+    Value: {Ref: PublicSubnetB}
+  ArtifactBucketName:
+    Description: Private bucket retained if the stack is deleted.
+    Value: {Ref: ArtifactBucket}
+  ArtifactBucketArn:
+    Value: {Fn::GetAtt: [ArtifactBucket, Arn]}
+  LabRoleArn:
+    Description: Existing Learner Lab role, not created by this template.
+    Value: {Fn::Sub: 'arn:${AWS::Partition}:iam::${AWS::AccountId}:role/LabRole'}
+  LabInstanceProfileName:
+    Description: Existing profile for a future EC2 task; not used in week 1.
+    Value: LabInstanceProfile
