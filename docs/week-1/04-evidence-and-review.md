@@ -47,4 +47,4 @@ Codex hỗ trợ tìm tài liệu AWS chính thức, soạn yêu cầu/kiến tr
 
 ## Git
 
-Tài liệu, template và ảnh minh chứng ở repository cục bộ. Chưa có Git remote để đẩy lên GitHub. Trước khi chia sẻ repo, rà soát lại để chắc chắn không chứa credentials hoặc dữ liệu riêng tư khác.
+Tài liệu, template và ảnh minh chứng ở [repository GitHub riêng tư](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard). Giữ repository riêng tư cho đến khi sinh viên chủ động cấp quyền cho giảng viên hoặc quyết định công khai; không có credentials trong các tệp đã commit.

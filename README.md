@@ -14,9 +14,9 @@ Sinh viên: **24110019 — Lê Minh Huy**. Project: `learnerlab-ops`. Owner: `24
 
 **Nền tảng tuần 1 đã triển khai thật** trong Learner Lab, Account ID `213858341631`, Region `us-east-1`: stack `learnerlab-ops-week1` đạt `CREATE_COMPLETE` với 10 tài nguyên. VPC, hai subnet, tuyến Internet, IAM `LabRole` có sẵn và bucket S3 riêng tư đã được kiểm tra bằng AWS CLI. Xem [biên bản triển khai](docs/week-1/07-deployment-record.md) và [ảnh minh chứng](evidence/week-1/README.md).
 
-Tài liệu, sơ đồ và mã nguồn do Codex hỗ trợ chuẩn bị. **Lê Minh Huy tự khai đã học/làm việc 8 giờ trong tuần 1**; tổng này được ghi trong [worklog](docs/week-1/worklog.csv), chưa có phân bổ theo từng buổi. Việc sinh viên tự giải thích cấu hình chưa được kiểm tra. Không có Git remote nên hiện chỉ lưu trong repository cục bộ.
+Tài liệu, sơ đồ và mã nguồn do Codex hỗ trợ chuẩn bị. **Lê Minh Huy tự khai đã học/làm việc 8 giờ trong tuần 1**; tổng này được ghi trong [worklog](docs/week-1/worklog.csv), chưa có phân bổ theo từng buổi. Việc sinh viên tự giải thích cấu hình chưa được kiểm tra. Repository GitHub riêng tư: [leminhhuy-ute/learnerlab-ops-dashboard](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard).
 
-Gói nộp đã tạo tại `dist/week1-submission.zip` gồm tài liệu, template, worklog và bốn ảnh minh chứng. Repository Git cục bộ đã có commit; chưa đẩy lên remote.
+Gói nộp đã tạo tại `dist/week1-submission.zip` gồm tài liệu, template, worklog và bốn ảnh minh chứng. Các tệp nguồn và ảnh được quản lý bằng Git; gói ZIP được giữ cục bộ để nộp qua hệ thống môn học nếu cần.
 
 Tuần 1 dựng VPC, hai subnet, Internet Gateway, route và một bucket S3 riêng tư có mã hóa/tag. Các Lambda, EventBridge, DynamoDB, API Gateway, Cost Explorer và SNS thuộc thiết kế tổng thể, được triển khai ở tuần 2–3.
 
