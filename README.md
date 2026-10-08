@@ -16,6 +16,8 @@ Sinh viên: **24110019 — Lê Minh Huy**. Project: `learnerlab-ops`. Owner: `24
 
 Tài liệu, sơ đồ và mã nguồn do Codex hỗ trợ chuẩn bị. **Lê Minh Huy tự khai đã học/làm việc 8 giờ trong tuần 1**; tổng này được ghi trong [worklog](docs/week-1/worklog.csv), chưa có phân bổ theo từng buổi. Việc sinh viên tự giải thích cấu hình chưa được kiểm tra. Không có Git remote nên hiện chỉ lưu trong repository cục bộ.
 
+Gói nộp đã tạo tại `dist/week1-submission.zip` gồm tài liệu, template, worklog và bốn ảnh minh chứng. Repository Git cục bộ đã có commit; chưa đẩy lên remote.
+
 Tuần 1 dựng VPC, hai subnet, Internet Gateway, route và một bucket S3 riêng tư có mã hóa/tag. Các Lambda, EventBridge, DynamoDB, API Gateway, Cost Explorer và SNS thuộc thiết kế tổng thể, được triển khai ở tuần 2–3.
 
 ## Kiểm tra cục bộ
