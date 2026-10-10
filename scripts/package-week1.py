@@ -5,7 +5,6 @@ from zipfile import ZipFile, ZIP_DEFLATED
 ROOT = Path(__file__).resolve().parents[1]
 FILES = [
     "dist/Bao_cao_tuan_1_Learner_Lab_Ops_Dashboard_24110019.docx",
-    "dist/Bao_cao_tuan_1_Learner_Lab_Ops_Dashboard_24110019.pdf",
     "README.md", ".gitignore",
     "assets/README.md", "assets/hcmute-logo-from-reference.png",
     "docs/week-1/00-plan.md", "docs/week-1/01-services-and-requirements.md",

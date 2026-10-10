@@ -2,7 +2,7 @@
 
 Trạng thái: nền tảng VPC/S3 tuần 1 đã triển khai; collector/API còn là thiết kế cho tuần 2–3. Vùng hạ tầng chính: `us-east-1`; phạm vi inventory dự kiến: `us-east-1`, `us-west-2`. ID tài nguyên thật ở [biên bản triển khai](07-deployment-record.md).
 
-Thành viên: Lê Minh Huy — 24110019. Tag tài nguyên do dự án tạo: `Project=learnerlab-ops`, `Owner=24110019`. Codex đã triển khai và xác minh VPC/S3 trong Learner Lab `213858341631` ở `us-east-1`; chưa triển khai pipeline. Quyền các dịch vụ pipeline vẫn cần kiểm tra khi làm tuần 2–3.
+Thành viên: Lê Minh Huy — 24110019. Tag tài nguyên do dự án tạo: `Project=learnerlab-ops`, `Owner=24110019`. LLM/AI (ChatGPT) đã triển khai và xác minh VPC/S3 trong Learner Lab `213858341631` ở `us-east-1`; chưa triển khai pipeline. Quyền các dịch vụ pipeline vẫn cần kiểm tra khi làm tuần 2–3.
 
 ## 1. Luồng tổng thể
 

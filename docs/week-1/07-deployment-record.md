@@ -25,7 +25,7 @@ Các tài nguyên có thể gắn tag đều dùng `Project=learnerlab-ops`, `Ow
 
 ## Cách triển khai và kiểm tra
 
-Terminal nhúng của Vocareum mặc định dùng role vận hành thuộc tài khoản khác. Codex đã dùng credentials CLI tạm thời từ **AWS Details** của chính Learner Lab trong một tệp `/tmp` riêng, chỉ cho phiên này. STS trả `213858341631`; không dùng quyền role mặc định để triển khai. Lệnh triển khai:
+Terminal nhúng của Vocareum mặc định dùng role vận hành thuộc tài khoản khác. LLM/AI (ChatGPT) đã dùng credentials CLI tạm thời từ **AWS Details** của chính Learner Lab trong một tệp `/tmp` riêng, chỉ cho phiên này. STS trả `213858341631`; không dùng quyền role mặc định để triển khai. Lệnh triển khai:
 
 ```bash
 aws cloudformation validate-template --template-body file:///tmp/learnerlab-week1.yaml --region us-east-1
@@ -35,7 +35,7 @@ aws cloudformation deploy --template-file /tmp/learnerlab-week1.yaml \
   --tags Project=learnerlab-ops Owner=24110019 Environment=learner-lab
 ```
 
-Các lệnh `describe-stacks`, `list-stack-resources`, `iam get-role`, `ec2 describe-vpcs/subnets/route-tables/internet-gateways/tags` và `s3api get-public-access-block/get-bucket-encryption/get-bucket-ownership-controls/get-bucket-tagging/get-bucket-lifecycle-configuration` đã chạy thành công bằng cùng phiên. Sau đó Codex đã xóa tệp credentials, bản template tạm, biến môi trường và lịch sử lệnh; terminal in `Temporary credentials removed`. Không chép keys/token vào repository hoặc ảnh.
+Các lệnh `describe-stacks`, `list-stack-resources`, `iam get-role`, `ec2 describe-vpcs/subnets/route-tables/internet-gateways/tags` và `s3api get-public-access-block/get-bucket-encryption/get-bucket-ownership-controls/get-bucket-tagging/get-bucket-lifecycle-configuration` đã chạy thành công bằng cùng phiên. Sau đó LLM/AI (ChatGPT) đã xóa tệp credentials, bản template tạm, biến môi trường và lịch sử lệnh; terminal in `Temporary credentials removed`. Không chép keys/token vào repository hoặc ảnh.
 
 ## Chi phí và phần còn mở
 
@@ -43,4 +43,4 @@ Lab hiển thị `Used $0 of $50` lúc kiểm tra, nhưng chỉ số ngân sách
 
 Phiên Lab đã được **End Lab** sau khi kiểm tra; cổng hiển thị trạng thái **Terminated**. Việc hết giờ/End Lab không xóa stack hoặc bucket, và không tự chứng minh chi phí bằng 0.
 
-**Chưa xác minh** `LabInstanceProfile` bằng IAM API; output tên profile trong template không khẳng định profile tồn tại. Sinh viên tự khai đã học/làm việc **8 giờ tuần 1**; [worklog](worklog.csv) ghi riêng tổng này, không tự phân bổ vào từng nhiệm vụ khi chưa có thông tin. Sinh viên cần đọc kiến trúc/template và tự giải thích trong buổi vấn đáp.
+**Chưa xác minh** `LabInstanceProfile` bằng IAM API; output tên profile trong template không khẳng định profile tồn tại. [Worklog](worklog.csv) ghi riêng phần việc và tổng giờ sinh viên tự khai; chưa có thời lượng thực tế cho từng nhiệm vụ. Sinh viên cần đọc kiến trúc/template và tự giải thích trong buổi vấn đáp.

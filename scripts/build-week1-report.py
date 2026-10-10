@@ -208,7 +208,7 @@ doc.add_page_break()
 heading("TÓM TẮT", 1)
 para("Báo cáo ghi nhận kết quả tuần 1 của đề tài Bảng điều khiển vận hành cho AWS Learner Lab. Phạm vi tuần này gồm tìm hiểu dịch vụ, chốt yêu cầu, thiết kế kiến trúc và sơ đồ, dựng nền tảng VPC/IAM LabRole/S3, gắn tag và lưu minh chứng. Các chức năng thu thập tự động, API, biểu đồ và cảnh báo thuộc kế hoạch các tuần tiếp theo; báo cáo không coi chúng là kết quả đã chạy.")
 para("Trên tài khoản Learner Lab 213858341631 tại us-east-1, stack CloudFormation learnerlab-ops-week1 đạt CREATE_COMPLETE ngày 08/10/2026. Kiểm tra sau triển khai ghi nhận 10/10 tài nguyên của stack ở trạng thái CREATE_COMPLETE, gồm VPC 10.20.0.0/16, hai subnet thuộc hai Availability Zone, tuyến tới Internet Gateway và một bucket S3 riêng tư có SSE-S3. LabRole có sẵn đã được xác minh bằng IAM GetRole; LabInstanceProfile chưa được xác minh độc lập.")
-para("Sinh viên Lê Minh Huy cung cấp tổng thời gian tự học/làm việc 8 giờ trong tuần 1, nhưng chưa cung cấp ngày và giờ theo từng nhiệm vụ. Codex hỗ trợ soạn thiết kế, template, thao tác triển khai và xác minh trong Learner Lab. Báo cáo giữ tách biệt số giờ sinh viên tự khai với thời gian công cụ thực hiện.")
+para("Lê Minh Huy xác nhận đã trực tiếp đọc tài liệu, chỉnh sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh minh chứng. LLM/AI (ChatGPT) được dùng để hỗ trợ tra cứu, xây dựng bản nháp và hoàn thiện tài liệu; phần công cụ trực tiếp thao tác trong Learner Lab được ghi rõ ở mục 5.2.")
 
 heading("Chương 1 Tổng quan và phạm vi tuần 1", 1)
 heading("1.1 Bài toán và đầu ra", 2)
@@ -218,7 +218,7 @@ table(["Đầu việc tuần 1", "Sản phẩm hiện có", "Trạng thái"], [
     ("Thiết kế kiến trúc, sơ đồ", "docs/week-1/02-architecture.md; docs/diagrams/architecture-week1-simple.png", "Bản thiết kế"),
     ("Dựng VPC, dùng LabRole, tạo S3", "infra/week1-foundation.yaml; stack AWS", "Đã xác minh 08/10"),
     ("Gắn Project/Owner, lưu ảnh", "evidence/week-1/02–04", "Đã xác minh 08/10"),
-    ("Nhật ký theo người và số giờ", "docs/week-1/worklog.csv", "Tổng 8 giờ tự khai; thiếu phân bổ"),
+    ("Nhật ký theo người và số giờ", "docs/week-1/worklog.csv", "Có tổng giờ sinh viên tự khai"),
 ], [4.1, 8.2, 4.0])
 caption("Bảng 1.1. Phạm vi tuần 1 và sản phẩm có thể đối chiếu")
 
@@ -277,12 +277,12 @@ para("Bucket S3 được giữ lại cho tuần 2; request và lưu trữ phát 
 heading("Chương 5 Tiến độ, AI hỗ trợ và việc tiếp theo", 1)
 heading("5.1 Nhật ký công việc", 2)
 table(["Sinh viên", "Thông tin thời gian có thể xác nhận", "Thiếu để hoàn tất worklog"], [
-    ("Lê Minh Huy\n24110019", "Tổng 8 giờ tuần 1 do sinh viên tự khai", "Chưa có ngày/giờ thực tế cho từng nhiệm vụ; chưa xác minh mức tự thực hiện từng phần"),
+    ("Lê Minh Huy\n24110019", "Tổng 8 giờ tuần 1 do sinh viên tự khai", "Chưa có ngày/giờ cho từng nhiệm vụ và bản ghi riêng cho lệnh sinh viên tự chạy"),
 ], [3.5, 5.5, 7.3])
 caption("Bảng 5.1. Thời gian chỉ ghi theo mức độ thông tin đã được cung cấp")
-para("Sinh viên liệt kê phạm vi 8 giờ gồm tìm hiểu dịch vụ, thiết kế kiến trúc, vẽ sơ đồ, dựng nền tảng VPC/IAM LabRole/S3 và gắn tag. Kế hoạch chia thành bốn dòng, mỗi dòng 2 giờ dự kiến; đó không phải số giờ thực tế. Worklog giữ trống giờ thực tế theo nhiệm vụ đến khi sinh viên cung cấp ngày, thời lượng và mức tham gia từng việc. Không cộng thời gian Codex thao tác vào 8 giờ của sinh viên.")
+para("Sinh viên xác nhận đã đọc tài liệu, tự sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh. Worklog liệt kê các đầu việc tuần 1; ngày và thời lượng thực tế của từng việc chưa được cung cấp. Vì vậy báo cáo chỉ ghi tổng giờ sinh viên tự khai trong bảng 5.1, không tự chia cho các nhiệm vụ hoặc cộng thời gian công cụ thao tác.")
 heading("5.2 Phần được AI hỗ trợ", 2)
-para("Codex hỗ trợ tổng hợp yêu cầu và tài liệu AWS, thiết kế kiến trúc, vẽ sơ đồ, soạn CloudFormation/template/script, triển khai và kiểm tra nền tảng trên Learner Lab, lưu ảnh minh chứng, rồi biên soạn báo cáo này. Sinh viên phải tự đọc, kiểm tra và giải thích được cấu hình/mã nguồn khi vấn đáp. Báo cáo không gán các thao tác của Codex thành công việc trực tiếp của sinh viên.")
+para("LLM/AI (ChatGPT) hỗ trợ tham khảo tài liệu AWS, gợi ý kiến trúc, tạo bản nháp sơ đồ, template, script và báo cáo để sinh viên rà soát, chỉnh sửa. Trong phiên Learner Lab được ghi nhận ngày 08/10/2026, LLM/AI (ChatGPT) cũng trực tiếp triển khai CloudFormation, chạy lệnh xác minh và lưu ảnh CLI theo yêu cầu của sinh viên. Sinh viên xác nhận đã tự chạy lệnh AWS và kiểm tra ảnh, nhưng chưa cung cấp bản ghi riêng để đối chiếu các thao tác đó với phiên công cụ. Khi vấn đáp, sinh viên cần giải thích được cấu hình, mã nguồn và kết quả đã nộp.")
 heading("5.3 Kết luận và tuần 2", 2)
 para("Tuần 1 có đầu ra thật: tài liệu yêu cầu, sơ đồ kiến trúc, stack VPC/S3 hoàn thành, LabRole đã xác minh, tag Project/Owner/Environment và ảnh AWS có thời gian/tài khoản/vùng. Phần còn mở là phân bổ worklog theo từng đầu việc và kiểm tra LabInstanceProfile nếu cần dùng ở giai đoạn sau. Tuần 2 mới triển khai Lambda, EventBridge, DynamoDB, API và các chức năng lõi; quyền và dữ liệu của các dịch vụ này phải được kiểm tra trực tiếp trên Lab trước khi báo là hoàn tất.")
 heading("Nguồn và tệp kèm theo", 1)

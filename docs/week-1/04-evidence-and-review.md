@@ -25,6 +25,7 @@ Các ảnh CLI ghi Account ID, Region và thời gian do `date -Is` trong termin
 | Tag | `Project=learnerlab-ops`, `Owner=24110019`, `Environment=learner-lab` trên tài nguyên hỗ trợ tag |
 | Chi phí/tài nguyên chạy | Cổng Lab hiển thị `Used $0 of $50` lúc kiểm tra, có độ trễ; không thấy EC2 `running` hoặc NAT Gateway `available` ở hai Region được phép |
 | Giờ thực tế của 24110019 | Sinh viên tự khai 8 giờ tuần 1; đã ghi tổng trong worklog, chưa có phân bổ theo buổi |
+| Phần việc sinh viên tự khai | Đọc tài liệu, tự sửa sơ đồ/template, chạy lệnh AWS, kiểm tra ảnh; chưa có bản ghi riêng cho các lệnh sinh viên tự chạy |
 
 Xem [biên bản triển khai và lệnh xác minh](07-deployment-record.md). Output `LabInstanceProfileName` trong template chỉ là tên tham khảo cho tuần sau, **chưa phải bằng chứng profile tồn tại**.
 
@@ -43,7 +44,7 @@ Xem [biên bản triển khai và lệnh xác minh](07-deployment-record.md). Ou
 
 ## Ghi nhận AI hỗ trợ
 
-Codex hỗ trợ tìm tài liệu AWS chính thức, soạn yêu cầu/kiến trúc, vẽ sơ đồ, chuẩn bị template/script, triển khai và xác minh nền tảng trong Learner Lab. Sinh viên đã tự khai tổng 8 giờ học/làm việc, chưa nêu phân bổ và cần tự giải thích từng thành phần. Thời gian Codex thao tác hoặc thời gian Lab chạy không tính là giờ của sinh viên.
+Sinh viên tự khai đã đọc tài liệu, sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh. LLM/AI (ChatGPT) hỗ trợ tham khảo tài liệu AWS, gợi ý kiến trúc, tạo bản nháp sơ đồ/template/script và biên soạn báo cáo. Trong phiên Learner Lab ngày 08/10/2026, công cụ còn trực tiếp triển khai stack, xác minh nền tảng và lưu ảnh CLI theo yêu cầu của sinh viên. Chưa có bản ghi riêng để đối chiếu các lệnh sinh viên tự chạy. Worklog chưa có thời lượng theo từng buổi; không tính thời gian công cụ thao tác hoặc thời gian Lab chạy vào giờ sinh viên.
 
 ## Git
 

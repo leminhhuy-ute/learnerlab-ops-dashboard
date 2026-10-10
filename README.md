@@ -14,9 +14,9 @@ Sinh viên: **24110019 — Lê Minh Huy**. Project: `learnerlab-ops`. Owner: `24
 
 **Nền tảng tuần 1 đã triển khai thật** trong Learner Lab, Account ID `213858341631`, Region `us-east-1`: stack `learnerlab-ops-week1` đạt `CREATE_COMPLETE` với 10 tài nguyên. VPC, hai subnet, tuyến Internet, IAM `LabRole` có sẵn và bucket S3 riêng tư đã được kiểm tra bằng AWS CLI. Xem [biên bản triển khai](docs/week-1/07-deployment-record.md) và [ảnh minh chứng](evidence/week-1/README.md).
 
-Tài liệu, sơ đồ và mã nguồn do Codex hỗ trợ chuẩn bị. **Lê Minh Huy tự khai đã học/làm việc 8 giờ trong tuần 1**; tổng này được ghi trong [worklog](docs/week-1/worklog.csv), chưa có phân bổ theo từng buổi. Việc sinh viên tự giải thích cấu hình chưa được kiểm tra. Repository GitHub riêng tư: [leminhhuy-ute/learnerlab-ops-dashboard](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard).
+Lê Minh Huy xác nhận đã đọc tài liệu, tự sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh. Số giờ sinh viên tự khai được ghi trong [worklog](docs/week-1/worklog.csv). LLM/AI (ChatGPT) hỗ trợ tham khảo tài liệu, tạo bản nháp và hoàn thiện tài liệu; phiên triển khai AWS do công cụ trực tiếp thao tác được ghi riêng trong [biên bản](docs/week-1/07-deployment-record.md). Repository GitHub riêng tư: [leminhhuy-ute/learnerlab-ops-dashboard](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard).
 
-Gói nộp tại `dist/week1-submission.zip` gồm báo cáo Word/PDF có mục lục bấm được, logo trường từ báo cáo mẫu người dùng cung cấp, tài liệu, template, worklog và bốn ảnh minh chứng. Các tệp nguồn và ảnh được quản lý bằng Git; gói ZIP được giữ cục bộ để nộp qua hệ thống môn học nếu cần.
+Gói nộp tại `dist/week1-submission.zip` gồm báo cáo Word có mục lục bấm được, logo trường từ báo cáo mẫu người dùng cung cấp, tài liệu, template, worklog và bốn ảnh minh chứng. Các tệp nguồn và ảnh được quản lý bằng Git; gói ZIP được giữ cục bộ để nộp qua hệ thống môn học nếu cần.
 
 Tuần 1 dựng VPC, hai subnet, Internet Gateway, route và một bucket S3 riêng tư có mã hóa/tag. Các Lambda, EventBridge, DynamoDB, API Gateway, Cost Explorer và SNS thuộc thiết kế tổng thể, được triển khai ở tuần 2–3.
 
@@ -28,7 +28,7 @@ python .\scripts\validate_week1.py
 
 Kiểm tra này kiểm tra cấu trúc template và các giới hạn an toàn của dự án; việc AWS chấp nhận template và quyền Learner Lab phải được xác minh trong tài khoản thật.
 
-Để tạo lại báo cáo trên máy Windows có Microsoft Word, chạy lần lượt `scripts/build-week1-report.py`, `scripts/finalize-week1-report.ps1`, rồi `scripts/package-week1.py`. Bước Word cập nhật mục lục liên kết và xuất PDF với cùng số trang.
+Để tạo lại báo cáo trên máy Windows có Microsoft Word, chạy lần lượt `scripts/build-week1-report.py`, `scripts/finalize-week1-report.ps1`, rồi `scripts/package-week1.py`. Bước Word cập nhật mục lục liên kết trong DOCX.
 
 ## Kiểm tra / triển khai bằng CLI
 
