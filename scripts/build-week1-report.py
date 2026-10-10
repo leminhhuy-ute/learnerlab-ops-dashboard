@@ -259,7 +259,7 @@ table(["Sinh viên", "Thông tin thời gian có thể xác nhận", "Thiếu đ
     ("Lê Minh Huy\n24110019", "Tổng 8 giờ tuần 1 do sinh viên tự khai", "Chưa có ngày/giờ thực tế cho từng nhiệm vụ; chưa xác minh mức tự thực hiện từng phần"),
 ], [3.5, 5.5, 7.3])
 caption("Bảng 5.1. Thời gian chỉ ghi theo mức độ thông tin đã được cung cấp")
-para("Bảng phân công dự kiến trong kế hoạch chia bốn đầu việc, mỗi việc 2 giờ. Đó là kế hoạch, không phải số giờ thực tế. File worklog.csv giữ trống các ô giờ thực tế theo nhiệm vụ cho đến khi sinh viên tự điền ngày, thời lượng và việc đã làm. Không cộng thời gian Codex thao tác vào 8 giờ của sinh viên.")
+para("Sinh viên liệt kê phạm vi 8 giờ gồm tìm hiểu dịch vụ, thiết kế kiến trúc, vẽ sơ đồ, dựng nền tảng VPC/IAM LabRole/S3 và gắn tag. Kế hoạch chia thành bốn dòng, mỗi dòng 2 giờ dự kiến; đó không phải số giờ thực tế. Worklog giữ trống giờ thực tế theo nhiệm vụ đến khi sinh viên cung cấp ngày, thời lượng và mức tham gia từng việc. Không cộng thời gian Codex thao tác vào 8 giờ của sinh viên.")
 heading("5.2 Phần được AI hỗ trợ", 2)
 para("Codex hỗ trợ tổng hợp yêu cầu và tài liệu AWS, thiết kế kiến trúc, vẽ sơ đồ, soạn CloudFormation/template/script, triển khai và kiểm tra nền tảng trên Learner Lab, lưu ảnh minh chứng, rồi biên soạn báo cáo này. Sinh viên phải tự đọc, kiểm tra và giải thích được cấu hình/mã nguồn khi vấn đáp. Báo cáo không gán các thao tác của Codex thành công việc trực tiếp của sinh viên.")
 heading("5.3 Kết luận và tuần 2", 2)
