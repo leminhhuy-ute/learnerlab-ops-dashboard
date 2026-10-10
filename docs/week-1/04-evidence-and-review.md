@@ -48,4 +48,4 @@ Sinh viên xác nhận đã đọc tài liệu, sửa sơ đồ/template, chạy
 
 ## Git
 
-Tài liệu, template và ảnh minh chứng ở [repository GitHub riêng tư](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard). Giữ repository riêng tư cho đến khi sinh viên chủ động cấp quyền cho giảng viên hoặc quyết định công khai; không có credentials trong các tệp đã commit.
+Tài liệu, template và ảnh minh chứng được lưu ở [repository GitHub công khai](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard). Trước khi công khai, các tệp văn bản trong repository và lịch sử commit đã được rà soát theo mẫu access key AWS, secret key, session token, GitHub token và private key; không phát hiện chuỗi khớp. Các ID tài khoản và tài nguyên trong ảnh/biên bản là dữ liệu nhận diện, không phải credentials.

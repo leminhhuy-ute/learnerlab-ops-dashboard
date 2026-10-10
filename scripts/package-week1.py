@@ -11,7 +11,7 @@ FILES = [
     "docs/week-1/02-architecture.md", "docs/week-1/03-foundation-runbook.md",
     "docs/week-1/04-evidence-and-review.md", "docs/week-1/05-local-checks.md",
     "docs/week-1/worklog.csv", "docs/week-1/06-live-session.md",
-    "docs/week-1/07-deployment-record.md",
+    "docs/week-1/07-deployment-record.md", "docs/week-1/08-cloudtrail-audit.md",
     "docs/diagrams/architecture.mmd", "docs/diagrams/architecture.svg", "docs/diagrams/architecture.png",
     "docs/diagrams/architecture-week1-simple.mmd", "docs/diagrams/architecture-week1-simple.svg", "docs/diagrams/architecture-week1-simple.png",
     "infra/week1-foundation.yaml", "scripts/validate_week1.py",

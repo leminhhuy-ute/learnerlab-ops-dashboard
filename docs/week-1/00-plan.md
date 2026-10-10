@@ -4,6 +4,7 @@
 
 | Nội dung | Giá trị |
 |---|---|
+| Mã học phần | `CLCO332779` |
 | Đề tài | Bảng điều khiển vận hành cho AWS Learner Lab |
 | Sinh viên đã xác nhận | 24110019 — Lê Minh Huy |
 | Tag Project | `learnerlab-ops` |
