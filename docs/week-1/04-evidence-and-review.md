@@ -24,8 +24,8 @@ Các ảnh CLI ghi Account ID, Region và thời gian do `date -Is` trong termin
 | Bucket | `learnerlab-ops-week1-artifactbucket-u4t7cql7ngfo`; bucket riêng tư và mã hóa SSE-S3 |
 | Tag | `Project=learnerlab-ops`, `Owner=24110019`, `Environment=learner-lab` trên tài nguyên hỗ trợ tag |
 | Chi phí/tài nguyên chạy | Cổng Lab hiển thị `Used $0 of $50` lúc kiểm tra, có độ trễ; không thấy EC2 `running` hoặc NAT Gateway `available` ở hai Region được phép |
-| Giờ thực tế của 24110019 | Sinh viên tự khai 8 giờ tuần 1; đã ghi tổng trong worklog, chưa có phân bổ theo buổi |
-| Phần việc sinh viên tự khai | Đọc tài liệu, tự sửa sơ đồ/template, chạy lệnh AWS, kiểm tra ảnh; chưa có bản ghi riêng cho các lệnh sinh viên tự chạy |
+| Giờ thực tế của 24110019 | Chưa có bằng chứng thời lượng cá nhân; cột giờ trong worklog để trống |
+| Phần việc sinh viên xác nhận | Đọc tài liệu, tự sửa sơ đồ/template, chạy lệnh AWS, kiểm tra ảnh; chưa có bản ghi thời gian riêng cho các việc này |
 
 Xem [biên bản triển khai và lệnh xác minh](07-deployment-record.md). Output `LabInstanceProfileName` trong template chỉ là tên tham khảo cho tuần sau, **chưa phải bằng chứng profile tồn tại**.
 
@@ -44,7 +44,7 @@ Xem [biên bản triển khai và lệnh xác minh](07-deployment-record.md). Ou
 
 ## Ghi nhận AI hỗ trợ
 
-Sinh viên tự khai đã đọc tài liệu, sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh. LLM/AI (ChatGPT) hỗ trợ tham khảo tài liệu AWS, gợi ý kiến trúc, tạo bản nháp sơ đồ/template/script và biên soạn báo cáo. Trong phiên Learner Lab ngày 08/10/2026, công cụ còn trực tiếp triển khai stack, xác minh nền tảng và lưu ảnh CLI theo yêu cầu của sinh viên. Chưa có bản ghi riêng để đối chiếu các lệnh sinh viên tự chạy. Worklog chưa có thời lượng theo từng buổi; không tính thời gian công cụ thao tác hoặc thời gian Lab chạy vào giờ sinh viên.
+Sinh viên xác nhận đã đọc tài liệu, sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh. LLM/AI (ChatGPT) hỗ trợ tham khảo tài liệu AWS, gợi ý kiến trúc, tạo bản nháp sơ đồ/template/script và biên soạn báo cáo. Trong phiên Learner Lab ngày 08/10/2026, công cụ còn trực tiếp triển khai stack, xác minh nền tảng và lưu ảnh CLI theo yêu cầu của sinh viên. Chưa có bản ghi riêng để đối chiếu các lệnh sinh viên tự chạy. Worklog để trống thời lượng cá nhân; không tính thời gian công cụ thao tác hoặc thời gian Lab chạy vào giờ sinh viên.
 
 ## Git
 

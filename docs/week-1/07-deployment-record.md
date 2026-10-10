@@ -43,4 +43,4 @@ Lab hiển thị `Used $0 of $50` lúc kiểm tra, nhưng chỉ số ngân sách
 
 Phiên Lab đã được **End Lab** sau khi kiểm tra; cổng hiển thị trạng thái **Terminated**. Việc hết giờ/End Lab không xóa stack hoặc bucket, và không tự chứng minh chi phí bằng 0.
 
-**Chưa xác minh** `LabInstanceProfile` bằng IAM API; output tên profile trong template không khẳng định profile tồn tại. [Worklog](worklog.csv) ghi riêng phần việc và tổng giờ sinh viên tự khai; chưa có thời lượng thực tế cho từng nhiệm vụ. Sinh viên cần đọc kiến trúc/template và tự giải thích trong buổi vấn đáp.
+**Chưa xác minh** `LabInstanceProfile` bằng IAM API; output tên profile trong template không khẳng định profile tồn tại. [Worklog](worklog.csv) ghi các phần việc sinh viên xác nhận và để trống giờ cá nhân chưa có chứng cứ thời gian. Các mốc triển khai AWS ở biên bản này không được dùng để suy ra thời lượng sinh viên tự làm. Sinh viên cần đọc kiến trúc/template và tự giải thích trong buổi vấn đáp.

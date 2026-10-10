@@ -176,7 +176,7 @@ for c, text in zip([r.cells[0] for r in cover.rows], [
     "Nhóm lĩnh vực: Monitoring & Operations",
     "Giảng viên hướng dẫn: Huỳnh Xuân Phụng",
     "Sinh viên: Lê Minh Huy — MSSV 24110019",
-    "Minh chứng Learner Lab: 07–08/10/2026; báo cáo lập ngày 10/10/2026",
+    "Thời điểm kiểm tra Learner Lab: 07–08/10/2026",
 ]):
     set_cell_text(c, text, size=10.5)
     borders(c, "666666")
@@ -206,45 +206,44 @@ insert_toc()
 doc.add_page_break()
 
 heading("TÓM TẮT", 1)
-para("Báo cáo ghi nhận kết quả tuần 1 của đề tài Bảng điều khiển vận hành cho AWS Learner Lab. Phạm vi tuần này gồm tìm hiểu dịch vụ, chốt yêu cầu, thiết kế kiến trúc và sơ đồ, dựng nền tảng VPC/IAM LabRole/S3, gắn tag và lưu minh chứng. Các chức năng thu thập tự động, API, biểu đồ và cảnh báo thuộc kế hoạch các tuần tiếp theo; báo cáo không coi chúng là kết quả đã chạy.")
-para("Trên tài khoản Learner Lab 213858341631 tại us-east-1, stack CloudFormation learnerlab-ops-week1 đạt CREATE_COMPLETE ngày 08/10/2026. Kiểm tra sau triển khai ghi nhận 10/10 tài nguyên của stack ở trạng thái CREATE_COMPLETE, gồm VPC 10.20.0.0/16, hai subnet thuộc hai Availability Zone, tuyến tới Internet Gateway và một bucket S3 riêng tư có SSE-S3. LabRole có sẵn đã được xác minh bằng IAM GetRole; LabInstanceProfile chưa được xác minh độc lập.")
-para("Lê Minh Huy xác nhận đã trực tiếp đọc tài liệu, chỉnh sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh minh chứng. LLM/AI (ChatGPT) được dùng để hỗ trợ tra cứu, xây dựng bản nháp và hoàn thiện tài liệu; phần công cụ trực tiếp thao tác trong Learner Lab được ghi rõ ở mục 5.2.")
+para("Trong tuần 1, đề tài tập trung tìm hiểu các dịch vụ cần dùng, xây dựng kiến trúc và sơ đồ, chuẩn bị VPC, kiểm tra LabRole có sẵn, tạo bucket S3 và gắn tag cho tài nguyên. Phần thu thập dữ liệu tự động, API, giao diện biểu đồ và cảnh báo được dành cho các tuần sau.")
+para("Nền tảng được triển khai trên tài khoản Learner Lab 213858341631 ở Region us-east-1. Ngày 08/10/2026, stack learnerlab-ops-week1 hoàn tất với 10/10 tài nguyên ở trạng thái CREATE_COMPLETE. Kết quả gồm VPC 10.20.0.0/16, hai subnet ở hai Availability Zone, tuyến qua Internet Gateway và một bucket S3 riêng tư, mã hóa SSE-S3. LabRole đã được kiểm tra bằng IAM GetRole; LabInstanceProfile chưa được kiểm tra riêng.")
 
 heading("Chương 1 Tổng quan và phạm vi tuần 1", 1)
 heading("1.1 Bài toán và đầu ra", 2)
-para("Mục tiêu toàn dự án là hiển thị tài nguyên đang chạy, chi phí ước tính/billing đã ghi nhận và cảnh báo giúp sinh viên quản lý ngân sách Learner Lab. Sản phẩm cuối dự kiến dùng Lambda đọc metadata EC2, RDS, SageMaker và EKS; DynamoDB lưu snapshot; API và web đọc dữ liệu; SNS gửi cảnh báo. Tuần 1 chỉ chuẩn bị nền tảng và kiến trúc cho các chức năng đó.")
+para("Đề tài hướng tới một trang web giúp theo dõi tài nguyên đang chạy, chi phí AWS ghi nhận và cảnh báo khi vượt ngưỡng ngân sách Learner Lab. Theo thiết kế, Lambda sẽ đọc thông tin EC2, RDS, SageMaker và EKS; DynamoDB lưu bản ghi theo thời điểm; API cung cấp dữ liệu cho trang web; SNS gửi cảnh báo. Tuần 1 tập trung vào thiết kế và hạ tầng ban đầu.")
 table(["Đầu việc tuần 1", "Sản phẩm hiện có", "Trạng thái"], [
-    ("Tìm hiểu dịch vụ và giới hạn Lab", "docs/week-1/01-services-and-requirements.md", "Tài liệu đã soạn"),
-    ("Thiết kế kiến trúc, sơ đồ", "docs/week-1/02-architecture.md; docs/diagrams/architecture-week1-simple.png", "Bản thiết kế"),
-    ("Dựng VPC, dùng LabRole, tạo S3", "infra/week1-foundation.yaml; stack AWS", "Đã xác minh 08/10"),
-    ("Gắn Project/Owner, lưu ảnh", "evidence/week-1/02–04", "Đã xác minh 08/10"),
-    ("Nhật ký theo người và số giờ", "docs/week-1/worklog.csv", "Có tổng giờ sinh viên tự khai"),
+    ("Tìm hiểu dịch vụ và giới hạn Lab", "docs/week-1/01-services-and-requirements.md", "Đã có tài liệu"),
+    ("Thiết kế kiến trúc, sơ đồ", "docs/week-1/02-architecture.md; docs/diagrams/architecture-week1-simple.png", "Đã có bản thiết kế"),
+    ("Dựng VPC, kiểm tra LabRole, tạo S3", "infra/week1-foundation.yaml; stack AWS", "Đã triển khai 08/10"),
+    ("Gắn tag và lưu ảnh", "evidence/week-1/02–04", "Đã kiểm tra 08/10"),
+    ("Nhật ký công việc", "docs/week-1/worklog.csv", "Đã ghi việc; chưa có số giờ thực tế"),
 ], [4.1, 8.2, 4.0])
-caption("Bảng 1.1. Phạm vi tuần 1 và sản phẩm có thể đối chiếu")
+caption("Bảng 1.1. Công việc và sản phẩm của tuần 1")
 
 heading("1.2 Dịch vụ đã tìm hiểu", 2)
 table(["Dịch vụ", "Vai trò trong kiến trúc", "Tình trạng tuần 1"], [
-    ("VPC, IAM LabRole, S3", "Nền tảng mạng/quyền, lưu artifact", "VPC và S3 đã triển khai; LabRole đã kiểm tra"),
-    ("Lambda, EventBridge", "Thu thập metadata và lập lịch", "Thiết kế, chưa triển khai"),
-    ("DynamoDB, API Gateway", "Lưu snapshot và cấp dữ liệu JSON", "Thiết kế, chưa triển khai"),
-    ("Cost Explorer, SNS", "Đọc billing có độ trễ và cảnh báo", "Thiết kế, chưa gọi CE/chưa gửi SNS"),
-    ("CloudWatch", "Theo dõi lỗi và log của các Lambda", "Thiết kế cho tuần sau"),
+    ("VPC, IAM LabRole, S3", "Mạng, quyền truy cập và nơi lưu tệp dự án", "VPC/S3 đã triển khai; LabRole đã kiểm tra"),
+    ("Lambda, EventBridge", "Kiểm kê tài nguyên theo lịch", "Mới ở bước thiết kế"),
+    ("DynamoDB, API Gateway", "Lưu bản ghi và cung cấp dữ liệu cho web", "Mới ở bước thiết kế"),
+    ("Cost Explorer, SNS", "Đọc chi phí và gửi cảnh báo", "Mới ở bước thiết kế"),
+    ("CloudWatch", "Theo dõi log và lỗi của Lambda", "Dự kiến triển khai sau"),
 ], [3.7, 7.6, 5.0])
-caption("Bảng 1.2. Phân biệt dịch vụ đã triển khai với dịch vụ mới ở bản thiết kế")
+caption("Bảng 1.2. Vai trò và tiến độ của các dịch vụ AWS")
 
 heading("Chương 2 Thiết kế kiến trúc", 1)
 heading("2.1 Luồng dự kiến", 2)
-para("Hai lịch EventBridge dự kiến tách tác vụ kiểm kê và billing. Lambda kiểm kê đọc metadata tài nguyên tại us-east-1 và us-west-2; Lambda billing giới hạn số request Cost Explorer rồi ghi snapshot vào DynamoDB. API chỉ đọc snapshot để giao diện không gọi Cost Explorer mỗi lần người dùng mở trang. Khi vượt ngưỡng, nhánh SNS gửi cảnh báo. S3 giữ trang tĩnh và artifact ở chế độ riêng tư. Đây là quyết định thiết kế, chưa phải pipeline hoạt động trong tuần 1.")
+para("Kiến trúc dự kiến dùng hai lịch EventBridge: một lịch kiểm kê tài nguyên, một lịch lấy thông tin chi phí. Lambda kiểm kê đọc dữ liệu tại us-east-1 và us-west-2. Lambda chi phí gọi Cost Explorer với tần suất giới hạn, sau đó lưu kết quả vào DynamoDB. Trang web đọc dữ liệu đã lưu qua API để tránh gọi Cost Explorer mỗi lần mở trang. Khi chi phí vượt ngưỡng, SNS sẽ gửi cảnh báo. S3 lưu tệp giao diện và các tệp của dự án. Luồng này mới được thiết kế, chưa vận hành trong tuần 1.")
 picture(ROOT / "docs" / "diagrams" / "architecture-week1-simple.png", 16.1,
-        "Hình 2.1. Sơ đồ đơn sắc; vùng trên đã kiểm chứng, vùng dưới là luồng dự kiến")
+        "Hình 2.1. Phần hạ tầng đã triển khai và luồng xử lý dự kiến")
 heading("2.2 Ranh giới đã triển khai", 2)
-para("Stack tuần 1 tạo VPC và bucket làm nền tảng. Hai subnet có route 0.0.0.0/0 đến Internet Gateway nhưng MapPublicIpOnLaunch=False; việc có public route không tự cấp public IPv4. Stack không tạo EC2, NAT Gateway, Elastic IP, RDS, EKS, SageMaker, Lambda, DynamoDB hay SNS. Vai trò LabRole là tài nguyên có sẵn của Learner Lab và không do template tạo mới.")
+para("Stack tuần 1 tạo VPC, hai subnet và bucket S3. Hai subnet có tuyến 0.0.0.0/0 qua Internet Gateway, nhưng MapPublicIpOnLaunch=False nên tài nguyên đặt trong subnet không tự nhận public IPv4. Stack không tạo EC2, NAT Gateway, Elastic IP, RDS, EKS, SageMaker, Lambda, DynamoDB hoặc SNS. LabRole là vai trò có sẵn trong Learner Lab, không phải tài nguyên do template tạo.")
 
 doc.add_page_break()
-heading("Chương 3 Triển khai thật trên AWS Learner Lab", 1)
+heading("Chương 3 Kết quả triển khai trên AWS Learner Lab", 1)
 heading("3.1 Tài khoản, thời điểm và CloudFormation", 2)
-para("Phiên Lab được xác minh Ready ngày 07/10/2026. Trước khi triển khai ngày 08/10/2026, lệnh sts get-caller-identity xác nhận đúng tài khoản 213858341631. CloudFormation ValidateTemplate chấp nhận template; stack learnerlab-ops-week1 đạt CREATE_COMPLETE lúc 12:52:18 giờ Việt Nam. ListStackResources trả 10 tài nguyên, tất cả CREATE_COMPLETE. SHA-256 của template dùng khi triển khai là 649857a229327af489b40bd6998f35cf015fa91176026542e1610ef4e41d9bc4.")
-table(["Thành phần", "Giá trị đã đọc lại từ AWS"], [
+para("Learner Lab ở trạng thái Ready trong lần kiểm tra ngày 07/10/2026. Trước khi triển khai vào ngày 08/10, lệnh sts get-caller-identity trả về tài khoản 213858341631. CloudFormation chấp nhận template; stack learnerlab-ops-week1 đạt CREATE_COMPLETE lúc 12:52:18 (giờ Việt Nam). Lệnh ListStackResources cho thấy cả 10 tài nguyên đều hoàn tất. Mã băm SHA-256 của template và lệnh triển khai được lưu trong biên bản AWS kèm theo.")
+table(["Thành phần", "Thông tin trên AWS"], [
     ("Account / Region", "213858341631 / us-east-1"),
     ("VPC", "vpc-0206a78d96a4b3a57; CIDR 10.20.0.0/16"),
     ("Subnet A", "subnet-0fe1f68d4d015130c; us-east-1a; 10.20.1.0/24"),
@@ -253,38 +252,44 @@ table(["Thành phần", "Giá trị đã đọc lại từ AWS"], [
     ("S3 bucket", "learnerlab-ops-week1-artifactbucket-u4t7cql7ngfo"),
     ("IAM role có sẵn", "arn:aws:iam::213858341631:role/LabRole"),
 ], [4.3, 12.0])
-caption("Bảng 3.1. Định danh tài nguyên thật tại mốc xác minh 08/10/2026")
+caption("Bảng 3.1. Tài nguyên triển khai ngày 08/10/2026")
 
 heading("3.2 Cấu hình bảo mật và tag", 2)
-para("S3 bật đủ bốn cờ Block Public Access, mã hóa mặc định SSE-S3 AES256 và Object Ownership BucketOwnerEnforced. Bucket có quy tắc hủy multipart upload chưa hoàn tất sau 7 ngày. Các tài nguyên có hỗ trợ tag được xác minh với Project=learnerlab-ops, Owner=24110019 và Environment=learner-lab. S3 dùng DeletionPolicy: Retain, vì vậy xóa stack sau này chưa đủ để xóa bucket.")
-para("GetRole xác nhận LabRole tồn tại. Template chỉ xuất chuỗi LabInstanceProfileName để tham khảo; chưa có lệnh IAM xác minh profile này. Không tạo IAM user/role mới, đúng ràng buộc Learner Lab của đề bài.")
+para("Bucket S3 bật cả bốn tùy chọn Block Public Access, mã hóa mặc định bằng SSE-S3 (AES256) và đặt Object Ownership là BucketOwnerEnforced. Các phần tải lên nhiều lượt nhưng chưa hoàn tất sẽ được dọn sau 7 ngày. Tài nguyên có hỗ trợ tag mang Project=learnerlab-ops, Owner=24110019 và Environment=learner-lab. Bucket dùng DeletionPolicy: Retain, nên khi xóa stack vẫn phải kiểm tra và xóa bucket riêng nếu không còn sử dụng.")
+para("Lệnh IAM GetRole cho thấy LabRole đã tồn tại. Template có đầu ra LabInstanceProfileName để dùng về sau, nhưng chưa kiểm tra profile này bằng IAM API. Tuần 1 không tạo IAM user hoặc role mới.")
 
-heading("Chương 4 Minh chứng, chi phí và giới hạn", 1)
-heading("4.1 Bảng đối chiếu minh chứng", 2)
-table(["Ảnh", "Điều được ảnh và biên bản xác nhận"], [
-    ("01-lab-session-ready.jpg", "Lab Ready, Account ID và Region ngày 07/10; chưa phải ảnh triển khai"),
-    ("02-stack-complete.jpg", "Stack CREATE_COMPLETE, 10 tài nguyên, VPC/subnet/bucket ngày 08/10"),
-    ("03-network-check.jpg", "VPC, hai subnet/hai AZ, auto public IPv4 tắt, route tới IGW"),
-    ("04-s3-private.jpg", "Bốn cờ Block Public Access, AES256, ownership và tag"),
+heading("Chương 4 Minh chứng và chi phí", 1)
+heading("4.1 Ảnh chụp và nội dung kiểm tra", 2)
+table(["Ảnh", "Nội dung thể hiện"], [
+    ("01-lab-session-ready.jpg", "Trạng thái Ready, Account ID và Region ngày 07/10"),
+    ("02-stack-complete.jpg", "Stack CREATE_COMPLETE, 10 tài nguyên và đầu ra VPC/subnet/S3"),
+    ("03-network-check.jpg", "VPC, hai subnet, tuyến qua Internet Gateway và chế độ cấp public IPv4"),
+    ("04-s3-private.jpg", "Block Public Access, mã hóa AES256, Object Ownership và tag"),
 ], [5.1, 11.2])
-caption("Bảng 4.1. Minh chứng CLI có Account ID, Region và thời gian")
-para("Các ảnh ngày 08/10 ghi giờ UTC−07:00; cộng 14 giờ để đổi sang giờ Việt Nam. Ảnh và repository không chứa AWS access key, secret key hoặc session token. Tệp credentials CLI tạm thời trong terminal của Lab đã được xóa sau kiểm tra; phiên Lab đã End Lab và chuyển Terminated khoảng 13:00 giờ Việt Nam.")
+caption("Bảng 4.1. Ảnh AWS kèm Account ID, Region và thời điểm chụp")
+para("Ảnh ngày 08/10 hiển thị giờ UTC−07:00, chậm hơn giờ Việt Nam 14 giờ. Ảnh và repository không chứa access key, secret key hoặc session token. Sau khi kiểm tra, tệp thông tin truy cập AWS CLI tạm thời được xóa và phiên Lab được kết thúc lúc khoảng 13:00 giờ Việt Nam.")
 
-heading("4.2 Chi phí và mức độ quan sát", 2)
-para("Cổng Learner Lab hiển thị Used $0 of $50 tại mốc quan sát được ghi trong biên bản. Đây là số hiển thị của portal có thể có độ trễ, không phải kết luận tổng chi phí thực tế bằng 0. Trong lần kiểm tra ở hai Region được phép, không thấy EC2 running hoặc NAT Gateway available. Stack tuần 1 không tạo compute hay NAT. Báo cáo chưa có số liệu Cost Explorer vì API đó chưa được dùng trong tuần 1; không điền các biểu đồ chi phí giả.")
-para("Bucket S3 được giữ lại cho tuần 2; request và lưu trữ phát sinh sau mốc kiểm tra vẫn có thể tạo chi phí. Việc End Lab không tự xóa mọi tài nguyên. Cần kiểm tra lại tài nguyên và số dư khi mở Lab ở buổi sau.")
+heading("4.2 Chi phí tại thời điểm kiểm tra", 2)
+para("Cổng Learner Lab hiển thị Used $0 of $50 tại thời điểm kiểm tra. Chỉ số trên cổng có thể cập nhật chậm, nên chưa thể xem đây là chi phí cuối cùng. Ở hai Region được phép, lần kiểm tra này không tìm thấy EC2 đang chạy hoặc NAT Gateway ở trạng thái available. Stack tuần 1 cũng không tạo hai loại tài nguyên đó. Cost Explorer chưa được gọi trong tuần 1, vì vậy báo cáo chưa có dữ liệu để lập biểu đồ chi phí.")
+para("Bucket S3 được giữ cho tuần 2. Dung lượng lưu trữ và các request sau thời điểm kiểm tra vẫn có thể phát sinh phí. Khi mở Lab lần sau, cần xem lại tài nguyên còn tồn tại và số dư trên cổng.")
 
-heading("Chương 5 Tiến độ, AI hỗ trợ và việc tiếp theo", 1)
+heading("Chương 5 Tiến độ và kế hoạch tiếp theo", 1)
 heading("5.1 Nhật ký công việc", 2)
-table(["Sinh viên", "Thông tin thời gian có thể xác nhận", "Thiếu để hoàn tất worklog"], [
-    ("Lê Minh Huy\n24110019", "Tổng 8 giờ tuần 1 do sinh viên tự khai", "Chưa có ngày/giờ cho từng nhiệm vụ và bản ghi riêng cho lệnh sinh viên tự chạy"),
-], [3.5, 5.5, 7.3])
-caption("Bảng 5.1. Thời gian chỉ ghi theo mức độ thông tin đã được cung cấp")
-para("Sinh viên xác nhận đã đọc tài liệu, tự sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh. Worklog liệt kê các đầu việc tuần 1; ngày và thời lượng thực tế của từng việc chưa được cung cấp. Vì vậy báo cáo chỉ ghi tổng giờ sinh viên tự khai trong bảng 5.1, không tự chia cho các nhiệm vụ hoặc cộng thời gian công cụ thao tác.")
-heading("5.2 Phần được AI hỗ trợ", 2)
-para("LLM/AI (ChatGPT) hỗ trợ tham khảo tài liệu AWS, gợi ý kiến trúc, tạo bản nháp sơ đồ, template, script và báo cáo để sinh viên rà soát, chỉnh sửa. Trong phiên Learner Lab được ghi nhận ngày 08/10/2026, LLM/AI (ChatGPT) cũng trực tiếp triển khai CloudFormation, chạy lệnh xác minh và lưu ảnh CLI theo yêu cầu của sinh viên. Sinh viên xác nhận đã tự chạy lệnh AWS và kiểm tra ảnh, nhưng chưa cung cấp bản ghi riêng để đối chiếu các thao tác đó với phiên công cụ. Khi vấn đáp, sinh viên cần giải thích được cấu hình, mã nguồn và kết quả đã nộp.")
-heading("5.3 Kết luận và tuần 2", 2)
-para("Tuần 1 có đầu ra thật: tài liệu yêu cầu, sơ đồ kiến trúc, stack VPC/S3 hoàn thành, LabRole đã xác minh, tag Project/Owner/Environment và ảnh AWS có thời gian/tài khoản/vùng. Phần còn mở là phân bổ worklog theo từng đầu việc và kiểm tra LabInstanceProfile nếu cần dùng ở giai đoạn sau. Tuần 2 mới triển khai Lambda, EventBridge, DynamoDB, API và các chức năng lõi; quyền và dữ liệu của các dịch vụ này phải được kiểm tra trực tiếp trên Lab trước khi báo là hoàn tất.")
+para("Bảng 5.1 tổng hợp các thời điểm có trong AWS Details, CloudFormation và ảnh CLI của tài khoản 213858341631. Tất cả thời gian đã đổi sang giờ Việt Nam.")
+table(["Thời điểm", "Hoạt động", "Tài liệu liên quan"], [
+    ("07/10/2026 16:06:48", "Phiên Learner Lab bắt đầu; trạng thái Ready được quan sát lúc 16:16", "Ảnh 01; ghi nhận phiên Lab"),
+    ("08/10/2026 khoảng 12:36", "Lab ở trạng thái Ready; Account ID và Region khớp cấu hình dự án", "Ghi nhận phiên Lab"),
+    ("08/10/2026 12:52:18", "Stack learnerlab-ops-week1 đạt CREATE_COMPLETE với 10 tài nguyên", "Ảnh 02; biên bản AWS"),
+    ("08/10/2026 khoảng 12:55", "Kiểm tra VPC, subnet, route, cấu hình S3 và tag", "Ảnh 03–04; biên bản AWS"),
+    ("08/10/2026 khoảng 13:00", "Kết thúc phiên Lab sau khi kiểm tra tài nguyên", "Ghi nhận phiên Lab"),
+], [4.2, 8.8, 3.3])
+caption("Bảng 5.1. Các mốc hoạt động của Learner Lab trong tuần 1")
+para("Lê Minh Huy cho biết đã đọc tài liệu, chỉnh sửa sơ đồ và template, chạy lệnh AWS và xem lại ảnh chụp. Các đầu việc được ghi trong worklog.csv. Bảng 5.1 phản ánh hoạt động của môi trường AWS, trong đó có thao tác do LLM/AI (ChatGPT) thực hiện; bảng không thể dùng để tính số giờ làm việc cá nhân. Do chưa có lịch sử thao tác riêng hoặc giờ bắt đầu, kết thúc từng buổi, cột giờ thực tế trong worklog hiện để trống.")
+heading("5.2 Sử dụng LLM/AI (ChatGPT)", 2)
+para("Trong tuần 1, LLM/AI (ChatGPT) được dùng để tra cứu tài liệu AWS, gợi ý kiến trúc và tạo bản thảo sơ đồ, template, script, báo cáo. Sinh viên đã chỉnh sửa sơ đồ/template và kiểm tra kết quả. Ở phiên Learner Lab ngày 08/10/2026, công cụ trực tiếp chạy template CloudFormation, các lệnh kiểm tra và lưu ảnh CLI. Các thao tác này được nêu riêng để phân biệt với phần sinh viên tự thực hiện. Sinh viên chịu trách nhiệm giải thích cấu hình, mã nguồn và kết quả khi trình bày báo cáo.")
+heading("5.3 Kết quả tuần 1 và kế hoạch tuần 2", 2)
+para("Sản phẩm tuần 1 gồm tài liệu yêu cầu, sơ đồ kiến trúc, stack VPC/S3, thông tin LabRole, tag Project/Owner/Environment và ảnh chụp có Account ID, Region, thời gian. Worklog cần bổ sung thời lượng thực tế theo từng buổi khi có dữ liệu đối chiếu; LabInstanceProfile cũng cần được kiểm tra nếu sẽ dùng ở giai đoạn sau.")
+para("Trong tuần 2, đề tài sẽ triển khai Lambda, EventBridge, DynamoDB, API và các chức năng chính của dashboard. Trước khi đánh giá kết quả, cần kiểm tra quyền truy cập và dữ liệu thực tế của từng dịch vụ trong Learner Lab.")
 heading("Nguồn và tệp kèm theo", 1)
 para("Nguồn dữ kiện AWS: docs/week-1/07-deployment-record.md; docs/week-1/04-evidence-and-review.md; evidence/week-1/01–04. Nguồn kiến trúc: docs/week-1/01-services-and-requirements.md; docs/week-1/02-architecture.md; docs/diagrams/architecture-week1-simple.png. Mã hạ tầng: infra/week1-foundation.yaml. Repository: https://github.com/leminhhuy-ute/learnerlab-ops-dashboard (riêng tư; giảng viên cần quyền truy cập).")
 

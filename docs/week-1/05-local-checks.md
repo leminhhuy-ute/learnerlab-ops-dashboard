@@ -15,7 +15,7 @@ Ngày: 07/10/2026. **Không có thao tác AWS thật trong các kiểm tra dư�
 | Mock CLI: đường xem change set và triển khai, chuyển tham số/tag, kiểm tra S3 sau triển khai | PASS — mô phỏng, không gọi AWS |
 | Sơ đồ PNG đã được mở và kiểm tra bố cục | PASS |
 
-Đây là bảng kiểm tra **cục bộ ngày 07/10**, trước triển khai. AWS ValidateTemplate, LabRole, CloudFormation `CREATE_COMPLETE` và VPC/S3 thật sau đó đã được xác minh ngày 08/10; xem [biên bản AWS](07-deployment-record.md). Cost Explorer và các API nguồn của pipeline tuần 2–3 chưa được kiểm tra. Phần việc và giờ sinh viên tự khai được ghi riêng ở [worklog](worklog.csv).
+Đây là bảng kiểm tra **cục bộ ngày 07/10**, trước triển khai. AWS ValidateTemplate, LabRole, CloudFormation `CREATE_COMPLETE` và VPC/S3 thật sau đó đã được xác minh ngày 08/10; xem [biên bản AWS](07-deployment-record.md). Cost Explorer và các API nguồn của pipeline tuần 2–3 chưa được kiểm tra. Phần việc sinh viên xác nhận được ghi riêng ở [worklog](worklog.csv); giờ cá nhân chưa có chứng cứ thời gian để điền.
 
 Lặp lại kiểm tra cấu hình cục bộ:
 

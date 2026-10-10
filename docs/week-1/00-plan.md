@@ -38,12 +38,12 @@ Nếu có thêm thành viên, bổ sung mã sinh viên và phân công riêng; m
 - [x] Triển khai template nền tảng trong `us-east-1`.
 - [x] Xác minh VPC, subnet, route, S3 mã hóa/Block Public Access và tag Project/Owner.
 - [x] Lưu ảnh minh chứng có Account ID, Region và thời điểm; loại bỏ credentials/URL ký.
-- [x] Ghi tổng giờ sinh viên tự khai, các nhiệm vụ và phần AI hỗ trợ trong worklog; phân bổ theo buổi chưa được cung cấp.
+- [ ] Bổ sung ngày và giờ thực tế cho từng đầu việc sau khi đối chiếu ghi chép hoặc lịch sử thao tác riêng của sinh viên.
 - [x] Rà soát cuối buổi và End Lab; kiểm tra EC2 đang chạy/NAT khả dụng ở hai Region được phép.
 
 ## Điều kiện hoàn thành tuần 1
 
-Nền tảng AWS và minh chứng đã hoàn tất ngày 08/10/2026; xem [biên bản](07-deployment-record.md). Sinh viên xác nhận đã đọc tài liệu, sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh. Worklog chưa có phân bổ thời gian theo buổi; không suy ra giờ làm của sinh viên từ thời gian phiên Lab hoặc thời gian LLM/AI (ChatGPT) thao tác.
+Nền tảng AWS và minh chứng đã hoàn tất ngày 08/10/2026; xem [biên bản](07-deployment-record.md). Sinh viên xác nhận đã đọc tài liệu, sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh. Worklog chưa có chứng cứ thời lượng cá nhân; không suy ra giờ làm của sinh viên từ thời gian phiên Lab hoặc thời gian LLM/AI (ChatGPT) thao tác.
 
 ## Phần chuyển sang tuần 2
 
