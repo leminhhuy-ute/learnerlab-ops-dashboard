@@ -234,12 +234,31 @@ caption("Bảng 1.2. Vai trò và tiến độ của các dịch vụ AWS")
 heading("Chương 2 Thiết kế kiến trúc", 1)
 heading("2.1 Luồng dự kiến", 2)
 para("Kiến trúc dự kiến dùng hai lịch EventBridge: một lịch kiểm kê tài nguyên, một lịch lấy thông tin chi phí. Lambda kiểm kê đọc dữ liệu tại us-east-1 và us-west-2. Lambda chi phí gọi Cost Explorer với tần suất giới hạn, sau đó lưu kết quả vào DynamoDB. Trang web đọc dữ liệu đã lưu qua API để tránh gọi Cost Explorer mỗi lần mở trang. Khi chi phí vượt ngưỡng, SNS sẽ gửi cảnh báo. S3 lưu tệp giao diện và các tệp của dự án. Luồng này mới được thiết kế, chưa vận hành trong tuần 1.")
-picture(ROOT / "docs" / "diagrams" / "architecture-week1-simple.png", 16.1,
-        "Hình 2.1. Phần hạ tầng đã triển khai và luồng xử lý dự kiến")
+diagram_section = doc.add_section(WD_SECTION.NEW_PAGE)
+diagram_section.orientation = WD_ORIENT.LANDSCAPE
+diagram_section.page_width, diagram_section.page_height = Cm(29.7), Cm(21)
+diagram_section.top_margin = diagram_section.bottom_margin = Cm(1.2)
+diagram_section.left_margin = diagram_section.right_margin = Cm(1.3)
+for inherited_border in diagram_section._sectPr.findall(qn("w:pgBorders")):
+    diagram_section._sectPr.remove(inherited_border)
+diagram_section.footer.is_linked_to_previous = False
+page_number(diagram_section.footer.paragraphs[0])
+picture(ROOT / "docs" / "diagrams" / "architecture-week1-simple.png", 26.6,
+        "Hình 2.1. Nền tảng tuần 1 và luồng kiến trúc dự kiến")
+
+body_after_diagram = doc.add_section(WD_SECTION.NEW_PAGE)
+body_after_diagram.orientation = WD_ORIENT.PORTRAIT
+body_after_diagram.page_width, body_after_diagram.page_height = Cm(21), Cm(29.7)
+body_after_diagram.top_margin = Cm(2.1)
+body_after_diagram.bottom_margin = Cm(2.0)
+body_after_diagram.left_margin = body_after_diagram.right_margin = Cm(2.3)
+for inherited_border in body_after_diagram._sectPr.findall(qn("w:pgBorders")):
+    body_after_diagram._sectPr.remove(inherited_border)
+body_after_diagram.footer.is_linked_to_previous = False
+page_number(body_after_diagram.footer.paragraphs[0])
 heading("2.2 Ranh giới đã triển khai", 2)
 para("Stack tuần 1 tạo VPC, hai subnet và bucket S3. Hai subnet có tuyến 0.0.0.0/0 qua Internet Gateway, nhưng MapPublicIpOnLaunch=False nên tài nguyên đặt trong subnet không tự nhận public IPv4. Stack không tạo EC2, NAT Gateway, Elastic IP, RDS, EKS, SageMaker, Lambda, DynamoDB hoặc SNS. LabRole là vai trò có sẵn trong Learner Lab, không phải tài nguyên do template tạo.")
 
-doc.add_page_break()
 heading("Chương 3 Kết quả triển khai trên AWS Learner Lab", 1)
 heading("3.1 Tài khoản, thời điểm và CloudFormation", 2)
 para("Learner Lab ở trạng thái Ready trong lần kiểm tra ngày 07/10/2026. Trước khi triển khai vào ngày 08/10, lệnh sts get-caller-identity trả về tài khoản 213858341631. CloudFormation chấp nhận template; stack learnerlab-ops-week1 đạt CREATE_COMPLETE lúc 12:52:18 (giờ Việt Nam). Lệnh ListStackResources cho thấy cả 10 tài nguyên đều hoàn tất. Mã băm SHA-256 của template và lệnh triển khai được lưu trong biên bản AWS kèm theo.")
