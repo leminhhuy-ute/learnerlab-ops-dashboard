@@ -9,6 +9,7 @@ from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "dist" / "Bao_cao_tuan_1_Learner_Lab_Ops_Dashboard_24110019.docx"
+SCHOOL_LOGO = ROOT / "assets" / "hcmute-logo-from-reference.png"
 
 def shade(cell, fill):
     tcPr = cell._tc.get_or_add_tcPr()
@@ -104,6 +105,13 @@ def page_number(paragraph):
     fld.set(qn("w:instr"), "PAGE")
     r._r.addnext(fld)
 
+def insert_toc():
+    p = doc.add_paragraph()
+    p.paragraph_format.space_after = Pt(0)
+    field = OxmlElement("w:fldSimple")
+    field.set(qn("w:instr"), r'TOC \o "1-2" \h \z \u')
+    p._p.append(field)
+
 doc = Document()
 sec = doc.sections[0]
 sec.page_width, sec.page_height = Cm(21), Cm(29.7)
@@ -138,8 +146,10 @@ styles["Caption"].font.color.rgb = RGBColor(0, 0, 0)
 
 # Trang bìa lấy nhịp bố cục từ báo cáo tham khảo, chỉ dùng dữ kiện của đề tài này.
 for text, size, space in [
+    ("TRƯỜNG ĐẠI HỌC CÔNG NGHỆ KỸ THUẬT TP HCM", 14, 5),
+    ("KHOA CÔNG NGHỆ THÔNG TIN", 13, 10),
     ("MÔN HỌC ĐIỆN TOÁN ĐÁM MÂY", 15, 6),
-    ("CLOUD - ĐỢT 1 - 2026–2027", 11, 44),
+    ("CLOUD - ĐỢT 1 - 2026–2027", 11, 9),
     ("BÁO CÁO TIẾN ĐỘ TUẦN 1", 18, 12),
     ("BẢNG ĐIỀU KHIỂN VẬN HÀNH", 17, 3),
     ("CHO AWS LEARNER LAB", 17, 42),
@@ -153,6 +163,11 @@ for text, size, space in [
     r.bold = True
     r.font.name = "Times New Roman"
     r.font.size = Pt(size)
+    if text == "CLOUD - ĐỢT 1 - 2026–2027":
+        logo_p = doc.add_paragraph()
+        logo_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        logo_p.paragraph_format.space_after = Pt(18)
+        logo_p.add_run().add_picture(str(SCHOOL_LOGO), width=Cm(3.8))
 
 cover = doc.add_table(rows=4, cols=1)
 cover.autofit = False
@@ -183,6 +198,12 @@ bodysec.footer.is_linked_to_previous = False
 fp = bodysec.footer.paragraphs[0]
 fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
 page_number(fp)
+
+toc_heading = doc.add_paragraph(style="Title")
+toc_heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
+toc_heading.add_run("MỤC LỤC")
+insert_toc()
+doc.add_page_break()
 
 heading("TÓM TẮT", 1)
 para("Báo cáo ghi nhận kết quả tuần 1 của đề tài Bảng điều khiển vận hành cho AWS Learner Lab. Phạm vi tuần này gồm tìm hiểu dịch vụ, chốt yêu cầu, thiết kế kiến trúc và sơ đồ, dựng nền tảng VPC/IAM LabRole/S3, gắn tag và lưu minh chứng. Các chức năng thu thập tự động, API, biểu đồ và cảnh báo thuộc kế hoạch các tuần tiếp theo; báo cáo không coi chúng là kết quả đã chạy.")

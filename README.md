@@ -16,7 +16,7 @@ Sinh viên: **24110019 — Lê Minh Huy**. Project: `learnerlab-ops`. Owner: `24
 
 Tài liệu, sơ đồ và mã nguồn do Codex hỗ trợ chuẩn bị. **Lê Minh Huy tự khai đã học/làm việc 8 giờ trong tuần 1**; tổng này được ghi trong [worklog](docs/week-1/worklog.csv), chưa có phân bổ theo từng buổi. Việc sinh viên tự giải thích cấu hình chưa được kiểm tra. Repository GitHub riêng tư: [leminhhuy-ute/learnerlab-ops-dashboard](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard).
 
-Gói nộp đã tạo tại `dist/week1-submission.zip` gồm tài liệu, template, worklog và bốn ảnh minh chứng. Các tệp nguồn và ảnh được quản lý bằng Git; gói ZIP được giữ cục bộ để nộp qua hệ thống môn học nếu cần.
+Gói nộp tại `dist/week1-submission.zip` gồm báo cáo Word/PDF có mục lục bấm được, logo trường từ báo cáo mẫu người dùng cung cấp, tài liệu, template, worklog và bốn ảnh minh chứng. Các tệp nguồn và ảnh được quản lý bằng Git; gói ZIP được giữ cục bộ để nộp qua hệ thống môn học nếu cần.
 
 Tuần 1 dựng VPC, hai subnet, Internet Gateway, route và một bucket S3 riêng tư có mã hóa/tag. Các Lambda, EventBridge, DynamoDB, API Gateway, Cost Explorer và SNS thuộc thiết kế tổng thể, được triển khai ở tuần 2–3.
 
@@ -27,6 +27,8 @@ python .\scripts\validate_week1.py
 ```
 
 Kiểm tra này kiểm tra cấu trúc template và các giới hạn an toàn của dự án; việc AWS chấp nhận template và quyền Learner Lab phải được xác minh trong tài khoản thật.
+
+Để tạo lại báo cáo trên máy Windows có Microsoft Word, chạy lần lượt `scripts/build-week1-report.py`, `scripts/finalize-week1-report.ps1`, rồi `scripts/package-week1.py`. Bước Word cập nhật mục lục liên kết và xuất PDF với cùng số trang.
 
 ## Kiểm tra / triển khai bằng CLI
 
