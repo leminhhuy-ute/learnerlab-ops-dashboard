@@ -197,9 +197,9 @@ cover = doc.add_table(rows=4, cols=1)
 cover.autofit = False
 cover.alignment = WD_TABLE_ALIGNMENT.CENTER
 for c, text in zip([r.cells[0] for r in cover.rows], [
-    "Nhóm lĩnh vực: Monitoring & Operations",
-    "Giảng viên hướng dẫn: Huỳnh Xuân Phụng",
-    "Sinh viên: Lê Minh Huy — MSSV 24110019",
+    "NHÓM LĨNH VỰC: MONITORING & OPERATIONS",
+    "GIẢNG VIÊN HƯỚNG DẪN: HUỲNH XUÂN PHỤNG",
+    "SINH VIÊN: LÊ MINH HUY — MSSV 24110019",
     "MÃ HỌC PHẦN: CLCO332779",
 ]):
     set_cell_text(c, text, bold=text.startswith("MÃ HỌC PHẦN:"), size=10.5)
