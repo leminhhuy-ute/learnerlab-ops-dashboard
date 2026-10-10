@@ -9,7 +9,7 @@ from docx.oxml.ns import qn
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "dist" / "Bao_cao_tuan_1_Learner_Lab_Ops_Dashboard_24110019.docx"
-SCHOOL_LOGO = ROOT / "assets" / "hcmute-logo-from-reference.png"
+SCHOOL_LOGO = ROOT / "docs" / "images" / "hcmute-logo.png"
 
 def shade(cell, fill):
     tcPr = cell._tc.get_or_add_tcPr()
