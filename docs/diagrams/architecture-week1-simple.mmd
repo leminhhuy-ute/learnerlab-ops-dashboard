@@ -1,0 +1,15 @@
+%%{init: {'theme': 'neutral'}}%%
+flowchart LR
+  subgraph w1["Tuần 1 - đã xác minh trên Learner Lab us-east-1"]
+    cf["CloudFormation: CREATE_COMPLETE, 10 tài nguyên"]
+    vpc["VPC 10.20.0.0/16; 2 subnet; IGW + route"]
+    s3["S3 riêng tư; SSE-S3; tag Project/Owner"]
+    cf --> vpc
+    cf --> s3
+  end
+  subgraph future["Tuần 2-3 - thiết kế, chưa triển khai"]
+    eb["EventBridge"] --> lambda["Lambda kiểm kê và billing"]
+    lambda --> db["DynamoDB snapshot"]
+    db --> api["API và web S3"]
+    lambda --> sns["SNS cảnh báo"]
+  end

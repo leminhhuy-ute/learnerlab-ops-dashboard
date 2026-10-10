@@ -1,96 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="1080" viewBox="0 0 1680 1080">
-<title>Kiến trúc dự kiến AWS Learner Lab Ops Dashboard</title>
-<desc>Nền tảng VPC/S3 tuần 1 đã triển khai AWS; pipeline kiểm kê và chi phí dự kiến tuần 2 đến 3.</desc>
-<rect width="1680" height="1080" fill="#f4f7fb"/>
-<text x="44" y="44" fill="#1666b0" font-family="Arial,DejaVu Sans,sans-serif" font-size="17" font-weight="700">AWS LEARNER LAB</text>
-<text x="44" y="96" fill="#15304b" font-family="Arial,DejaVu Sans,sans-serif" font-size="38" font-weight="700">Ops Dashboard — Kiến trúc dự kiến</text>
-<text x="44" y="137" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="22">24110019 · Lê Minh Huy     |     Project: learnerlab-ops     |     Triển khai: us-east-1</text>
-<rect x="44" y="168" width="1592" height="38" rx="8" fill="#e7eff8" stroke="#e7eff8" stroke-width="2"/>
-<text x="58" y="192" fill="#1666b0" font-family="Arial,DejaVu Sans,sans-serif" font-size="19" font-weight="700">THIẾT KẾ TUẦN 2–3     ·     Collector dùng LabRole và môi trường Lambda mặc định</text>
-<polyline points="350,300 435,300" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="435,300 424.4690092573155,305.75310646325045 424.4690092573155,294.24689353674955" fill="#6c8294"/>
-<text x="365" y="288" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="16">Trigger</text>
-<polyline points="350,515 435,515" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="435,515 424.4690092573155,520.7531064632504 424.4690092573155,509.24689353674955" fill="#6c8294"/>
-<text x="365" y="503" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="16">Trigger</text>
-<polyline points="720,300 850,300" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="850,300 839.4690092573155,305.75310646325045 839.4690092573155,294.24689353674955" fill="#6c8294"/>
-<text x="743" y="288" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="16">Snapshot</text>
-<polyline points="720,515 793,515 793,350 850,350" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="850,350 839.4690092573155,355.75310646325045 839.4690092573155,344.24689353674955" fill="#6c8294"/>
-<polyline points="570,397 570,375" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="570,375 575.7531064632504,385.5309907426845 564.2468935367496,385.5309907426845" fill="#6c8294"/>
-<polyline points="570,670 570,590" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="570,590 575.7531064632504,600.5309907426845 564.2468935367496,600.5309907426845" fill="#6c8294"/>
-<text x="587" y="637" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="16">Đọc API</text>
-<polyline points="720,335 755,335 755,640 850,640" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="850,640 839.4690092573155,645.7531064632504 839.4690092573155,634.2468935367496" fill="#6c8294"/>
-<polyline points="720,550 775,550 775,676 850,676" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="850,676 839.4690092573155,681.7531064632504 839.4690092573155,670.2468935367496" fill="#6c8294"/>
-<polyline points="1250,300 1150,300" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="1150,300 1160.5309907426845,294.24689353674955 1160.5309907426845,305.75310646325045" fill="#6c8294"/>
-<text x="1162" y="288" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="16">Đọc cache</text>
-<polyline points="1385,490 1385,365" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="1385,365 1390.7531064632503,375.5309907426845 1379.2468935367497,375.5309907426845" fill="#6c8294"/>
-<text x="1407" y="435" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="16">HTTPS + token</text>
-<polyline points="1385,700 1385,620" fill="none" stroke="#6c8294" stroke-width="3"/>
-<polygon points="1385,620 1390.7531064632503,630.5309907426845 1379.2468935367497,630.5309907426845" fill="#6c8294"/>
-<text x="1407" y="666" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="16">HTTPS URL tạm thời</text>
-<rect x="44" y="240" width="306" height="135" rx="16" fill="#ffffff" stroke="#d5e0ea" stroke-width="2"/>
-<rect x="44" y="240" width="7" height="135" rx="3" fill="#1666b0"/>
-<text x="66" y="279" fill="#1666b0" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="700">EventBridge rule</text>
-<text x="66" y="313" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Kiểm kê mỗi 15 phút</text>
-<text x="66" y="341" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Chỉ kích hoạt Lambda</text>
-<rect x="44" y="455" width="306" height="135" rx="16" fill="#ffffff" stroke="#d5e0ea" stroke-width="2"/>
-<rect x="44" y="455" width="7" height="135" rx="3" fill="#1666b0"/>
-<text x="66" y="494" fill="#1666b0" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="700">EventBridge rule</text>
-<text x="66" y="528" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Lấy chi phí 2 lần/ngày</text>
-<text x="66" y="556" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Tách lịch khỏi kiểm kê</text>
-<rect x="435" y="240" width="285" height="135" rx="16" fill="#ffffff" stroke="#d5e0ea" stroke-width="2"/>
-<rect x="435" y="240" width="7" height="135" rx="3" fill="#1666b0"/>
-<text x="457" y="279" fill="#1666b0" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="700">Inventory Lambda</text>
-<text x="457" y="313" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Chuẩn hóa tài nguyên</text>
-<text x="457" y="341" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Ghi trạng thái thiếu quyền</text>
-<rect x="435" y="455" width="285" height="135" rx="16" fill="#ffffff" stroke="#d5e0ea" stroke-width="2"/>
-<rect x="435" y="455" width="7" height="135" rx="3" fill="#1666b0"/>
-<text x="457" y="494" fill="#1666b0" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="700">Billing Lambda</text>
-<text x="457" y="528" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Giới hạn request/ngày</text>
-<text x="457" y="556" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Cache chi phí + thời điểm</text>
-<rect x="422" y="397" width="315" height="40" rx="8" fill="#ecf3fa" stroke="#ecf3fa" stroke-width="2"/>
-<text x="436" y="420" fill="#1666b0" font-family="Arial,DejaVu Sans,sans-serif" font-size="18" font-weight="700">EC2 · RDS · SageMaker · EKS</text>
-<rect x="422" y="672" width="315" height="73" rx="8" fill="#fff5e8" stroke="#f4dec0" stroke-width="2"/>
-<text x="436" y="699" fill="#b77316" font-family="Arial,DejaVu Sans,sans-serif" font-size="17" font-weight="700">Cost Explorer · dữ liệu có độ trễ</text>
-<text x="436" y="729" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="16">Tối đa 4 request/ngày, kể cả trang</text>
-<rect x="850" y="240" width="300" height="135" rx="16" fill="#ffffff" stroke="#d5e0ea" stroke-width="2"/>
-<rect x="850" y="240" width="7" height="135" rx="3" fill="#1666b0"/>
-<text x="872" y="279" fill="#1666b0" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="700">DynamoDB</text>
-<text x="872" y="313" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">LATEST + lịch sử + TTL</text>
-<text x="872" y="341" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">API chỉ đọc dữ liệu cache</text>
-<rect x="850" y="590" width="300" height="135" rx="16" fill="#ffffff" stroke="#d5e0ea" stroke-width="2"/>
-<rect x="850" y="590" width="7" height="135" rx="3" fill="#b77316"/>
-<text x="872" y="629" fill="#b77316" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="700">SNS</text>
-<text x="872" y="663" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Cảnh báo vượt ngưỡng</text>
-<text x="872" y="691" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Chống lặp / cooldown</text>
-<rect x="1250" y="240" width="386" height="125" rx="16" fill="#ffffff" stroke="#d5e0ea" stroke-width="2"/>
-<rect x="1250" y="240" width="7" height="125" rx="3" fill="#1666b0"/>
-<text x="1272" y="279" fill="#1666b0" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="700">HTTP API + Read Lambda</text>
-<text x="1272" y="313" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Lambda authorizer · LabRole</text>
-<text x="1272" y="341" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">CORS origin cụ thể · HTTPS</text>
-<rect x="1250" y="490" width="386" height="130" rx="16" fill="#ffffff" stroke="#d5e0ea" stroke-width="2"/>
-<rect x="1250" y="490" width="7" height="130" rx="3" fill="#1666b0"/>
-<text x="1272" y="529" fill="#1666b0" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="700">Trình duyệt sinh viên</text>
-<text x="1272" y="563" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Biểu đồ + tài nguyên + chi phí</text>
-<text x="1272" y="591" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Token phiên nhập khi demo</text>
-<rect x="1250" y="700" width="386" height="113" rx="16" fill="#ffffff" stroke="#d5e0ea" stroke-width="2"/>
-<rect x="1250" y="700" width="7" height="113" rx="3" fill="#157761"/>
-<text x="1272" y="739" fill="#157761" font-family="Arial,DejaVu Sans,sans-serif" font-size="23" font-weight="700">S3 riêng tư</text>
-<text x="1272" y="773" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">HTML độc lập · URL presigned</text>
-<text x="1272" y="801" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Giữ Block Public Access</text>
-<text x="44" y="799" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">CloudWatch: logs, lỗi collector/API và thời điểm dữ liệu gần nhất. Giới hạn retention ở bước triển khai.</text>
-<text x="44" y="834" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="19">Kiểm kê hai Region: us-east-1 / us-west-2. Chi phí có độ trễ; thiếu quyền phải được hiển thị rõ.</text>
-<rect x="44" y="875" width="1592" height="153" rx="16" fill="#eaf5f0" stroke="#c8e2d7" stroke-width="2"/>
-<text x="64" y="912" fill="#157761" font-family="Arial,DejaVu Sans,sans-serif" font-size="22" font-weight="700">NỀN TẢNG TUẦN 1 — ĐÃ TRIỂN KHAI TRÊN AWS LEARNER LAB</text>
-<text x="64" y="955" fill="#15304b" font-family="Arial,DejaVu Sans,sans-serif" font-size="20">VPC 10.20.0.0/16 · 2 subnet/hai AZ · IGW + route · Tắt auto public IPv4</text>
-<text x="64" y="991" fill="#15304b" font-family="Arial,DejaVu Sans,sans-serif" font-size="20">LabRole có sẵn · S3 riêng tư/SSE-S3/Retain · Tag Project=learnerlab-ops, Owner=24110019</text>
-<text x="44" y="1057" fill="#51697e" font-family="Arial,DejaVu Sans,sans-serif" font-size="16">Bản thiết kế cập nhật 08/10/2026 · Nền tảng thật ở docs/week-1/07-deployment-record.md</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="900" viewBox="0 0 1680 900">
+<title>Kiến trúc tuần 1 của Ops Dashboard Learner Lab</title>
+<desc>Sơ đồ đen trắng tách tài nguyên đã xác minh tuần 1 khỏi luồng dự kiến tuần 2 đến 3.</desc>
+<rect width="1680" height="900" fill="#FFFFFF"/>
+<text x="50" y="74" fill="#202020" font-family="Arial,sans-serif" font-size="39" font-weight="700">Ops Dashboard cho AWS Learner Lab</text>
+<text x="50" y="113" fill="#555555" font-family="Arial,sans-serif" font-size="22">Bản thiết kế tuần 1  |  Lê Minh Huy - 24110019  |  Account 213858341631</text>
+<rect x="45" y="145" width="1590" height="277" fill="#F3F3F3" stroke="#C8C8C8" stroke-width="2"/>
+<text x="68" y="192" fill="#202020" font-family="Arial,sans-serif" font-size="26" font-weight="700">TUẦN 1 - ĐÃ XÁC MINH TRÊN LEARNER LAB (us-east-1)</text>
+<rect x="70" y="225" width="430" height="143" fill="#FFFFFF" stroke="#707070" stroke-width="2"/>
+<text x="92" y="270" fill="#202020" font-family="Arial,sans-serif" font-size="27" font-weight="700">CloudFormation</text>
+<text x="92" y="308" fill="#555555" font-family="Arial,sans-serif" font-size="22">Stack CREATE_COMPLETE</text>
+<text x="92" y="341" fill="#555555" font-family="Arial,sans-serif" font-size="22">10/10 tài nguyên hoàn thành</text>
+<rect x="625" y="225" width="430" height="143" fill="#FFFFFF" stroke="#707070" stroke-width="2"/>
+<text x="647" y="270" fill="#202020" font-family="Arial,sans-serif" font-size="27" font-weight="700">VPC</text>
+<text x="647" y="308" fill="#555555" font-family="Arial,sans-serif" font-size="22">10.20.0.0/16; 2 subnet</text>
+<text x="647" y="341" fill="#555555" font-family="Arial,sans-serif" font-size="22">IGW + route; không auto public IP</text>
+<rect x="1180" y="225" width="430" height="143" fill="#FFFFFF" stroke="#707070" stroke-width="2"/>
+<text x="1202" y="270" fill="#202020" font-family="Arial,sans-serif" font-size="27" font-weight="700">S3 riêng tư</text>
+<text x="1202" y="308" fill="#555555" font-family="Arial,sans-serif" font-size="22">Block Public Access; SSE-S3</text>
+<text x="1202" y="341" fill="#555555" font-family="Arial,sans-serif" font-size="22">Project/Owner/Environment tags</text>
+<text x="70" y="406" fill="#202020" font-family="Arial,sans-serif" font-size="21">IAM LabRole đã được xác minh; LabInstanceProfile chưa được xác minh độc lập.</text>
+<rect x="45" y="460" width="1590" height="340" fill="#FFFFFF" stroke="#C8C8C8" stroke-width="2"/>
+<text x="68" y="508" fill="#202020" font-family="Arial,sans-serif" font-size="26" font-weight="700">TUẦN 2-3 - LUỒNG DỰ KIẾN, CHƯA TRIỂN KHAI</text>
+<rect x="70" y="560" width="330" height="139" fill="#FFFFFF" stroke="#707070" stroke-width="2"/>
+<text x="92" y="605" fill="#202020" font-family="Arial,sans-serif" font-size="27" font-weight="700">EventBridge</text>
+<text x="92" y="643" fill="#555555" font-family="Arial,sans-serif" font-size="22">Lịch kiểm kê</text>
+<text x="92" y="676" fill="#555555" font-family="Arial,sans-serif" font-size="22">Lịch đọc chi phí</text>
+<rect x="470" y="560" width="330" height="139" fill="#FFFFFF" stroke="#707070" stroke-width="2"/>
+<text x="492" y="605" fill="#202020" font-family="Arial,sans-serif" font-size="27" font-weight="700">Lambda</text>
+<text x="492" y="643" fill="#555555" font-family="Arial,sans-serif" font-size="22">EC2/RDS/SM/EKS</text>
+<text x="492" y="676" fill="#555555" font-family="Arial,sans-serif" font-size="22">Cost Explorer API</text>
+<rect x="870" y="560" width="330" height="139" fill="#FFFFFF" stroke="#707070" stroke-width="2"/>
+<text x="892" y="605" fill="#202020" font-family="Arial,sans-serif" font-size="27" font-weight="700">DynamoDB</text>
+<text x="892" y="643" fill="#555555" font-family="Arial,sans-serif" font-size="22">Snapshot + thời điểm</text>
+<text x="892" y="676" fill="#555555" font-family="Arial,sans-serif" font-size="22">Trạng thái nguồn</text>
+<rect x="1270" y="560" width="340" height="139" fill="#FFFFFF" stroke="#707070" stroke-width="2"/>
+<text x="1292" y="605" fill="#202020" font-family="Arial,sans-serif" font-size="27" font-weight="700">API + web S3</text>
+<text x="1292" y="643" fill="#555555" font-family="Arial,sans-serif" font-size="22">Đọc snapshot</text>
+<text x="1292" y="676" fill="#555555" font-family="Arial,sans-serif" font-size="22">Hiển thị biểu đồ</text>
+<line x1="400" y1="629" x2="470" y2="629" stroke="#202020" stroke-width="3"/>
+<polygon points="470,629 457,622 457,636" fill="#202020"/>
+<line x1="800" y1="629" x2="870" y2="629" stroke="#202020" stroke-width="3"/>
+<polygon points="870,629 857,622 857,636" fill="#202020"/>
+<line x1="1200" y1="629" x2="1270" y2="629" stroke="#202020" stroke-width="3"/>
+<polygon points="1270,629 1257,622 1257,636" fill="#202020"/>
+<text x="70" y="757" fill="#202020" font-family="Arial,sans-serif" font-size="22">SNS: cảnh báo vượt ngưỡng. CloudWatch: log và lỗi. Frontend không gọi Cost Explorer trực tiếp.</text>
+<text x="50" y="859" fill="#555555" font-family="Arial,sans-serif" font-size="21">Mũi tên ở vùng dưới là luồng dự kiến; các khối vùng trên là kết quả AWS đã kiểm chứng.</text>
 </svg>

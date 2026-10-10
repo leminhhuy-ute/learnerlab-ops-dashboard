@@ -1,25 +1,15 @@
+%%{init: {'theme': 'neutral'}}%%
 flowchart LR
-    subgraph collect["Thu thập dự kiến — tuần 2"]
-        invRule["EventBridge rule<br/>15 phút/lần"] --> inv["Inventory Lambda<br/>LabRole có sẵn"]
-        inv -->|"Đọc API, hai Region"| resources["EC2 · RDS · SageMaker · EKS"]
-        costRule["EventBridge rule<br/>2 lần/ngày"] --> cost["Billing Lambda<br/>LabRole có sẵn"]
-        cost -->|"Tối đa 4 request/ngày gồm phân trang"| ce["Cost Explorer<br/>Dữ liệu có độ trễ"]
-    end
-    inv -->|"Snapshot + trạng thái quyền"| db["DynamoDB<br/>LATEST + lịch sử + TTL"]
-    cost -->|"Chi phí cache + thời điểm"| db
-    inv -->|"Vượt ngưỡng dự kiến"| sns["SNS<br/>Cảnh báo có chống lặp"]
-    cost -->|"Vượt ngưỡng chi phí"| sns
-    browser["Trình duyệt sinh viên"] -->|"HTTPS + token phiên"| api["HTTP API Gateway"]
-    api --> auth["Lambda authorizer<br/>LabRole · tuần 3"]
-    api --> read["Read API Lambda<br/>LabRole"]
-    read -->|"Chỉ đọc cache"| db
-    s3["S3 riêng tư<br/>HTML độc lập + HTTPS URL presigned"] --> browser
-    cw["CloudWatch<br/>Logs/errors/thời điểm snapshot"] -.-> inv
-    cw -.-> cost
-    cw -.-> read
-    subgraph foundation["Nền tảng tuần 1 — đã triển khai trên Learner Lab"]
-        vpc["VPC 10.20.0.0/16<br/>2 subnet · IGW · route<br/>Auto public IPv4 tắt"]
-        role["Đã xác minh LabRole có sẵn<br/>Tag Project=learnerlab-ops · Owner=24110019"]
-        privateS3["Bucket S3 riêng tư · SSE-S3<br/>Block Public Access · Retain"]
-    end
-    privateS3 -.-> s3
+  subgraph w1["Tuần 1 - đã xác minh trên Learner Lab us-east-1"]
+    cf["CloudFormation: CREATE_COMPLETE, 10 tài nguyên"]
+    vpc["VPC 10.20.0.0/16; 2 subnet; IGW + route"]
+    s3["S3 riêng tư; SSE-S3; tag Project/Owner"]
+    cf --> vpc
+    cf --> s3
+  end
+  subgraph future["Tuần 2-3 - thiết kế, chưa triển khai"]
+    eb["EventBridge"] --> lambda["Lambda kiểm kê và billing"]
+    lambda --> db["DynamoDB snapshot"]
+    db --> api["API và web S3"]
+    lambda --> sns["SNS cảnh báo"]
+  end
