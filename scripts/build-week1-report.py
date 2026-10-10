@@ -202,7 +202,7 @@ for c, text in zip([r.cells[0] for r in cover.rows], [
     "SINH VIÊN: LÊ MINH HUY — MSSV 24110019",
     "MÃ HỌC PHẦN: CLCO332779",
 ]):
-    set_cell_text(c, text, bold=text.startswith("MÃ HỌC PHẦN:"), size=10.5)
+    set_cell_text(c, text, bold=True, size=10.5)
     borders(c, "666666")
 doc.add_paragraph("\n\n\n")
 p = doc.add_paragraph()
