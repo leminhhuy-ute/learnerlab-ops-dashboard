@@ -7,7 +7,7 @@ Trang này dẫn đến hồ sơ từng tuần, kết quả AWS đã xác minh v
 | Tuần | Nội dung | Hồ sơ |
 |---|---|---|
 | **Tuần 1** | Tìm hiểu dịch vụ, xác định nguồn dữ liệu, thiết kế kiến trúc và dựng VPC/S3 nền tảng | [Mở hồ sơ Tuần 1](docs/week-1/README.md) · [Nguồn dữ liệu](docs/data-sources.md) |
-| **Tuần 2** | Triển khai và kiểm thử các chức năng lõi trên AWS | [Mở hồ sơ Tuần 2](docs/week-2/README.md) · [Worklog](docs/week-2/worklog.csv) |
+| **Tuần 2** | Triển khai và kiểm thử các chức năng lõi trên AWS | [Mở hồ sơ Tuần 2](docs/week-2/README.md) · [Mã nguồn](src/week-2/README.md) · [Worklog](docs/week-2/worklog.csv) |
 
 ## Kết quả đã xác minh
 

@@ -12,6 +12,10 @@ Theo báo cáo ngày 15/10/2026, các chức năng lõi đã được triển kh
 - **SNS:** topic cảnh báo có email subscription đã xác nhận. Người nhận xác nhận đã nhận thư thử ngày 13/10; địa chỉ email không được đưa vào repo công khai.
 - **Cost Explorer:** snapshot billing có cờ `estimated=true`; diễn giải đầy đủ ở [bảng nguồn dữ liệu](../data-sources.md).
 
+## Mã nguồn đã triển khai
+
+Repo có [mã handler của cả bốn Lambda và giao diện dashboard](../../src/week-2/README.md), được lấy từ bản đang chạy trên AWS ngày 15/10/2026. Tên hàm, handler, mục đích và biến môi trường (chỉ tên, không có giá trị nhạy cảm) được đối chiếu ở đó. [Mã kiểm kê](../../src/week-2/lambdas/inventory-core/index.py) lưu snapshot EC2/RDS/SageMaker/EKS; [mã billing](../../src/week-2/lambdas/billing-collector/index.py) truy vấn Cost Explorer; [mã đọc API](../../src/week-2/lambdas/read-api/index.py) trả snapshot mới nhất; [mã cảnh báo](../../src/week-2/lambdas/threshold-alert/lambda_function.py) gửi SNS khi đạt ngưỡng; [giao diện tĩnh](../../src/week-2/dashboard/index.html) nhận JSON `GET /summary` đã xác thực do người dùng dán vào.
+
 ## Kiểm thử thu thập và lưu trữ
 
 Lambda kiểm kê trả HTTP 200, không có `FunctionError`. Snapshot DynamoDB có đủ 10 tổ hợp (5 nhóm dịch vụ × 2 Region), mỗi dòng `status=ok`, `count=0`. Đây là trạng thái tại thời điểm chụp và trong phạm vi tài nguyên đã hỗ trợ.
@@ -46,5 +50,3 @@ Snapshot ghi `1E-10 USD` (`0.0000000001 USD`), `estimated=true`, cho kỳ `2026-
 - [Nguồn dữ liệu và cách diễn giải](../data-sources.md) phân biệt API AWS gốc với DynamoDB là nơi lưu snapshot.
 - Ảnh công khai không gồm ảnh có địa chỉ email nhận SNS.
 - LLM/AI (ChatGPT) hỗ trợ viết mã, triển khai và chạy các kiểm thử AWS, theo khai báo trong báo cáo/worklog.
-
-Source handler của Lambda chưa được lấy và đối chiếu vào repo. Để tránh đưa mã mẫu không trùng với bản đang chạy lên GitHub, repo hiện chỉ công bố các tài liệu và minh chứng đã xác minh.
