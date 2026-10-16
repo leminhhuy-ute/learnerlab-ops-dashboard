@@ -24,7 +24,7 @@ Các ảnh CLI ghi Account ID, Region và thời gian do `date -Is` trong termin
 | Bucket | `learnerlab-ops-week1-artifactbucket-u4t7cql7ngfo`; bucket riêng tư và mã hóa SSE-S3 |
 | Tag | `Project=learnerlab-ops`, `Owner=24110019`, `Environment=learner-lab` trên tài nguyên hỗ trợ tag |
 | Chi phí/tài nguyên chạy | Cổng Lab hiển thị `Used $0 of $50` lúc kiểm tra, có độ trễ; không thấy EC2 `running` hoặc NAT Gateway `available` ở hai Region được phép |
-| Giờ thực tế của 24110019 | Chưa có bằng chứng thời lượng cá nhân; cột giờ trong worklog để trống |
+| Thời lượng của 24110019 | Sinh viên cung cấp tổng 8 giờ cho tuần 1; chưa có ghi chép phân bổ theo buổi/nhiệm vụ hoặc bằng chứng thời lượng độc lập. Cột giờ chi tiết trong worklog để trống. |
 | Phần việc sinh viên xác nhận | Đọc tài liệu, tự sửa sơ đồ/template, chạy lệnh AWS, kiểm tra ảnh; chưa có bản ghi thời gian riêng cho các việc này |
 
 Xem [biên bản triển khai và lệnh xác minh](07-deployment-record.md). Output `LabInstanceProfileName` trong template chỉ là tên tham khảo cho tuần sau, **chưa phải bằng chứng profile tồn tại**.
@@ -47,5 +47,7 @@ Xem [biên bản triển khai và lệnh xác minh](07-deployment-record.md). Ou
 Sinh viên xác nhận đã đọc tài liệu, sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh. LLM/AI (ChatGPT) hỗ trợ tham khảo tài liệu AWS, gợi ý kiến trúc, tạo bản nháp sơ đồ/template/script và biên soạn báo cáo. Trong phiên Learner Lab ngày 08/10/2026, công cụ còn trực tiếp triển khai stack, xác minh nền tảng và lưu ảnh CLI theo yêu cầu của sinh viên. Chưa có bản ghi riêng để đối chiếu các lệnh sinh viên tự chạy. Worklog để trống thời lượng cá nhân; không tính thời gian công cụ thao tác hoặc thời gian Lab chạy vào giờ sinh viên.
 
 ## Git
+
+Các commit gốc và commit bổ sung tài liệu được liệt kê kèm ngày, nội dung và URL `/commit/<hash>` tại mục **Minh chứng commit** trong [báo cáo tuần 1](../README.md). Trong đó, commit `c54b76f` thêm `docs/data-sources.md`, commit `7d0290b` chuyển nội dung tuần 1 vào `tuan_1/`; commit `4bb8fd8` lưu nền tảng ban đầu ngày 08/10/2026.
 
 Tài liệu, template và ảnh minh chứng được lưu ở [repository GitHub công khai](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard). Trước khi công khai, các tệp văn bản trong repository và lịch sử commit đã được rà soát theo mẫu access key AWS, secret key, session token, GitHub token và private key; không phát hiện chuỗi khớp. Các ID tài khoản và tài nguyên trong ảnh/biên bản là dữ liệu nhận diện, không phải credentials.

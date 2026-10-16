@@ -44,8 +44,10 @@ Nếu có thêm thành viên, bổ sung mã sinh viên và phân công riêng; m
 
 ## Điều kiện hoàn thành tuần 1
 
-Nền tảng AWS và minh chứng đã hoàn tất ngày 08/10/2026; xem [biên bản](07-deployment-record.md). Sinh viên xác nhận đã đọc tài liệu, sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh. Worklog chưa có chứng cứ thời lượng cá nhân; không suy ra giờ làm của sinh viên từ thời gian phiên Lab hoặc thời gian LLM/AI (ChatGPT) thao tác.
+Nền tảng AWS và minh chứng đã hoàn tất ngày 08/10/2026; xem [biên bản](07-deployment-record.md). Sinh viên xác nhận đã đọc tài liệu, sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh, đồng thời cung cấp tổng thời lượng tuần 1 là 8 giờ. Chưa có ghi chép phân bổ thời gian cho từng đầu việc; các ô giờ chi tiết trong worklog để trống. Tổng giờ sinh viên cung cấp chưa có bằng chứng thời lượng độc lập; không suy ra giờ làm từ thời gian phiên Lab hoặc thời gian LLM/AI (ChatGPT) thao tác.
 
-## Phần chuyển sang tuần 2
+## Kế hoạch tuần 2
 
-Lập trình collector Lambda, tạo bảng snapshot DynamoDB, lập lịch EventBridge, tạo API và web đọc dữ liệu, làm cảnh báo SNS. Không cần tạo EC2/RDS/EKS/SageMaker mới chỉ để thử dashboard; trước hết đọc tài nguyên có sẵn và hiển thị trạng thái không có tài nguyên hoặc thiếu quyền một cách rõ ràng.
+Thứ tự triển khai: DynamoDB và Lambda kiểm kê → Lambda chi phí → Lambda đọc dữ liệu và API Gateway → lịch EventBridge → giao diện S3 → cảnh báo SNS và kiểm thử từng thành phần. Người phụ trách là Lê Minh Huy — 24110019. Xem bảng công việc và kết quả cần kiểm tra tại mục **Kế hoạch tuần 2** trong [báo cáo tuần 1](../README.md).
+
+Không cần tạo EC2/RDS/EKS/SageMaker mới chỉ để thử dashboard; trước hết đọc tài nguyên có sẵn và hiển thị trạng thái không có tài nguyên hoặc thiếu quyền một cách rõ ràng. Ghi số giờ thực tế và phần có AI hỗ trợ trong worklog của tuần 2.
