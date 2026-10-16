@@ -4,10 +4,10 @@
 
 | Tệp | Nội dung đã đối chiếu |
 |---|---|
-| [01-lab-session-ready.jpg](../../evidence/week-1/01-lab-session-ready.jpg) | Lab Ready; AWS Details cho Account ID `213858341631`, Region `us-east-1` ngày 07/10/2026 |
-| [02-stack-complete.jpg](../../evidence/week-1/02-stack-complete.jpg) | 08/10/2026: cùng Account/Region, stack `CREATE_COMPLETE`, output VPC/subnet/bucket, 10 tài nguyên |
-| [03-network-check.jpg](../../evidence/week-1/03-network-check.jpg) | VPC `10.20.0.0/16`, hai subnet khác AZ, auto public IPv4 tắt; route `0.0.0.0/0` tới IGW |
-| [04-s3-private.jpg](../../evidence/week-1/04-s3-private.jpg) | Bốn cờ chặn public đều bật; mã hóa `AES256`, BucketOwnerEnforced và tag Project/Owner/Environment |
+| [01-lab-session-ready.jpg](../evidence/01-lab-session-ready.jpg) | Lab Ready; AWS Details cho Account ID `213858341631`, Region `us-east-1` ngày 07/10/2026 |
+| [02-stack-complete.jpg](../evidence/02-stack-complete.jpg) | 08/10/2026: cùng Account/Region, stack `CREATE_COMPLETE`, output VPC/subnet/bucket, 10 tài nguyên |
+| [03-network-check.jpg](../evidence/03-network-check.jpg) | VPC `10.20.0.0/16`, hai subnet khác AZ, auto public IPv4 tắt; route `0.0.0.0/0` tới IGW |
+| [04-s3-private.jpg](../evidence/04-s3-private.jpg) | Bốn cờ chặn public đều bật; mã hóa `AES256`, BucketOwnerEnforced và tag Project/Owner/Environment |
 
 Các ảnh CLI ghi Account ID, Region và thời gian do `date -Is` trong terminal Lab. Giờ trên ảnh là UTC−07:00; cộng 14 giờ để ra giờ Việt Nam. Không có credentials, bearer token hoặc URL ký trong ảnh.
 

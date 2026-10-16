@@ -1,5 +1,5 @@
 $ErrorActionPreference = 'Stop'
-$root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
+$root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path
 $docx = Join-Path $root 'dist\Bao_cao_tuan_1_Learner_Lab_Ops_Dashboard_24110019.docx'
 if (-not (Test-Path -LiteralPath $docx)) { throw "Missing report: $docx" }
 

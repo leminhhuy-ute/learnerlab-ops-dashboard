@@ -7,7 +7,7 @@ from docx.shared import Cm, Pt, RGBColor
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "dist" / "Bao_cao_tuan_1_Learner_Lab_Ops_Dashboard_24110019.docx"
 SCHOOL_LOGO = ROOT / "docs" / "images" / "hcmute-logo.png"
 
@@ -237,11 +237,11 @@ heading("Chương 1 Tổng quan và phạm vi tuần 1", 1)
 heading("1.1 Bài toán và đầu ra", 2)
 para("Đề tài hướng tới một trang web giúp theo dõi tài nguyên đang chạy, chi phí AWS ghi nhận và cảnh báo khi vượt ngưỡng ngân sách Learner Lab. Theo thiết kế, Lambda sẽ đọc thông tin EC2, RDS, SageMaker và EKS; DynamoDB lưu bản ghi theo thời điểm; API cung cấp dữ liệu cho trang web; SNS gửi cảnh báo. Tuần 1 tập trung vào thiết kế và hạ tầng ban đầu.")
 table(["Đầu việc tuần 1", "Sản phẩm hiện có", "Trạng thái"], [
-    ("Tìm hiểu dịch vụ và giới hạn Lab", "docs/week-1/01-services-and-requirements.md", "Đã có tài liệu"),
-    ("Thiết kế kiến trúc, sơ đồ", "docs/week-1/02-architecture.md; docs/diagrams/architecture-week1-simple.png", "Đã có bản thiết kế"),
-    ("Dựng VPC, kiểm tra LabRole, tạo S3", "infra/week1-foundation.yaml; stack AWS", "Đã triển khai 08/10"),
-    ("Gắn tag và lưu ảnh", "evidence/week-1/02–04", "Đã kiểm tra 08/10"),
-    ("Nhật ký công việc", "docs/week-1/worklog.csv", "Đã ghi việc; chưa có số giờ thực tế"),
+    ("Tìm hiểu dịch vụ và giới hạn Lab", "tuan_1/docs/01-services-and-requirements.md", "Đã có tài liệu"),
+    ("Thiết kế kiến trúc, sơ đồ", "tuan_1/docs/02-architecture.md; tuan_1/diagrams/architecture-week1-simple.png", "Đã có bản thiết kế"),
+    ("Dựng VPC, kiểm tra LabRole, tạo S3", "tuan_1/infra/week1-foundation.yaml; stack AWS", "Đã triển khai 08/10"),
+    ("Gắn tag và lưu ảnh", "tuan_1/evidence/02–04", "Đã kiểm tra 08/10"),
+    ("Nhật ký công việc", "tuan_1/docs/worklog.csv", "Đã ghi việc; chưa có số giờ thực tế"),
 ], [4.1, 8.2, 4.0])
 caption("Bảng 1.1. Công việc và sản phẩm của tuần 1")
 
@@ -266,11 +266,11 @@ repo_link.paragraph_format.space_after = Pt(5)
 hyperlink(repo_link, "github.com/leminhhuy-ute/learnerlab-ops-dashboard",
           "https://github.com/leminhhuy-ute/learnerlab-ops-dashboard")
 table(["Tệp / thư mục", "Nội dung và trạng thái tuần 1"], [
-    ("infra/week1-foundation.yaml", "Template VPC, subnet, Internet Gateway, route và bucket S3 đã triển khai."),
-    ("docs/week-1/", "Kế hoạch, tìm hiểu dịch vụ, kiến trúc, runbook, kiểm tra và biên bản AWS."),
-    ("docs/diagrams/architecture-week1-simple.png", "Sơ đồ một trang; nét liền là nền tảng đã kiểm tra, nét đứt là luồng dự kiến."),
-    ("evidence/week-1/", "Ảnh Learner Lab, CloudFormation, cấu hình mạng và bảo mật S3."),
-    ("docs/week-1/worklog.csv", "Đầu việc và mốc AWS có nguồn; giờ cá nhân để trống khi chưa có dữ liệu xác nhận."),
+    ("tuan_1/infra/week1-foundation.yaml", "Template VPC, subnet, Internet Gateway, route và bucket S3 đã triển khai."),
+    ("tuan_1/docs/", "Kế hoạch, tìm hiểu dịch vụ, kiến trúc, runbook, kiểm tra và biên bản AWS."),
+    ("tuan_1/diagrams/architecture-week1-simple.png", "Sơ đồ một trang; nét liền là nền tảng đã kiểm tra, nét đứt là luồng dự kiến."),
+    ("tuan_1/evidence/", "Ảnh Learner Lab, CloudFormation, cấu hình mạng và bảo mật S3."),
+    ("tuan_1/docs/worklog.csv", "Đầu việc và mốc AWS có nguồn; giờ cá nhân để trống khi chưa có dữ liệu xác nhận."),
 ], [6.1, 10.2])
 caption("Bảng 2.1. Tệp dự án và minh chứng của tuần 1")
 para("Stack tuần 1 chỉ tạo mạng và bucket riêng tư. Lambda, EventBridge, DynamoDB, API Gateway, Cost Explorer và SNS trong sơ đồ là các phần dự kiến cho giai đoạn tiếp theo, chưa được báo cáo là đã chạy.")
@@ -283,7 +283,7 @@ for inherited_border in diagram_section._sectPr.findall(qn("w:pgBorders")):
     diagram_section._sectPr.remove(inherited_border)
 diagram_section.footer.is_linked_to_previous = False
 page_number(diagram_section.footer.paragraphs[0])
-picture(ROOT / "docs" / "diagrams" / "architecture-week1-simple.png", 26.6,
+picture(ROOT / "tuan_1" / "diagrams" / "architecture-week1-simple.png", 26.6,
         "Hình 2.1. Nền tảng tuần 1 và luồng kiến trúc dự kiến")
 
 body_after_diagram = doc.add_section(WD_SECTION.NEW_PAGE)
@@ -350,16 +350,16 @@ heading("5.3 Kết quả tuần 1 và kế hoạch tuần 2", 2)
 para("Sản phẩm tuần 1 gồm tài liệu yêu cầu, sơ đồ kiến trúc, stack VPC/S3, thông tin LabRole, tag Project/Owner/Environment và ảnh chụp có Account ID, Region, thời gian. Worklog cần bổ sung thời lượng thực tế theo từng buổi khi có dữ liệu đối chiếu; LabInstanceProfile cũng cần được kiểm tra nếu sẽ dùng ở giai đoạn sau.")
 para("Trong tuần 2, đề tài sẽ triển khai Lambda, EventBridge, DynamoDB, API và các chức năng chính của dashboard. Trước khi đánh giá kết quả, cần kiểm tra quyền truy cập và dữ liệu thực tế của từng dịch vụ trong Learner Lab.")
 heading("Nguồn và tệp kèm theo", 1)
-source_p = para("Nguồn dữ kiện AWS: docs/week-1/07-deployment-record.md; docs/week-1/04-evidence-and-review.md; evidence/week-1/01–04. Nguồn kiến trúc: docs/week-1/01-services-and-requirements.md; docs/week-1/02-architecture.md; docs/diagrams/architecture-week1-simple.png. Mã hạ tầng: infra/week1-foundation.yaml. Repository GitHub công khai: ")
+source_p = para("Nguồn dữ kiện AWS: tuan_1/docs/07-deployment-record.md; tuan_1/docs/04-evidence-and-review.md; tuan_1/evidence/01–04. Nguồn kiến trúc: tuan_1/docs/01-services-and-requirements.md; tuan_1/docs/02-architecture.md; tuan_1/diagrams/architecture-week1-simple.png. Mã hạ tầng: tuan_1/infra/week1-foundation.yaml. Repository GitHub công khai: ")
 hyperlink(source_p, "github.com/leminhhuy-ute/learnerlab-ops-dashboard",
           "https://github.com/leminhhuy-ute/learnerlab-ops-dashboard")
 
 heading("Phụ lục Ảnh minh chứng AWS", 1)
-picture(ROOT / "evidence" / "week-1" / "02-stack-complete.jpg", 14.2,
+picture(ROOT / "tuan_1" / "evidence" / "02-stack-complete.jpg", 14.2,
         "Phụ lục A. Stack CREATE_COMPLETE, Account 213858341631, us-east-1")
-picture(ROOT / "evidence" / "week-1" / "03-network-check.jpg", 14.2,
+picture(ROOT / "tuan_1" / "evidence" / "03-network-check.jpg", 14.2,
         "Phụ lục B. VPC, subnet và tuyến Internet Gateway")
-picture(ROOT / "evidence" / "week-1" / "04-s3-private.jpg", 14.2,
+picture(ROOT / "tuan_1" / "evidence" / "04-s3-private.jpg", 14.2,
         "Phụ lục C. Bảo mật bucket S3 và tag Project/Owner")
 
 doc.core_properties.title = "Báo cáo tiến độ tuần 1 Bảng điều khiển vận hành cho AWS Learner Lab"

@@ -2,7 +2,7 @@
 
 ## Kết quả đã xác minh trên AWS
 
-Ngày **08/10/2026, giờ Việt Nam**; tài khoản Learner Lab `213858341631`, Region `us-east-1`. AWS CLI `sts get-caller-identity` đã xác nhận đúng tài khoản trước khi triển khai. Template [week1-foundation.yaml](../../infra/week1-foundation.yaml) có SHA-256 `649857a229327af489b40bd6998f35cf015fa91176026542e1610ef4e41d9bc4` tại bản được chuyển vào Lab. AWS CloudFormation `ValidateTemplate` chấp nhận template.
+Ngày **08/10/2026, giờ Việt Nam**; tài khoản Learner Lab `213858341631`, Region `us-east-1`. AWS CLI `sts get-caller-identity` đã xác nhận đúng tài khoản trước khi triển khai. Template [week1-foundation.yaml](../infra/week1-foundation.yaml) có SHA-256 `649857a229327af489b40bd6998f35cf015fa91176026542e1610ef4e41d9bc4` tại bản được chuyển vào Lab. AWS CloudFormation `ValidateTemplate` chấp nhận template.
 
 Stack `learnerlab-ops-week1` đạt **CREATE_COMPLETE** lúc **12:52:18**. `ListStackResources` trả **10 tài nguyên**, tất cả `CREATE_COMPLETE`. Output và tài nguyên đã đọc lại bằng API:
 
@@ -21,7 +21,7 @@ Stack `learnerlab-ops-week1` đạt **CREATE_COMPLETE** lúc **12:52:18**. `List
 
 Các tài nguyên có thể gắn tag đều dùng `Project=learnerlab-ops`, `Owner=24110019`, `Environment=learner-lab`. Đã kiểm tra Project/Owner trên VPC, hai subnet, route table, IGW và bucket; AWS cũng thêm các tag CloudFormation. Route, gateway attachment và subnet association không hỗ trợ cùng cơ chế tag trong template.
 
-Ảnh thật: [stack và output](../../evidence/week-1/02-stack-complete.jpg), [subnet và route](../../evidence/week-1/03-network-check.jpg), [bảo mật S3](../../evidence/week-1/04-s3-private.jpg). Ảnh có thời gian UTC−07:00, Account ID và Region. Các thông số chính cũng được ghi trong [bảng minh chứng](04-evidence-and-review.md).
+Ảnh thật: [stack và output](../evidence/02-stack-complete.jpg), [subnet và route](../evidence/03-network-check.jpg), [bảo mật S3](../evidence/04-s3-private.jpg). Ảnh có thời gian UTC−07:00, Account ID và Region. Các thông số chính cũng được ghi trong [bảng minh chứng](04-evidence-and-review.md).
 
 ## Cách triển khai và kiểm tra
 

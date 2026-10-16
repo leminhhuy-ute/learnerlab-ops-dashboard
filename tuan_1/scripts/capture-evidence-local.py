@@ -11,11 +11,11 @@ from pathlib import Path
 from urllib.parse import parse_qs
 
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 TARGETS = {
-    "stack": ROOT / "evidence/week-1/02-stack-complete.jpg",
-    "network": ROOT / "evidence/week-1/03-network-check.jpg",
-    "s3": ROOT / "evidence/week-1/04-s3-private.jpg",
+    "stack": ROOT / "tuan_1/evidence/02-stack-complete.jpg",
+    "network": ROOT / "tuan_1/evidence/03-network-check.jpg",
+    "s3": ROOT / "tuan_1/evidence/04-s3-private.jpg",
 }
 JPEG_HEADER = b"\xff\xd8\xff"
 

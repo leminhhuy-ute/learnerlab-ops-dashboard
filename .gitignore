@@ -11,6 +11,6 @@ __pycache__/
 node_modules/
 dist/
 tmp/
-evidence/private/
-evidence/**/*.json
-!evidence/**/example*.json
+**/evidence/private/
+**/evidence/**/*.json
+!**/evidence/**/example*.json

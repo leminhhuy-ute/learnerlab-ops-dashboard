@@ -156,7 +156,7 @@ def main() -> int:
         return 1
     print(f"PASS: {args.template}")
     print(f"Checked {len(template['Resources'])} resources: region limits, tags, network, private encrypted retained S3, no compute/IAM.")
-    print("Offline checks passed. Check AWS state separately; see docs/week-1/07-deployment-record.md for this Lab.")
+    print("Offline checks passed. Check AWS state separately; see tuan_1/docs/07-deployment-record.md for this Lab.")
     return 0
 
 

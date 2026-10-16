@@ -9,7 +9,7 @@ Các handler Lambda bên dưới được lấy nguyên trạng từ gói mã đ
 | `learnerlab-ops-week2-read-api` | `index.handler` | Đọc snapshot mới nhất cho từng dịch vụ/Region và snapshot billing; trả dữ liệu tổng hợp cho API. | `TABLE`, `ACCOUNT`, `REGIONS` |
 | `learnerlab-ops-week2-threshold-alert` | `lambda_function.lambda_handler` | Đọc snapshot billing mới nhất và gửi SNS khi tổng ước tính đạt ngưỡng. Sự kiện `{"test": true}` gửi thư thử, không phải cảnh báo chi phí. | `TABLE_NAME`, `TOPIC_ARN`, `ACCOUNT_ID`, `ALERT_THRESHOLD_USD` (tùy chọn), `AWS_REGION` (mặc định runtime) |
 
-Mỗi thư mục con chứa đúng tệp handler trong gói Lambda. Các quyền AWS được cấp qua `LabRole`; không có access key trong mã. Cách chạy thử và kết quả đã quan sát nằm trong [hồ sơ tuần 2](../../docs/week-2/README.md) và [bảng nguồn dữ liệu](../../docs/data-sources.md).
+Mỗi thư mục con chứa đúng tệp handler trong gói Lambda. Các quyền AWS được cấp qua `LabRole`; không có access key trong mã. Cách chạy thử và kết quả đã quan sát nằm trong [hồ sơ tuần 2](../README.md) và [bảng nguồn dữ liệu](../../docs/data-sources.md).
 
 ## Giao diện dashboard
 

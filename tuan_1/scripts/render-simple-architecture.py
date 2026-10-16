@@ -5,8 +5,8 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "docs" / "diagrams"
+ROOT = Path(__file__).resolve().parents[2]
+OUT = ROOT / "tuan_1" / "diagrams"
 W, H = 2400, 1540
 INK, MID, LIGHT, PALE, WHITE = "#292929", "#555555", "#eeeeee", "#f7f7f7", "#ffffff"
 FONT_DIR = Path("C:/Windows/Fonts")
