@@ -19,7 +19,7 @@ Tài liệu này tách riêng phần phân công và thời lượng theo góp �
 | Thu thập chi phí và API đọc | Xác nhận tổng thời lượng ngày 12/10; worklog không có phân bổ giờ theo từng thao tác. | Triển khai billing-collector, read-api và API Gateway GET /summary; gọi Cost Explorer theo giới hạn và kiểm tra xác thực SigV4. | API có chữ ký trả HTTP 200; request không ký trả HTTP 403. Snapshot Cost Explorer ghi 0.0000000001 USD và estimated=true. |
 | Lịch chạy, cảnh báo và dashboard | Chọn phạm vi công việc ngày 13/10; xác nhận subscription SNS và đã nhận thư thử; xác nhận bổ sung tổng 3 giờ ngày 13/10 vào 16/10. | Tạo threshold-alert, ba lịch EventBridge, SNS topic và dashboard tĩnh trên S3; chạy các kiểm tra cấu hình và luồng dữ liệu. | Ba lịch được bật, có Lambda target và không ghi nhận failed entry; lịch billing tạo snapshot. Email thử đã được sinh viên xác nhận nhận. Dữ liệu thật thấp hơn ngưỡng 10 USD nên chưa có lần cảnh báo vượt ngưỡng. |
 
-Thông tin kỹ thuật và ảnh theo từng thành phần nằm trong [báo cáo triển khai và kiểm thử tuần 2](../README.md). Bảng nguồn được xác định tại [docs/data-sources.md](../../docs/data-sources.md).
+Thông tin kỹ thuật và ảnh theo từng thành phần nằm trong [báo cáo triển khai và kiểm thử tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/README.md). Bảng nguồn được xác định tại [docs/data-sources.md](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/docs/data-sources.md).
 
 ## 2. Nhật ký theo ngày
 
@@ -41,23 +41,23 @@ Tổng 11 giờ vượt mức tối thiểu 8 giờ/tuần theo yêu cầu học
 
 ## 3. Mã nguồn, dữ liệu và minh chứng
 
-- [Worklog tuần 2](../worklog.csv)
-- [Nguồn dữ liệu và giới hạn phạm vi](../../docs/data-sources.md)
-- [Mã Lambda kiểm kê](../src/lambdas/inventory-core/index.py)
-- [Mã Lambda thu thập chi phí](../src/lambdas/billing-collector/index.py)
-- [Mã Lambda đọc snapshot](../src/lambdas/read-api/index.py)
-- [Mã Lambda cảnh báo](../src/lambdas/threshold-alert/lambda_function.py)
-- [Mã giao diện dashboard](../src/dashboard/index.html)
-- [Ảnh kiểm thử Lambda kiểm kê](../evidence/02-inventory.jpg)
-- [Ảnh kiểm thử xác thực API](../evidence/03-api-authentication.jpg)
-- [Ảnh kiểm tra bảo mật S3](../evidence/05-s3-dashboard-security.jpg)
-- [Ảnh đối chiếu snapshot chi phí](../evidence/06-billing-snapshot.jpg)
-- [Ảnh dashboard sau khi nạp JSON](../evidence/07-dashboard-render.jpg)
-- [Ảnh kiểm thử CRUD DynamoDB](../evidence/08-dynamodb-crud.jpg)
+- [Worklog tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/worklog.csv)
+- [Nguồn dữ liệu và giới hạn phạm vi](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/docs/data-sources.md)
+- [Mã Lambda kiểm kê](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/src/lambdas/inventory-core/index.py)
+- [Mã Lambda thu thập chi phí](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/src/lambdas/billing-collector/index.py)
+- [Mã Lambda đọc snapshot](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/src/lambdas/read-api/index.py)
+- [Mã Lambda cảnh báo](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/src/lambdas/threshold-alert/lambda_function.py)
+- [Mã giao diện dashboard](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/src/dashboard/index.html)
+- [Ảnh kiểm thử Lambda kiểm kê](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/evidence/02-inventory.jpg)
+- [Ảnh kiểm thử xác thực API](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/evidence/03-api-authentication.jpg)
+- [Ảnh kiểm tra bảo mật S3](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/evidence/05-s3-dashboard-security.jpg)
+- [Ảnh đối chiếu snapshot chi phí](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/evidence/06-billing-snapshot.jpg)
+- [Ảnh dashboard sau khi nạp JSON](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/evidence/07-dashboard-render.jpg)
+- [Ảnh kiểm thử CRUD DynamoDB](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/evidence/08-dynamodb-crud.jpg)
 - [Commit mã nguồn tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/commit/6e3d034762b3ece2706a2341955364f64ec2202b)
 
 ## 4. Khai báo LLM/AI (ChatGPT)
 
 LLM/AI (ChatGPT) hỗ trợ tham khảo tài liệu và biên soạn tài liệu. Theo worklog, ChatGPT trực tiếp soạn/triển khai một số mã Lambda, tạo tài nguyên AWS và chạy các lệnh kiểm thử đã liệt kê. Sinh viên xác nhận phạm vi, thời lượng theo ngày và thao tác xác nhận subscription email SNS. Số giờ sinh viên tự xác nhận không bao gồm thời gian ChatGPT thao tác.
 
-[Trở về báo cáo tuần 2](../README.md) · [Kế hoạch tuần 3](09-week3-plan.md).
+[Báo cáo tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/README.md) · [Kế hoạch tuần 3](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/docs/09-week3-plan.md).

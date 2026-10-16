@@ -25,7 +25,7 @@ Tích hợp các thành phần tuần 2 thành luồng vận hành có thể ki�
 
 Sinh viên phụ trách đọc yêu cầu, xác định thứ tự triển khai, kiểm tra kết quả trên Learner Lab, giải thích cấu hình và lưu minh chứng. Nếu LLM/AI (ChatGPT) hỗ trợ viết mã, template, phân tích log hoặc chạy lệnh, worklog cần ghi riêng chính xác phần đó; không cộng thời gian AI vào thời lượng sinh viên.
 
-Ghi số giờ thực tế theo từng ngày sau khi sinh viên xác nhận. Không tự chia tổng giờ thành các buổi hoặc gán giờ cho một tác vụ nếu không có ghi chép. Tài liệu đối chiếu tuần 2 hiện tại: [worklog](../worklog.csv) và [phân công, thời lượng tuần 2](10-week2-assignment-and-time.md).
+Ghi số giờ thực tế theo từng ngày sau khi sinh viên xác nhận. Không tự chia tổng giờ thành các buổi hoặc gán giờ cho một tác vụ nếu không có ghi chép. Tài liệu đối chiếu tuần 2 hiện tại: [worklog](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/worklog.csv) và [phân công, thời lượng tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/docs/10-week2-assignment-and-time.md).
 
 ## Điều kiện hoàn tất
 
@@ -36,4 +36,4 @@ Ghi số giờ thực tế theo từng ngày sau khi sinh viên xác nhận. Kh�
 - Template và worklog khớp với tài nguyên, lệnh và kết quả thực tế.
 - Tài nguyên thử không cần thiết được dừng hoặc xóa theo quy định Learner Lab.
 
-[Trở về báo cáo tuần 2](../README.md) · [Phân công và thời lượng tuần 2](10-week2-assignment-and-time.md).
+[Báo cáo tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/README.md) · [Phân công và thời lượng tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/docs/10-week2-assignment-and-time.md).
