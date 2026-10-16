@@ -29,6 +29,8 @@ Các ảnh CLI ghi Account ID, Region và thời gian do `date -Is` trong termin
 
 Xem [biên bản triển khai và lệnh xác minh](07-deployment-record.md). Output `LabInstanceProfileName` trong template chỉ là tên tham khảo cho tuần sau, **chưa phải bằng chứng profile tồn tại**.
 
+Bảng phân công, các mốc thời gian và tổng thời lượng được trình bày tại tài liệu riêng [Phân công và thời lượng tuần 1](10-week1-assignment-and-time.md).
+
 ## Câu hỏi chuẩn bị vấn đáp
 
 1. EventBridge và Lambda có vai trò gì? Vì sao không cần một EC2 chạy liên tục để kiểm kê?

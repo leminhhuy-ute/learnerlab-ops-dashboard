@@ -20,6 +20,7 @@ Tuần 1 **chưa triển khai** Lambda kiểm kê, Cost Explorer, DynamoDB, API 
 - [Rà soát CloudTrail](docs/08-cloudtrail-audit.md)
 - [Ảnh AWS Learner Lab](evidence/README.md)
 - [Worklog tuần 1](docs/worklog.csv)
+- [Phân công, các mốc thời gian và thời lượng tuần 1 — tài liệu riêng](docs/10-week1-assignment-and-time.md)
 - [Kế hoạch tuần 2 — tài liệu riêng](docs/09-week2-plan.md)
 
 ## Minh chứng commit
@@ -38,13 +39,7 @@ Các file để đối chiếu trực tiếp: [báo cáo tuần 1](https://githu
 
 ## Phân công và thời lượng tuần 1
 
-| Sinh viên | Phân công | Tổng thời lượng sinh viên cung cấp |
-|---|---|---|
-| Lê Minh Huy — 24110019 | Tìm hiểu dịch vụ; thiết kế và chỉnh sửa sơ đồ/template; thực hiện, kiểm tra nền tảng VPC/LabRole/S3 và tag; rà soát minh chứng. | 8 giờ |
-
-Tổng 8 giờ là thông tin sinh viên đã cung cấp trong quá trình thực hiện dự án. Chưa có ghi chép để phân bổ số giờ theo từng buổi hoặc từng nhiệm vụ; các ô giờ chi tiết trong [worklog](docs/worklog.csv) vì vậy vẫn để trống. CloudTrail và thời gian phiên Lab không xác nhận tổng giờ học của sinh viên.
-
-LLM/AI (ChatGPT) hỗ trợ tra cứu, soạn tài liệu/sơ đồ và trực tiếp thực thi một số lệnh triển khai, kiểm tra theo [biên bản](docs/07-deployment-record.md). Các thao tác có AI hỗ trợ được ghi riêng trong worklog.
+[Mở tài liệu Phân công và thời lượng tuần 1](docs/10-week1-assignment-and-time.md), gồm phân công theo nhóm việc, các mốc AWS ngày 08/10, các mốc chuẩn bị/rà soát và lưu tài liệu ngày 07–10/10, tổng thời lượng 8 giờ do sinh viên cung cấp và phần có LLM/AI (ChatGPT) hỗ trợ. Giờ chi tiết từng nhiệm vụ chưa có ghi chép phân bổ; các mốc API và Git không được dùng để suy ra thời lượng cá nhân.
 
 ## Kế hoạch tuần 2
 

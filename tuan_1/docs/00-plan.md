@@ -46,6 +46,8 @@ Nếu có thêm thành viên, bổ sung mã sinh viên và phân công riêng; m
 
 Nền tảng AWS và minh chứng đã hoàn tất ngày 08/10/2026; xem [biên bản](07-deployment-record.md). Sinh viên xác nhận đã đọc tài liệu, sửa sơ đồ/template, chạy lệnh AWS và kiểm tra ảnh, đồng thời cung cấp tổng thời lượng tuần 1 là 8 giờ. Chưa có ghi chép phân bổ thời gian cho từng đầu việc; các ô giờ chi tiết trong worklog để trống. Tổng giờ sinh viên cung cấp chưa có bằng chứng thời lượng độc lập; không suy ra giờ làm từ thời gian phiên Lab hoặc thời gian LLM/AI (ChatGPT) thao tác.
 
+Xem tài liệu riêng [Phân công và thời lượng tuần 1](10-week1-assignment-and-time.md) để đối chiếu từng nhóm việc, các mốc thời gian có nguồn ghi nhận và tổng giờ sinh viên cung cấp.
+
 ## Kế hoạch tuần 2
 
 Xem [tài liệu Kế hoạch tuần 2](09-week2-plan.md), gồm thứ tự triển khai dịch vụ, nội dung kiểm thử và phân công thực hiện.
