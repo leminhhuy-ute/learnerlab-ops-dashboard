@@ -46,9 +46,9 @@ Snapshot ghi `1E-10 USD` (`0.0000000001 USD`), `estimated=true`, cho kỳ `2026-
 
 ## Worklog, dữ liệu và giới hạn
 
-- [Worklog theo ngày](worklog.csv) ghi 2 giờ ngày 10/10, 3 giờ ngày 11/10, 3 giờ ngày 12/10 và 3 giờ ngày 13/10 theo xác nhận của sinh viên. Hai mốc 11/10 và 13/10 được xác nhận bổ sung ngày 16/10; không có giờ bắt đầu/kết thúc hoặc phân bổ theo tác vụ, và không được xác minh bằng CloudTrail.
-- [Phân công và thời lượng tuần 2](docs/10-week2-assignment-and-time.md) trình bày riêng phần việc của sinh viên, phần LLM/AI (ChatGPT) hỗ trợ/trực tiếp thực hiện và tổng 11 giờ do sinh viên tự xác nhận.
-- [Kế hoạch tuần 3](docs/09-week3-plan.md) tách riêng các bước tích hợp, bảo mật, giám sát CloudWatch và tự động hóa/IaC dự kiến.
+- Worklog theo ngày: https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/worklog.csv. Worklog ghi 2 giờ ngày 10/10, 3 giờ ngày 11/10, 3 giờ ngày 12/10 và 3 giờ ngày 13/10 theo xác nhận của sinh viên. Hai mốc 11/10 và 13/10 được xác nhận bổ sung ngày 16/10; không có giờ bắt đầu/kết thúc hoặc phân bổ theo tác vụ, và không được xác minh bằng CloudTrail.
+- Phân công và thời lượng tuần 2: https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/docs/10-week2-assignment-and-time.md. Tài liệu trình bày riêng phần việc của sinh viên, phần LLM/AI (ChatGPT) hỗ trợ/trực tiếp thực hiện và tổng 11 giờ do sinh viên tự xác nhận.
+- Kế hoạch tuần 3: https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/docs/09-week3-plan.md. Tài liệu nêu các bước tích hợp, bảo mật, giám sát CloudWatch và tự động hóa/IaC dự kiến.
 - [Nguồn dữ liệu và cách diễn giải](../docs/data-sources.md) phân biệt API AWS gốc với DynamoDB là nơi lưu snapshot.
 - Ảnh công khai không gồm ảnh có địa chỉ email nhận SNS.
 - LLM/AI (ChatGPT) hỗ trợ viết mã, triển khai và chạy các kiểm thử AWS, theo khai báo trong báo cáo/worklog.
