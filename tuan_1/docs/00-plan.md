@@ -48,6 +48,4 @@ Nền tảng AWS và minh chứng đã hoàn tất ngày 08/10/2026; xem [biên 
 
 ## Kế hoạch tuần 2
 
-Thứ tự triển khai: DynamoDB và Lambda kiểm kê → Lambda chi phí → Lambda đọc dữ liệu và API Gateway → lịch EventBridge → giao diện S3 → cảnh báo SNS và kiểm thử từng thành phần. Người phụ trách là Lê Minh Huy — 24110019. Xem bảng công việc và kết quả cần kiểm tra tại mục **Kế hoạch tuần 2** trong [báo cáo tuần 1](../README.md).
-
-Không cần tạo EC2/RDS/EKS/SageMaker mới chỉ để thử dashboard; trước hết đọc tài nguyên có sẵn và hiển thị trạng thái không có tài nguyên hoặc thiếu quyền một cách rõ ràng. Ghi số giờ thực tế và phần có AI hỗ trợ trong worklog của tuần 2.
+Xem [tài liệu Kế hoạch tuần 2](09-week2-plan.md), gồm thứ tự triển khai dịch vụ, nội dung kiểm thử và phân công thực hiện.

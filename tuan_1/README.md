@@ -20,6 +20,7 @@ Tuần 1 **chưa triển khai** Lambda kiểm kê, Cost Explorer, DynamoDB, API 
 - [Rà soát CloudTrail](docs/08-cloudtrail-audit.md)
 - [Ảnh AWS Learner Lab](evidence/README.md)
 - [Worklog tuần 1](docs/worklog.csv)
+- [Kế hoạch tuần 2 — tài liệu riêng](docs/09-week2-plan.md)
 
 ## Minh chứng commit
 
@@ -47,15 +48,4 @@ LLM/AI (ChatGPT) hỗ trợ tra cứu, soạn tài liệu/sơ đồ và trực t
 
 ## Kế hoạch tuần 2
 
-Người phụ trách: Lê Minh Huy — 24110019. Triển khai theo thứ tự dưới đây, kiểm thử từng thành phần trước khi nối luồng dữ liệu.
-
-| Thứ tự | Công việc | Kết quả cần kiểm tra |
-|---|---|---|
-| 1 | Tạo bảng snapshot DynamoDB và Lambda kiểm kê EC2, RDS, SageMaker, EKS ở `us-east-1` và `us-west-2`. | Gọi API thành công, lưu được snapshot theo dịch vụ/Region; phân biệt không có tài nguyên với lỗi hoặc thiếu quyền. |
-| 2 | Triển khai Lambda chi phí dùng Cost Explorer và lưu kết quả vào DynamoDB. | Kiểm tra kỳ dữ liệu, tiền tệ, cờ `Estimated` và giới hạn lượt gọi; API đọc dùng snapshot đã lưu. |
-| 3 | Tạo Lambda đọc dữ liệu và route `GET /summary` trên API Gateway, có xác thực. | Request được xác thực đọc được dữ liệu; request không có quyền bị từ chối. |
-| 4 | Tạo hai lịch EventBridge riêng cho kiểm kê và chi phí. | Kiểm tra lịch, target, quyền gọi Lambda và lần thực thi; Cost Explorer chỉ được gọi vài lần/ngày theo đề bài. |
-| 5 | Đưa giao diện lên S3, hiển thị dữ liệu JSON lấy từ API đã xác thực. | Kiểm tra số liệu, thời điểm snapshot và trạng thái lỗi; giữ cấu hình bảo vệ dữ liệu và thông tin đăng nhập. |
-| 6 | Triển khai cảnh báo SNS và kiểm thử các thành phần. | Kiểm tra ngưỡng, xác nhận subscription, nhận email thử và lưu kết quả/ảnh minh chứng theo từng chức năng. |
-
-Đây là kế hoạch chuyển tiếp từ tuần 1. Kết quả thực hiện được ghi riêng trong [báo cáo tuần 2](../tuan_2/README.md); thời lượng thực tế của tuần 2 được ghi trong [worklog tuần 2](../tuan_2/worklog.csv).
+[Mở tài liệu Kế hoạch tuần 2](docs/09-week2-plan.md). Tài liệu trình bày riêng mục tiêu, thứ tự triển khai các dịch vụ lõi, kết quả cần kiểm thử, người phụ trách và cách ghi nhật ký thực hiện.
