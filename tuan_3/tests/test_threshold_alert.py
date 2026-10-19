@@ -18,8 +18,10 @@ class FakePaginator:
 
 
 class FakeSNS:
-    def __init__(self, subscriptions):
+    def __init__(self, subscriptions, pages=None, list_error=None):
         self.subscriptions = subscriptions
+        self.pages = pages
+        self.list_error = list_error
         self.published = []
         self.paginator_requested = False
 
@@ -27,7 +29,9 @@ class FakeSNS:
         if operation != "list_subscriptions_by_topic":
             raise AssertionError(f"Unexpected paginator: {operation}")
         self.paginator_requested = True
-        return FakePaginator([{"Subscriptions": self.subscriptions}])
+        if self.list_error:
+            raise self.list_error
+        return FakePaginator(self.pages or [{"Subscriptions": self.subscriptions}])
 
     def publish(self, **kwargs):
         self.published.append(kwargs)
@@ -112,6 +116,30 @@ class ThresholdAlertTests(unittest.TestCase):
 
         self.assertEqual(result["status"], "sns_no_confirmed_subscribers")
         self.assertFalse(result["published"])
+        self.assertEqual(sns.published, [])
+
+    def test_confirmed_subscriber_on_later_page_is_counted(self):
+        sns = FakeSNS([], pages=[
+            {"Subscriptions": [{"SubscriptionArn": "PendingConfirmation"}]},
+            {"Subscriptions": [{"SubscriptionArn": "arn:confirmed-subscription"}]},
+        ])
+
+        result = ALERT._evaluate_billing_item(
+            billing_item(), sns, "arn:aws:sns:us-east-1:000000000000:test-topic", 10
+        )
+
+        self.assertEqual(result["confirmedSubscriptionCount"], 1)
+        self.assertEqual(result["pendingSubscriptionCount"], 1)
+        self.assertEqual(len(sns.published), 1)
+
+    def test_subscription_lookup_error_does_not_publish(self):
+        sns = FakeSNS([], list_error=PermissionError("ListSubscriptionsByTopic denied"))
+
+        with self.assertRaises(PermissionError):
+            ALERT._evaluate_billing_item(
+                billing_item(), sns, "arn:aws:sns:us-east-1:000000000000:test-topic", 10
+            )
+
         self.assertEqual(sns.published, [])
 
 

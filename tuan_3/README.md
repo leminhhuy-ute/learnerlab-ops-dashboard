@@ -25,12 +25,12 @@ Chạy bằng Python chuẩn, không cần credentials AWS:
 python -m unittest discover -s tuan_3/tests -v
 ```
 
-Các test bao gồm: chỉ có subscription chờ xác nhận; subscription đã xác nhận; trạng thái hỗn hợp; chi phí dưới ngưỡng; và topic không có subscriber. Kết quả mong đợi ở nhánh thầy gợi ý là không gọi SNS `Publish` khi chỉ có subscription `PendingConfirmation`.
+Đã chạy 7 test và đều đạt. Các trường hợp gồm: chỉ có subscription chờ xác nhận; subscription đã xác nhận; trạng thái hỗn hợp; chi phí dưới ngưỡng; topic không có subscriber; subscription đã xác nhận nằm ở trang kết quả sau; và lỗi quyền khi đọc subscription. Hai trường hợp chỉ có subscription chờ xác nhận hoặc không đọc được subscription đều không gọi SNS `Publish`.
 
 ### Trạng thái kiểm thử AWS
 
-Chưa chạy nhánh này trên Learner Lab. Khi mở CloudShell trong phiên này, AWS chuyển tới trang `Session error`; do đó chưa tạo topic/subscription thử, chưa publish email và chưa thay đổi tài nguyên AWS. Kiểm thử cục bộ chứng minh logic của handler ứng viên, không thay thế bằng chứng kiểm thử tích hợp trên AWS. Phần xác minh AWS được để cho buổi tiếp theo sau khi phiên Lab hoạt động.
+Chưa chạy nhánh này trên Learner Lab. Lần mở CloudShell trước đó chuyển tới trang `Session error`; ngày 19/10 trang AWS Academy từ chối kết nối khi mở mục Lab. Do đó chưa tạo topic/subscription thử, chưa publish email và chưa thay đổi tài nguyên AWS trong phần việc tuần 3 này. Kiểm thử cục bộ chứng minh logic của handler ứng viên, không thay thế bằng chứng kiểm thử tích hợp trên AWS. Phần xác minh AWS được để cho buổi tiếp theo sau khi phiên Lab hoạt động.
 
 ## Worklog
 
-Worklog tuần 3 ghi riêng phần AI hỗ trợ và giữ giờ sinh viên trống cho đến khi sinh viên xác nhận thời lượng thực tế: [worklog.csv](worklog.csv).
+Worklog tuần 3 ghi riêng thời lượng sinh viên tự xác nhận và phần LLM/AI hỗ trợ: [worklog.csv](worklog.csv). Ngày 19/10 sinh viên xác nhận 2 giờ ở lần đầu và thêm 1 giờ thao tác Lab ở lần sau, tổng 3 giờ. Chưa có mốc bắt đầu/kết thúc hoặc log để đối chiếu giờ; thời lượng này không bao gồm thời gian AI chạy kiểm thử cục bộ.
