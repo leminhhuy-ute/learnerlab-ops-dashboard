@@ -1,6 +1,6 @@
 # Kiểm tra SNS trên Learner Lab — 19/10/2026
 
-Kiểm tra đọc dữ liệu lúc `2026-10-19T12:37:29Z` qua AWS CloudShell, Region `us-east-1`. Đây là kết quả quan sát trên tài khoản thật, chưa phải phép thử cảnh báo vượt ngưỡng với subscription chờ xác nhận.
+Kiểm tra ban đầu lúc `2026-10-19T12:37:29Z`, sau đó kiểm thử subscription chờ xác nhận trước `2026-10-19T13:03:22Z` qua AWS CloudShell, Region `us-east-1`. Các kết quả bên dưới được quan sát trên tài khoản Learner Lab thật.
 
 | Nội dung | Kết quả |
 | --- | --- |
@@ -18,4 +18,18 @@ Lambda thử đọc bảng snapshot thật, nhưng dùng ngưỡng **chỉ để
 
 Gọi Lambda thử với payload `{}` nhận `StatusCode=200`, `FunctionError=null`; nội dung trả về: `status=sns_no_confirmed_subscribers`, `published=false`, `confirmedSubscriptionCount=0`, `pendingSubscriptionCount=0`, `amountUsd=1E-10`, `thresholdUsd=5E-11`, `snapshotId=SNAPSHOT#20261013T020042Z`. Không có `messageId`; handler đã dừng trước bước SNS `Publish`. Đây là kết quả thật của **nhánh không có subscriber**, chưa phải nhánh `PendingConfirmation` thầy gợi ý.
 
-Phép thử tiếp theo cần thêm một email subscription trên chính topic thử, để nguyên trạng thái `PendingConfirmation`, rồi gọi lại cùng Lambda và xác nhận `sns_subscription_pending_confirmation`, `published=false`. AWS sẽ gửi email xác nhận khi tạo subscription. Chưa thực hiện bước đó và chưa gửi cảnh báo chi phí giả tới topic đang có người nhận.
+## Kiểm thử subscription chờ xác nhận
+
+Sau khi sinh viên đồng ý sử dụng email trường cho phép thử, tạo **một** email subscription trên topic thử; không ghi địa chỉ email vào repo. SNS gửi email yêu cầu xác nhận theo cơ chế đăng ký. Không bấm liên kết xác nhận trong quá trình kiểm thử. Kiểm tra bằng `aws sns list-subscriptions-by-topic --topic-arn arn:aws:sns:us-east-1:213858341631:learnerlab-ops-week3-negative-test --query "Subscriptions[].{Arn:SubscriptionArn,Protocol:Protocol}" --output json` cho kết quả:
+
+```json
+[{"Arn":"PendingConfirmation","Protocol":"email"}]
+```
+
+Gọi `aws lambda invoke --function-name learnerlab-ops-week3-threshold-negative-test --payload "{}" --cli-binary-format raw-in-base64-out /tmp/week3-pending.json`. AWS trả `StatusCode=200`, `FunctionError=null`. Payload trong `/tmp/week3-pending.json`:
+
+```json
+{"status":"sns_subscription_pending_confirmation","published":false,"confirmedSubscriptionCount":0,"pendingSubscriptionCount":1,"periodStart":"2026-10-01","periodEndExclusive":"2026-10-14","estimated":true,"amountUsd":"1E-10","thresholdUsd":"5E-11","snapshotId":"SNAPSHOT#20261013T020042Z"}
+```
+
+Như vậy snapshot thật ngày 13/10 (`1E-10` USD) vượt ngưỡng **thử** (`5E-11` USD), nhưng không có subscription đã xác nhận nên hàm trả `published=false` và không có `messageId`. Không có cảnh báo chi phí nào được publish trong phép thử này. Đây là phép thử với snapshot cũ, không chứng minh chi phí hiện tại đã vượt ngưỡng sản phẩm 10 USD. Topic/Lambda tuần 2 và ngưỡng 10 USD không bị thay đổi. Subscription thử được để ở trạng thái chưa xác nhận để lưu lại trường hợp kiểm thử; cần dọn tài nguyên thử khi kết thúc tuần 3.

@@ -29,7 +29,7 @@ python -m unittest discover -s tuan_3/tests -v
 
 ### Trạng thái kiểm thử AWS
 
-Sau lỗi truy cập ở lần trước, Learner Lab đã vào trạng thái `Ready` ngày 19/10. Đã xác minh Account ID, SNS subscription hiện hành và quyền `sns:ListSubscriptionsByTopic` của `LabRole` qua CloudShell. Handler ứng viên đã được triển khai vào **Lambda thử riêng**; topic thử chưa có subscriber. Với snapshot thật ngày 13/10 vượt ngưỡng thử, Lambda trả `sns_no_confirmed_subscribers`, `published=false`. [Lệnh, dữ liệu và kết quả đã đối chiếu](evidence/01-live-sns-check.md). Chưa gửi email, chưa thay đổi Lambda/topic tuần 2. Nhánh `PendingConfirmation` thầy gợi ý vẫn cần kiểm thử trên AWS.
+Sau lỗi truy cập ở lần trước, Learner Lab đã vào trạng thái `Ready` ngày 19/10. Đã xác minh Account ID, SNS subscription hiện hành và quyền `sns:ListSubscriptionsByTopic` của `LabRole` qua CloudShell. Handler ứng viên được triển khai vào **Lambda thử riêng**, cùng một SNS topic thử. Với snapshot thật ngày 13/10 vượt ngưỡng thử, Lambda trả `sns_no_confirmed_subscribers`, `published=false` khi topic trống. Sau đó tạo email subscription chưa xác nhận trên topic thử: SNS trả `PendingConfirmation`; gọi lại Lambda nhận `sns_subscription_pending_confirmation`, `published=false`, `confirmedSubscriptionCount=0`, `pendingSubscriptionCount=1`. [Lệnh, dữ liệu và kết quả đã đối chiếu](evidence/01-live-sns-check.md). SNS chỉ gửi email yêu cầu xác nhận đăng ký; không có cảnh báo chi phí nào được publish. Không thay đổi Lambda/topic tuần 2 hoặc ngưỡng sản phẩm 10 USD.
 
 ## Worklog
 
