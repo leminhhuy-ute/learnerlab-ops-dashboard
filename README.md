@@ -8,12 +8,14 @@ Mỗi tuần có thư mục riêng ở cấp repository để giảng viên xem 
 |---|---|
 | [`tuan_1/`](tuan_1/README.md) | Yêu cầu, thiết kế, sơ đồ, template nền tảng, worklog và ảnh Learner Lab của tuần 1. |
 | [`tuan_2/`](tuan_2/README.md) | Mã nguồn Lambda/dashboard, chức năng đã triển khai, kết quả kiểm thử, worklog và ảnh AWS của tuần 2. |
+| [`tuan_3/`](tuan_3/README.md) | Hạng mục tuần 3 về kiểm thử nhánh subscription SNS chưa xác nhận, test cục bộ và worklog riêng. |
 | [`docs/`](docs/data-sources.md) | Tài liệu nguồn dữ liệu dùng chung, xác định API AWS gốc và giới hạn cách diễn giải. |
 
 ## Tiến độ đã xác minh
 
 - **Tuần 1:** CloudFormation stack `learnerlab-ops-week1` đạt `CREATE_COMPLETE` với 10 tài nguyên nền tảng tại `us-east-1`. VPC, subnet, route Internet, `LabRole` có sẵn và bucket S3 riêng tư đã được kiểm tra. Xem [biên bản triển khai](tuan_1/docs/07-deployment-record.md) và [ảnh nền tảng](tuan_1/evidence/README.md).
 - **Tuần 2:** Lambda kiểm kê, billing, read API và threshold alert; DynamoDB, API Gateway, S3, EventBridge, Cost Explorer và SNS đã được triển khai/kiểm thử. Ảnh ngày 15/10/2026 ghi nhận 10 tổ hợp dịch vụ/vùng có `status=ok`, `count=0`; GET /summary có SigV4 trả HTTP 200, không ký trả HTTP 403. Giao diện hiển thị JSON thật đã nạp thủ công. Chi phí `1E-10 USD` là ước tính, không phải hóa đơn cuối kỳ. Xem [kết quả và kiểm thử tuần 2](tuan_2/README.md).
+- **Tuần 3:** Đã chuẩn bị nhánh xử lý subscription SNS chưa xác nhận và chạy 5 kiểm thử đơn vị cục bộ. Chưa xác minh trên Learner Lab vì phiên AWS trả về `Session error`; chưa thay đổi tài nguyên AWS. Xem [mã và trạng thái tuần 3](tuan_3/README.md).
 
 Worklog giữ giờ sinh viên chưa xác nhận ở dạng trống; không suy ra giờ học từ thời gian AI thao tác, thời lượng phiên Lab hay mốc CloudTrail.
 
