@@ -29,8 +29,8 @@ python -m unittest discover -s tuan_3/tests -v
 
 ### Trạng thái kiểm thử AWS
 
-Chưa chạy nhánh này trên Learner Lab. Lần mở CloudShell trước đó chuyển tới trang `Session error`; ngày 19/10 trang AWS Academy từ chối kết nối khi mở mục Lab. Do đó chưa tạo topic/subscription thử, chưa publish email và chưa thay đổi tài nguyên AWS trong phần việc tuần 3 này. Kiểm thử cục bộ chứng minh logic của handler ứng viên, không thay thế bằng chứng kiểm thử tích hợp trên AWS. Phần xác minh AWS được để cho buổi tiếp theo sau khi phiên Lab hoạt động.
+Sau lỗi truy cập ở lần trước, Learner Lab đã vào trạng thái `Ready` ngày 19/10. Đã xác minh Account ID, SNS subscription hiện hành và quyền `sns:ListSubscriptionsByTopic` của `LabRole` qua CloudShell; [kết quả và mốc kiểm tra](evidence/01-live-sns-check.md). Chưa tạo topic/subscription thử, chưa publish email và chưa triển khai handler ứng viên. Kiểm thử cục bộ chứng minh logic của handler, không thay thế bằng chứng kiểm thử tích hợp cho nhánh `PendingConfirmation` trên AWS.
 
 ## Worklog
 
-Worklog tuần 3 ghi riêng thời lượng sinh viên tự xác nhận và phần LLM/AI hỗ trợ: [worklog.csv](worklog.csv). Ngày 19/10 sinh viên xác nhận 2 giờ ở lần đầu và thêm 1 giờ thao tác Lab ở lần sau, tổng 3 giờ. Chưa có mốc bắt đầu/kết thúc hoặc log để đối chiếu giờ; thời lượng này không bao gồm thời gian AI chạy kiểm thử cục bộ.
+Worklog tuần 3 ghi riêng thời lượng sinh viên tự xác nhận và phần LLM/AI hỗ trợ: [worklog.csv](worklog.csv). Ngày 19/10 sinh viên xác nhận 2 giờ ở lần đầu và thêm 1 giờ thao tác Lab ở lần sau, tổng 3 giờ. Chưa có mốc bắt đầu/kết thúc hoặc log để đối chiếu độ dài phiên; thời lượng này không bao gồm thời gian AI chạy kiểm thử cục bộ hoặc các lệnh kiểm tra CloudShell.
