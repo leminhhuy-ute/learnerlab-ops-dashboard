@@ -29,7 +29,7 @@ python -m unittest discover -s tuan_3/tests -v
 
 ### Trạng thái kiểm thử AWS
 
-Sau lỗi truy cập ở lần trước, Learner Lab đã vào trạng thái `Ready` ngày 19/10. Đã xác minh Account ID, SNS subscription hiện hành và quyền `sns:ListSubscriptionsByTopic` của `LabRole` qua CloudShell; [kết quả và mốc kiểm tra](evidence/01-live-sns-check.md). Chưa tạo topic/subscription thử, chưa publish email và chưa triển khai handler ứng viên. Kiểm thử cục bộ chứng minh logic của handler, không thay thế bằng chứng kiểm thử tích hợp cho nhánh `PendingConfirmation` trên AWS.
+Sau lỗi truy cập ở lần trước, Learner Lab đã vào trạng thái `Ready` ngày 19/10. Đã xác minh Account ID, SNS subscription hiện hành và quyền `sns:ListSubscriptionsByTopic` của `LabRole` qua CloudShell. Handler ứng viên đã được triển khai vào **Lambda thử riêng**; topic thử chưa có subscriber. Với snapshot thật ngày 13/10 vượt ngưỡng thử, Lambda trả `sns_no_confirmed_subscribers`, `published=false`. [Lệnh, dữ liệu và kết quả đã đối chiếu](evidence/01-live-sns-check.md). Chưa gửi email, chưa thay đổi Lambda/topic tuần 2. Nhánh `PendingConfirmation` thầy gợi ý vẫn cần kiểm thử trên AWS.
 
 ## Worklog
 
