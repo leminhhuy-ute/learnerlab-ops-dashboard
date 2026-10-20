@@ -1,6 +1,7 @@
 import importlib.util
 import pathlib
 import unittest
+from datetime import datetime, timedelta, timezone
 
 
 SOURCE = pathlib.Path(__file__).parents[1] / "src" / "threshold-alert" / "lambda_function.py"
@@ -47,6 +48,7 @@ def billing_item(total="12.50"):
         "periodStart": "2026-10-01",
         "periodEndExclusive": "2026-10-19",
         "estimated": True,
+        "collectedAt": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
     }
 
 
@@ -104,6 +106,56 @@ class ThresholdAlertTests(unittest.TestCase):
 
         self.assertEqual(result["status"], "below_threshold")
         self.assertFalse(result["published"])
+        self.assertFalse(sns.paginator_requested)
+        self.assertEqual(sns.published, [])
+
+    def test_stale_snapshot_fails_closed_before_sns_lookup(self):
+        item = billing_item()
+        item["collectedAt"] = "2026-10-13T02:00:42Z"
+        sns = FakeSNS([])
+
+        result = ALERT._evaluate_billing_item(
+            item,
+            sns,
+            "arn:aws:sns:us-east-1:000000000000:test-topic",
+            10,
+            max_age_hours=48,
+            now=datetime(2026, 10, 20, 6, 21, 41, tzinfo=timezone.utc),
+        )
+
+        self.assertEqual(result["status"], "stale_billing_snapshot")
+        self.assertFalse(result["published"])
+        self.assertEqual(result["snapshotId"], "SNAPSHOT#20261019T000000Z")
+        self.assertFalse(sns.paginator_requested)
+        self.assertEqual(sns.published, [])
+
+    def test_missing_snapshot_timestamp_fails_closed(self):
+        item = billing_item()
+        del item["collectedAt"]
+        sns = FakeSNS([])
+
+        result = ALERT._evaluate_billing_item(
+            item, sns, "arn:aws:sns:us-east-1:000000000000:test-topic", 10
+        )
+
+        self.assertEqual(result["status"], "billing_snapshot_timestamp_missing")
+        self.assertFalse(result["published"])
+        self.assertFalse(sns.paginator_requested)
+        self.assertEqual(sns.published, [])
+
+    def test_snapshot_exactly_at_age_limit_is_accepted(self):
+        now = datetime(2026, 10, 20, 6, 21, 41, tzinfo=timezone.utc)
+        item = billing_item("9.99")
+        item["collectedAt"] = (now - timedelta(hours=48)).isoformat().replace("+00:00", "Z")
+        sns = FakeSNS([])
+
+        result = ALERT._evaluate_billing_item(
+            item, sns, "arn:aws:sns:us-east-1:000000000000:test-topic", 10,
+            max_age_hours=48, now=now,
+        )
+
+        self.assertEqual(result["status"], "below_threshold")
+        self.assertEqual(result["snapshotAgeSeconds"], 48 * 60 * 60)
         self.assertFalse(sns.paginator_requested)
         self.assertEqual(sns.published, [])
 

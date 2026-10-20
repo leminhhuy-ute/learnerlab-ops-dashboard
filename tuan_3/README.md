@@ -14,8 +14,9 @@ Handler ứng viên tại `src/threshold-alert/lambda_function.py` kiểm tra su
 - Không có subscriber đã xác nhận: trả `sns_no_confirmed_subscribers`, `published=false`.
 - Có subscriber đã xác nhận: gửi cảnh báo; nếu topic đồng thời còn subscription chờ xác nhận, kết quả ghi `alert_published_with_pending_subscriptions` để không làm người đọc hiểu nhầm rằng mọi người nhận đều đã nhận thư.
 - Chi phí dưới ngưỡng: trả `below_threshold` mà không cần truy vấn trạng thái SNS.
+- Snapshot lỗi thời, thiếu `collectedAt`, sai định dạng hoặc có mốc thời gian trong tương lai: trả trạng thái riêng với `published=false`; mặc định chỉ nhận snapshot tối đa 48 giờ, có thể chỉnh bằng `MAX_SNAPSHOT_AGE_HOURS`.
 
-Handler dùng `ListSubscriptionsByTopic`. Quyền `sns:ListSubscriptionsByTopic` của `LabRole` đã được kiểm tra là `allowed`. Mã được triển khai riêng để kiểm thử trong Learner Lab; Lambda tuần 2 không bị thay thế.
+Handler dùng `ListSubscriptionsByTopic`. Quyền `sns:ListSubscriptionsByTopic` của `LabRole` đã được kiểm tra là `allowed`. Phiên bản trước của mã được triển khai riêng trên Lambda thử tuần 3; freshness guard mới ở phần dưới chưa triển khai. Lambda tuần 2 không bị thay thế.
 
 ### Kiểm thử cục bộ
 
@@ -40,6 +41,12 @@ CloudWatch ghi nhận 2 lượt chạy Lambda thử trong khoảng kiểm tra, 0
 Trên Lambda thử riêng, tạm đặt ngưỡng kiểm thử `10` USD và gọi hàm với snapshot thật mới nhất hiện có trong DynamoDB: `SNAPSHOT#20261013T020042Z`, tổng `0.0000000001` USD, `status=ok`, `estimated=true`. Lời gọi trả `StatusCode=200`, không có `FunctionError`, kết quả `below_threshold`, `published=false`. Nhánh này kết thúc trước khi kiểm tra hoặc publish SNS. Sau phép thử, cấu hình Lambda thử được khôi phục về ngưỡng ban đầu `0.00000000005`; xác nhận `State=Active`, `LastUpdateStatus=Successful`. Lambda sản phẩm tuần 2 không thay đổi. Topic thử vẫn có một email subscription `PendingConfirmation` và không phát sinh cảnh báo.
 
 Snapshot được lưu từ kỳ `2026-10-01` đến trước `2026-10-14`, nên đây là kiểm thử logic với bản ghi lịch sử mới nhất đang có, không phải số chi phí hiện tại ngày 20/10. [Lệnh, phản hồi Lambda và trạng thái sau khôi phục](evidence/03-below-threshold-test.md).
+
+### Xử lý snapshot cũ — mã ứng viên, chưa triển khai AWS
+
+Snapshot mới nhất đã quan sát có ID `SNAPSHOT#20261013T020042Z` trong khi ngày rà soát là 20/10. Mã collector tuần 2 tạo `SK` và `collectedAt` từ cùng dấu thời gian UTC; do vậy bộ xử lý cảnh báo cần từ chối dữ liệu quá hạn thay vì coi `status=ok` đồng nghĩa dữ liệu còn mới. Mã tuần 3 hiện có chốt kiểm tra tuổi snapshot 48 giờ, các trạng thái thiếu/sai/ở tương lai đều fail closed. Chính sách 48 giờ là mặc định của dự án, không phải cam kết thời gian cập nhật của AWS Cost Explorer.
+
+10 kiểm thử cục bộ đều đạt, gồm các trường hợp snapshot quá cũ, thiếu dấu thời gian và đúng ranh giới 48 giờ. Chưa thể cập nhật Lambda thử trên AWS: CloudShell báo không tạo được môi trường do quyền hoặc môi trường không còn tồn tại sau khi khởi động lại Lab. Vì vậy phần freshness guard trong mã nguồn là **ứng viên đã kiểm thử cục bộ, chưa triển khai lên AWS**; Lambda tuần 2 không thay đổi. [Phân tích dữ liệu và kết quả kiểm thử](evidence/04-snapshot-freshness-guard.md).
 
 ## Worklog
 

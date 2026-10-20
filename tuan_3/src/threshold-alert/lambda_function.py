@@ -1,10 +1,12 @@
-"""Week 3 candidate: fail closed when an SNS topic has no confirmed endpoint.
+"""Week 3 candidate: fail closed for unsafe SNS delivery and stale snapshots.
 
-This handler is deployed only to the isolated Week 3 test Lambda. It does not
-replace the Week 2 alert function.
+An earlier revision is deployed only to the isolated Week 3 test Lambda. The
+current source includes the freshness guard and has not yet been deployed. It
+does not replace the Week 2 alert function.
 """
 
 from decimal import Decimal
+from datetime import datetime, timedelta, timezone
 import json
 import os
 
@@ -50,13 +52,50 @@ def _publish_or_skip(sns, topic_arn, subject, message):
     }
 
 
-def _evaluate_billing_item(item, sns, topic_arn, threshold):
+def _snapshot_freshness(item, max_age_hours, now=None):
+    """Return a fail-closed status for missing, invalid, future, or old snapshots."""
+    collected_at = item.get("collectedAt")
+    if not collected_at:
+        return "billing_snapshot_timestamp_missing", None
+
+    try:
+        snapshot_time = datetime.fromisoformat(str(collected_at).replace("Z", "+00:00"))
+    except ValueError:
+        return "billing_snapshot_timestamp_invalid", None
+
+    if snapshot_time.tzinfo is None:
+        return "billing_snapshot_timestamp_invalid", None
+
+    now = now or datetime.now(timezone.utc)
+    age = now.astimezone(timezone.utc) - snapshot_time.astimezone(timezone.utc)
+    age_seconds = int(age.total_seconds())
+    if age.total_seconds() < 0:
+        return "billing_snapshot_timestamp_in_future", age_seconds
+    if age > timedelta(hours=max_age_hours):
+        return "stale_billing_snapshot", age_seconds
+    return None, age_seconds
+
+
+def _evaluate_billing_item(item, sns, topic_arn, threshold, max_age_hours=48, now=None):
     if item.get("status") != "ok":
         return {
             "status": "billing_snapshot_not_ok",
             "published": False,
             "snapshotId": item.get("SK"),
         }
+
+    freshness_status, age_seconds = _snapshot_freshness(item, max_age_hours, now)
+    if freshness_status:
+        result = {
+            "status": freshness_status,
+            "published": False,
+            "snapshotId": item.get("SK"),
+            "collectedAt": item.get("collectedAt"),
+            "maxSnapshotAgeHours": max_age_hours,
+        }
+        if age_seconds is not None:
+            result["snapshotAgeSeconds"] = age_seconds
+        return result
 
     amount = Decimal(str(item.get("total", "0")))
     details = {
@@ -66,6 +105,9 @@ def _evaluate_billing_item(item, sns, topic_arn, threshold):
         "amountUsd": str(amount),
         "thresholdUsd": str(threshold),
         "snapshotId": item.get("SK"),
+        "collectedAt": item.get("collectedAt"),
+        "snapshotAgeSeconds": age_seconds,
+        "maxSnapshotAgeHours": max_age_hours,
     }
     if amount < threshold:
         return {"status": "below_threshold", "published": False, **details}
@@ -89,6 +131,9 @@ def lambda_handler(event, context):
     topic_arn = os.environ["TOPIC_ARN"]
     account_id = os.environ["ACCOUNT_ID"]
     threshold = Decimal(os.environ.get("ALERT_THRESHOLD_USD", "10"))
+    max_age_hours = int(os.environ.get("MAX_SNAPSHOT_AGE_HOURS", "48"))
+    if max_age_hours <= 0:
+        raise ValueError("MAX_SNAPSHOT_AGE_HOURS must be greater than zero")
     region = os.environ.get("AWS_REGION", "us-east-1")
 
     ddb = boto3.resource("dynamodb", region_name=region).Table(table_name)
@@ -109,4 +154,4 @@ def lambda_handler(event, context):
     if not items:
         return {"status": "no_billing_snapshot", "published": False}
 
-    return _evaluate_billing_item(items[0], sns, topic_arn, threshold)
+    return _evaluate_billing_item(items[0], sns, topic_arn, threshold, max_age_hours)
