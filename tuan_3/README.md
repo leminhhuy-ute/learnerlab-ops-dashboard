@@ -15,7 +15,7 @@ Handler ứng viên tại `src/threshold-alert/lambda_function.py` kiểm tra su
 - Có subscriber đã xác nhận: gửi cảnh báo; nếu topic đồng thời còn subscription chờ xác nhận, kết quả ghi `alert_published_with_pending_subscriptions` để không làm người đọc hiểu nhầm rằng mọi người nhận đều đã nhận thư.
 - Chi phí dưới ngưỡng: trả `below_threshold` mà không cần truy vấn trạng thái SNS.
 
-Handler dùng `ListSubscriptionsByTopic`; trước khi đưa lên AWS cần xác minh `LabRole` có quyền gọi API này. Bản handler tuần 2 đang triển khai không bị thay đổi trong phần chuẩn bị này.
+Handler dùng `ListSubscriptionsByTopic`. Quyền `sns:ListSubscriptionsByTopic` của `LabRole` đã được kiểm tra là `allowed`. Mã được triển khai riêng để kiểm thử trong Learner Lab; Lambda tuần 2 không bị thay thế.
 
 ### Kiểm thử cục bộ
 
@@ -29,8 +29,12 @@ python -m unittest discover -s tuan_3/tests -v
 
 ### Trạng thái kiểm thử AWS
 
-Sau lỗi truy cập ở lần trước, Learner Lab đã vào trạng thái `Ready` ngày 19/10. Đã xác minh Account ID, SNS subscription hiện hành và quyền `sns:ListSubscriptionsByTopic` của `LabRole` qua CloudShell. Handler ứng viên được triển khai vào **Lambda thử riêng**, cùng một SNS topic thử. Với snapshot thật ngày 13/10 vượt ngưỡng thử, Lambda trả `sns_no_confirmed_subscribers`, `published=false` khi topic trống. Sau đó tạo email subscription chưa xác nhận trên topic thử: SNS trả `PendingConfirmation`; gọi lại Lambda nhận `sns_subscription_pending_confirmation`, `published=false`, `confirmedSubscriptionCount=0`, `pendingSubscriptionCount=1`. [Lệnh, dữ liệu và kết quả đã đối chiếu](evidence/01-live-sns-check.md). SNS chỉ gửi email yêu cầu xác nhận đăng ký; không có cảnh báo chi phí nào được publish. Không thay đổi Lambda/topic tuần 2 hoặc ngưỡng sản phẩm 10 USD.
+Learner Lab đã vào trạng thái `Ready` ngày 19/10. Đã xác minh Account ID, SNS subscription hiện hành và quyền `sns:ListSubscriptionsByTopic` của `LabRole` qua CloudShell. Handler được triển khai vào **Lambda thử riêng**, cùng một SNS topic thử. Với snapshot thật ngày 13/10 vượt ngưỡng thử, Lambda trả `sns_no_confirmed_subscribers`, `published=false` khi topic trống. Sau đó tạo email subscription chưa xác nhận trên topic thử: SNS trả `PendingConfirmation`; gọi lại Lambda nhận `sns_subscription_pending_confirmation`, `published=false`, `confirmedSubscriptionCount=0`, `pendingSubscriptionCount=1`. [Lệnh, dữ liệu và kết quả đã đối chiếu](evidence/01-live-sns-check.md). SNS chỉ tạo yêu cầu xác nhận đăng ký; không có cảnh báo chi phí nào được publish. Lambda/topic tuần 2 và ngưỡng sản phẩm 10 USD không bị thay đổi.
+
+### Rà soát giám sát CloudWatch — 20/10
+
+CloudWatch ghi nhận 2 lượt chạy Lambda thử trong khoảng kiểm tra, 0 lỗi; duration trung bình lần lượt `7.355,20 ms` và `7.649,94 ms`, bộ nhớ tối đa `96/128 MB`. Ba lịch EventBridge tuần 2 đang `ENABLED`. Hiện chưa có metric alarm mang prefix dự án và log group chưa đặt thời hạn lưu. Kiểm tra nhanh tại `us-east-1` không thấy EC2 đang chạy, RDS, SageMaker endpoint/notebook, EKS cluster hoặc NAT Gateway `available`. Chi tiết lệnh và kết quả: [rà soát CloudWatch](evidence/02-cloudwatch-review.md). Đây mới là bước đọc và đánh giá; alarm và chính sách lưu log còn là việc tiếp theo.
 
 ## Worklog
 
-Worklog tuần 3 ghi riêng thời lượng sinh viên tự xác nhận và phần LLM/AI hỗ trợ: [worklog.csv](worklog.csv). Ngày 19/10 sinh viên xác nhận 2 giờ ở lần đầu và thêm 1 giờ thao tác Lab ở lần sau, tổng 3 giờ. Chưa có mốc bắt đầu/kết thúc hoặc log để đối chiếu độ dài phiên; thời lượng này không bao gồm thời gian AI chạy kiểm thử cục bộ hoặc các lệnh kiểm tra CloudShell.
+Worklog tuần 3 ghi riêng thời lượng sinh viên tự xác nhận và phần LLM/AI hỗ trợ: [worklog.csv](worklog.csv). Ngày 19/10 sinh viên xác nhận 2 giờ ở lần đầu và thêm 1 giờ thao tác Lab ở lần sau, tổng 3 giờ. Hoạt động AI rà soát CloudWatch ngày 20/10 được ghi riêng; chưa cộng giờ sinh viên vì chưa có xác nhận thời lượng tự làm trong ngày này. Không có mốc bắt đầu/kết thúc hoặc log để đối chiếu độ dài các phiên đã khai báo.

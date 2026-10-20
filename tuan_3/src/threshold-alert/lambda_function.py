@@ -1,7 +1,7 @@
 """Week 3 candidate: fail closed when an SNS topic has no confirmed endpoint.
 
-This copy is prepared for review and local testing. It has not yet been
-deployed to AWS Learner Lab.
+This handler is deployed only to the isolated Week 3 test Lambda. It does not
+replace the Week 2 alert function.
 """
 
 from decimal import Decimal
