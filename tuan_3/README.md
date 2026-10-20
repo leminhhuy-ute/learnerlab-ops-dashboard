@@ -16,7 +16,7 @@ Handler ứng viên tại `src/threshold-alert/lambda_function.py` kiểm tra su
 - Chi phí dưới ngưỡng: trả `below_threshold` mà không cần truy vấn trạng thái SNS.
 - Snapshot lỗi thời, thiếu `collectedAt`, sai định dạng hoặc có mốc thời gian trong tương lai: trả trạng thái riêng với `published=false`; mặc định chỉ nhận snapshot tối đa 48 giờ, có thể chỉnh bằng `MAX_SNAPSHOT_AGE_HOURS`.
 
-Handler dùng `ListSubscriptionsByTopic`. Quyền `sns:ListSubscriptionsByTopic` của `LabRole` đã được kiểm tra là `allowed`. Phiên bản trước của mã được triển khai riêng trên Lambda thử tuần 3; freshness guard mới ở phần dưới chưa triển khai. Lambda tuần 2 không bị thay thế.
+Handler dùng `ListSubscriptionsByTopic`. Quyền `sns:ListSubscriptionsByTopic` của `LabRole` đã được kiểm tra là `allowed`. Mã hiện tại, gồm freshness guard, đã được triển khai lên Lambda thử riêng của tuần 3; Lambda tuần 2 không bị thay thế.
 
 ### Kiểm thử cục bộ
 
@@ -42,12 +42,12 @@ Trên Lambda thử riêng, tạm đặt ngưỡng kiểm thử `10` USD và gọ
 
 Snapshot được lưu từ kỳ `2026-10-01` đến trước `2026-10-14`, nên đây là kiểm thử logic với bản ghi lịch sử mới nhất đang có, không phải số chi phí hiện tại ngày 20/10. [Lệnh, phản hồi Lambda và trạng thái sau khôi phục](evidence/03-below-threshold-test.md).
 
-### Xử lý snapshot cũ — mã ứng viên, chưa triển khai AWS
+### Xử lý snapshot cũ — đã triển khai lên Lambda thử
 
 Snapshot mới nhất đã quan sát có ID `SNAPSHOT#20261013T020042Z` trong khi ngày rà soát là 20/10. Mã collector tuần 2 tạo `SK` và `collectedAt` từ cùng dấu thời gian UTC; do vậy bộ xử lý cảnh báo cần từ chối dữ liệu quá hạn thay vì coi `status=ok` đồng nghĩa dữ liệu còn mới. Mã tuần 3 hiện có chốt kiểm tra tuổi snapshot 48 giờ, các trạng thái thiếu/sai/ở tương lai đều fail closed. Chính sách 48 giờ là mặc định của dự án, không phải cam kết thời gian cập nhật của AWS Cost Explorer.
 
-12 kiểm thử cục bộ đều đạt, gồm các trường hợp snapshot quá cũ, thiếu/sai dấu thời gian, mốc thời gian tương lai và đúng ranh giới 48 giờ. Chưa thể cập nhật Lambda thử trên AWS: CloudShell báo không tạo được môi trường do quyền hoặc môi trường không còn tồn tại sau khi khởi động lại Lab; máy này cũng chưa có AWS CLI. Vì vậy freshness guard trong mã nguồn là **ứng viên đã kiểm thử cục bộ, chưa triển khai lên AWS**; Lambda tuần 2 không thay đổi. [Phân tích dữ liệu và kết quả kiểm thử](evidence/04-snapshot-freshness-guard.md).
+12 kiểm thử cục bộ đều đạt, gồm các trường hợp snapshot quá cũ, thiếu/sai dấu thời gian, mốc thời gian tương lai và đúng ranh giới 48 giờ. Sau lỗi CloudShell được ghi trong [quá trình chuẩn bị](evidence/04-snapshot-freshness-guard.md), gói ZIP từ mã nguồn hiện tại đã được tải lên Lambda thử qua AWS Console. Console báo cập nhật thành công; SHA-256 của mã trên AWS khớp với gói ZIP. Gọi Lambda bằng `{}` trả `stale_billing_snapshot`, `published=false` cho snapshot ngày 13/10; lời gọi thành công và không gửi SNS. [Kết quả AWS và ảnh chụp](evidence/05-live-freshness-guard.md). Lambda tuần 2 không thay đổi.
 
 ## Worklog
 
-Worklog tuần 3 ghi riêng thời lượng sinh viên tự xác nhận và phần LLM/AI hỗ trợ: [worklog.csv](worklog.csv). Ngày 19/10 sinh viên xác nhận 2 giờ ở lần đầu và thêm 1 giờ thao tác Lab ở lần sau, tổng 3 giờ. Ngày 20/10 sinh viên xác nhận thêm 1 giờ cho phiên làm việc hiện tại; chưa cung cấp phân bổ theo tác vụ hoặc mốc bắt đầu/kết thúc. Giờ này là tự khai, không có log AWS chứng minh thời lượng; các thao tác AI ghi riêng và không cộng vào giờ sinh viên.
+Worklog tuần 3 ghi riêng thời lượng sinh viên tự xác nhận và phần LLM/AI hỗ trợ: [worklog.csv](worklog.csv). Ngày 19/10 sinh viên xác nhận 2 giờ ở lần đầu và thêm 1 giờ thao tác Lab ở lần sau, tổng 3 giờ. Ngày 20/10 sinh viên xác nhận thêm 1 giờ; chưa cung cấp phân bổ theo tác vụ hoặc mốc bắt đầu/kết thúc. Giờ này là tự khai, không có log AWS chứng minh thời lượng. Lần triển khai Lambda thử qua Console được ghi là thao tác AI, không cộng thêm giờ sinh viên.

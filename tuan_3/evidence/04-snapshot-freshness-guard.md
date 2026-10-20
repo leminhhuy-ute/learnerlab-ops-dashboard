@@ -1,5 +1,7 @@
 # Rà soát độ mới của billing snapshot — 20/10/2026
 
+**Cập nhật sau bước chuẩn bị:** Mã freshness guard đã được triển khai lên Lambda thử ngày 20/10/2026 và kiểm thử thành công. [Minh chứng triển khai trên AWS](05-live-freshness-guard.md). Phần ghi chép về lỗi CloudShell bên dưới mô tả tình trạng trước khi chuyển sang tải ZIP qua Lambda Console.
+
 ## Phát hiện từ dữ liệu và mã nguồn
 
 Trong phiên AWS ngày 20/10, truy vấn DynamoDB `learnerlab-ops-week2-snapshots` trả bản ghi billing mới nhất `SNAPSHOT#20261013T020042Z`, `status=ok`, `total=0.0000000001` USD, `estimated=true`, kỳ `2026-10-01` đến trước `2026-10-14`. Bản ghi đã cũ so với ngày rà soát; `status=ok` chỉ cho biết lần thu thập đó thành công, không chứng minh snapshot vẫn mới.

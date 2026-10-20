@@ -1,8 +1,7 @@
-"""Week 3 candidate: fail closed for unsafe SNS delivery and stale snapshots.
+"""Week 3 test Lambda: fail closed for unsafe SNS delivery and stale snapshots.
 
-An earlier revision is deployed only to the isolated Week 3 test Lambda. The
-current source includes the freshness guard and has not yet been deployed. It
-does not replace the Week 2 alert function.
+This handler is deployed only to the isolated Week 3 test Lambda. It does not
+replace the Week 2 alert function.
 """
 
 from decimal import Decimal
