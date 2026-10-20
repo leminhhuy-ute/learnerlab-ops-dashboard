@@ -48,6 +48,12 @@ Snapshot mới nhất đã quan sát có ID `SNAPSHOT#20261013T020042Z` trong kh
 
 12 kiểm thử cục bộ đều đạt, gồm các trường hợp snapshot quá cũ, thiếu/sai dấu thời gian, mốc thời gian tương lai và đúng ranh giới 48 giờ. Sau lỗi CloudShell được ghi trong [quá trình chuẩn bị](evidence/04-snapshot-freshness-guard.md), gói ZIP từ mã nguồn hiện tại đã được tải lên Lambda thử qua AWS Console. Console báo cập nhật thành công; SHA-256 của mã trên AWS khớp với gói ZIP. Gọi Lambda bằng `{}` trả `stale_billing_snapshot`, `published=false` cho snapshot ngày 13/10; lời gọi thành công và không gửi SNS. [Kết quả AWS và ảnh chụp](evidence/05-live-freshness-guard.md). Lambda tuần 2 không thay đổi.
 
+### Trạng thái phần còn lại — rà soát ngày 20/10
+
+Trong lần tiếp tục này, Lambda Monitor hiển thị 2 invocations, `Errors` tối đa 0, `Throttles` tối đa 0 và duration trung bình khoảng 7.396 ms ở cửa sổ 3 giờ. Tuy nhiên CloudShell trả explicit deny từ policy `voc-cancel-cred` cho các lệnh chỉ đọc `logs:DescribeLogGroups`, `cloudwatch:DescribeAlarms`, `lambda:GetFunctionConfiguration` và `events:ListRules`. Trang CloudWatch mở từ Lambda Console chỉ hiển thị khung trắng. Vì vậy không thể xác minh hiện trạng mới hoặc tạo alarm/retention trong lần này; **chưa tạo CloudWatch alarm và chưa đặt retention**. Không có thao tác AWS thay đổi tài nguyên trong lần rà soát này. [Ghi nhận quyền và kết quả lần kiểm tra](evidence/06-current-lab-permission-block.md).
+
+Các mục bảo mật S3/API, đối chiếu toàn tuyến collector → DynamoDB → API trong phiên hiện tại và tự động hóa/IaC vẫn cần được kiểm tra riêng để đáp ứng đủ điều kiện hoàn tất ở [kế hoạch tuần 3](../tuan_2/docs/09-week3-plan.md). Không đánh dấu tuần 3 hoàn tất khi các mục này chưa được xác minh.
+
 ## Worklog
 
 Worklog tuần 3 ghi riêng thời lượng sinh viên tự xác nhận và phần LLM/AI hỗ trợ: [worklog.csv](worklog.csv). Ngày 19/10 sinh viên xác nhận 2 giờ ở lần đầu và thêm 1 giờ thao tác Lab ở lần sau, tổng 3 giờ. Ngày 20/10 sinh viên xác nhận thêm 1 giờ; chưa cung cấp phân bổ theo tác vụ hoặc mốc bắt đầu/kết thúc. Giờ này là tự khai, không có log AWS chứng minh thời lượng. Lần triển khai Lambda thử qua Console được ghi là thao tác AI, không cộng thêm giờ sinh viên.
