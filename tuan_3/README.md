@@ -52,7 +52,7 @@ Snapshot mới nhất đã quan sát có ID `SNAPSHOT#20261013T020042Z` trong kh
 
 Trong lần tiếp tục này, Lambda Monitor hiển thị 2 invocations, `Errors` tối đa 0, `Throttles` tối đa 0 và duration trung bình khoảng 7.396 ms ở cửa sổ 3 giờ. Tuy nhiên CloudShell trả explicit deny từ policy `voc-cancel-cred` cho các lệnh chỉ đọc `logs:DescribeLogGroups`, `cloudwatch:DescribeAlarms`, `lambda:GetFunctionConfiguration` và `events:ListRules`. Trang CloudWatch mở từ Lambda Console chỉ hiển thị khung trắng. Vì vậy không thể xác minh hiện trạng mới hoặc tạo alarm/retention trong lần này; **chưa tạo CloudWatch alarm và chưa đặt retention**. Không có thao tác AWS thay đổi tài nguyên trong lần rà soát này. [Ghi nhận quyền và kết quả lần kiểm tra](evidence/06-current-lab-permission-block.md).
 
-Các mục bảo mật S3/API, đối chiếu toàn tuyến collector → DynamoDB → API trong phiên hiện tại và tự động hóa/IaC vẫn cần được kiểm tra riêng để đáp ứng đủ điều kiện hoàn tất ở [kế hoạch tuần 3](../tuan_2/docs/09-week3-plan.md). Không đánh dấu tuần 3 hoàn tất khi các mục này chưa được xác minh.
+Rà soát bảo mật qua AWS Console ngày 20/10 xác nhận bucket dashboard vẫn bật Block all public access với cả bốn cờ, mã hóa mặc định SSE-S3, có tag `Project`, `Owner`, `Environment`, và route `GET /summary` vẫn dùng `IAM (built-in)`. Chi tiết ở [bảng kiểm tra bảo mật](evidence/07-security-review.md). Chưa đối chiếu toàn tuyến collector → DynamoDB → API trong phiên này, chưa kiểm tra đầy đủ quyền của LabRole và chưa có kết quả triển khai IaC. Các mục đó cùng alarm/retention còn mở; do đó tuần 3 **chưa hoàn tất** theo [kế hoạch tuần 3](../tuan_2/docs/09-week3-plan.md).
 
 ## Worklog
 
