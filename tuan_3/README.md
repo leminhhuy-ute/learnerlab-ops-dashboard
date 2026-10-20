@@ -35,6 +35,12 @@ Learner Lab đã vào trạng thái `Ready` ngày 19/10. Đã xác minh Account 
 
 CloudWatch ghi nhận 2 lượt chạy Lambda thử trong khoảng kiểm tra, 0 lỗi; duration trung bình lần lượt `7.355,20 ms` và `7.649,94 ms`, bộ nhớ tối đa `96/128 MB`. Ba lịch EventBridge tuần 2 đang `ENABLED`. Hiện chưa có metric alarm mang prefix dự án và log group chưa đặt thời hạn lưu. Kiểm tra nhanh tại `us-east-1` không thấy EC2 đang chạy, RDS, SageMaker endpoint/notebook, EKS cluster hoặc NAT Gateway `available`. Chi tiết lệnh và kết quả: [rà soát CloudWatch](evidence/02-cloudwatch-review.md). Đây mới là bước đọc và đánh giá; alarm và chính sách lưu log còn là việc tiếp theo.
 
+### Kiểm thử nhánh chi phí dưới ngưỡng — 20/10
+
+Trên Lambda thử riêng, tạm đặt ngưỡng kiểm thử `10` USD và gọi hàm với snapshot thật mới nhất hiện có trong DynamoDB: `SNAPSHOT#20261013T020042Z`, tổng `0.0000000001` USD, `status=ok`, `estimated=true`. Lời gọi trả `StatusCode=200`, không có `FunctionError`, kết quả `below_threshold`, `published=false`. Nhánh này kết thúc trước khi kiểm tra hoặc publish SNS. Sau phép thử, cấu hình Lambda thử được khôi phục về ngưỡng ban đầu `0.00000000005`; xác nhận `State=Active`, `LastUpdateStatus=Successful`. Lambda sản phẩm tuần 2 không thay đổi. Topic thử vẫn có một email subscription `PendingConfirmation` và không phát sinh cảnh báo.
+
+Snapshot được lưu từ kỳ `2026-10-01` đến trước `2026-10-14`, nên đây là kiểm thử logic với bản ghi lịch sử mới nhất đang có, không phải số chi phí hiện tại ngày 20/10. [Lệnh, phản hồi Lambda và trạng thái sau khôi phục](evidence/03-below-threshold-test.md).
+
 ## Worklog
 
 Worklog tuần 3 ghi riêng thời lượng sinh viên tự xác nhận và phần LLM/AI hỗ trợ: [worklog.csv](worklog.csv). Ngày 19/10 sinh viên xác nhận 2 giờ ở lần đầu và thêm 1 giờ thao tác Lab ở lần sau, tổng 3 giờ. Hoạt động AI rà soát CloudWatch ngày 20/10 được ghi riêng; chưa cộng giờ sinh viên vì chưa có xác nhận thời lượng tự làm trong ngày này. Không có mốc bắt đầu/kết thúc hoặc log để đối chiếu độ dài các phiên đã khai báo.
