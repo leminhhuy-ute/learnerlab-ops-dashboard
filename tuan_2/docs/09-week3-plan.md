@@ -37,3 +37,16 @@ Ghi số giờ thực tế theo từng ngày sau khi sinh viên xác nhận. Kh�
 - Tài nguyên thử không cần thiết được dừng hoặc xóa theo quy định Learner Lab.
 
 [Báo cáo tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/README.md) · [Phân công và thời lượng tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/docs/10-week2-assignment-and-time.md).
+
+## Cập nhật tiến độ thực tế — 20/10/2026
+
+| Hạng mục | Trạng thái đã xác minh | Việc còn lại / giới hạn |
+|---|---|---|
+| Nhánh cảnh báo SNS subscription chưa xác nhận | Lambda thử riêng trả `sns_subscription_pending_confirmation`, `published=false`; không phát cảnh báo chi phí. | Không thay Lambda tuần 2; không cần gửi lại email xác nhận. |
+| Snapshot billing và freshness guard | Snapshot thật `SNAPSHOT#20261013T020042Z` được xử lý là cũ; Lambda thử trả `stale_billing_snapshot`, `published=false`. | Dữ liệu mới nhất quan sát là bản ghi lịch sử, không đại diện chi phí hiện tại. |
+| Bảo mật dashboard/API | S3 bật Block Public Access, SSE-S3 và tag; `GET /summary` vẫn dùng `IAM (built-in)`. | Dashboard chưa gọi API tự động do giữ AWS_IAM theo quyết định đã chọn; không đưa credentials vào trình duyệt. |
+| Giám sát CloudWatch | Log group Lambda thử có retention 1 tuần; alarm metric `Errors > 0`/1 phút chuyển sang `OK` khi nhận `Errors=0`. | Chưa có datapoint lỗi để kiểm thử chuyển sang `ALARM`; alarm không có notification action. |
+| Kiểm thử mã | 12/12 unit tests cục bộ đạt; các test live SNS, below-threshold và freshness guard có kết quả AWS được ghi trong evidence. | Chưa có kiểm thử API end-to-end có SigV4 trong lần rà soát này. |
+| Quyền và IaC | Nền tảng tuần 1 có CloudFormation stack đã xác minh. | CloudShell bị explicit deny cho các thao tác đọc CloudWatch/Lambda/EventBridge; chưa rà soát đầy đủ quyền LabRole hoặc triển khai IaC tuần 3. Không thử vòng qua policy. |
+
+Chi tiết cấu hình CloudWatch và trạng thái alarm: [evidence tuần 3](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/evidence/08-cloudwatch-retention-alarm.md). Tổng hợp triển khai, kiểm thử và giới hạn: [README tuần 3](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/README.md).

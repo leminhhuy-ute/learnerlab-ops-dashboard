@@ -35,3 +35,7 @@ Mở trang CloudWatch log group từ Lambda Console không tải nội dung; khu
 - Chưa thể hoàn tất mục CloudWatch của tuần 3. Cần AWS Academy/Learner Lab cấp lại quyền phù hợp hoặc xác nhận policy giới hạn này là chủ đích; sau đó mới kiểm tra lại log group, alarm, lịch và các thiết lập bảo mật.
 - Không thử gỡ policy, tạo IAM user/role, hoặc tìm cách vượt qua giới hạn Learner Lab.
 
+## Cập nhật sau đó trong cùng ngày
+
+CloudShell vẫn bị explicit deny đối với các API nêu trên, nhưng CloudWatch Console sau đó tải được trang log group và trang alarm. Đã đặt retention `1 week` cho riêng log group Lambda thử và tạo alarm `learnerlab-ops-week3-test-lambda-errors`; alarm nhận datapoint `Errors=0` rồi chuyển `OK`. Chi tiết mới ở [retention và alarm](08-cloudwatch-retention-alarm.md). Cập nhật này không thay đổi kết quả deny trong CloudShell và không có nghĩa là policy đã được gỡ.
+
