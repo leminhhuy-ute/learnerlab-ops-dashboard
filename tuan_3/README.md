@@ -52,3 +52,5 @@ Biên bản đầy đủ về trạng thái, lệnh và giới hạn của từn
 Worklog phân biệt thời lượng do sinh viên xác nhận với thao tác của **LLM/AI (ChatGPT)**. Lượt rà soát, gọi API và thử alarm trong phiên này do AI thực hiện, vì vậy không cộng giờ đó vào giờ sinh viên. Xem [worklog.csv](worklog.csv).
 
 Kế hoạch và tiêu chí tuần 3: [09-week3-plan.md](../tuan_2/docs/09-week3-plan.md).
+
+Kế hoạch tiếp theo (chưa thực hiện): [dự kiến tuần 4](../tuan_4/README.md).

@@ -9,6 +9,7 @@ Mỗi tuần có thư mục riêng ở cấp repository để giảng viên xem 
 | [`tuan_1/`](tuan_1/README.md) | Yêu cầu, thiết kế, sơ đồ, template nền tảng, worklog và ảnh Learner Lab của tuần 1. |
 | [`tuan_2/`](tuan_2/README.md) | Mã nguồn Lambda/dashboard, chức năng đã triển khai, kết quả kiểm thử, worklog và ảnh AWS của tuần 2. |
 | [`tuan_3/`](tuan_3/README.md) | Mã và kết quả tuần 3: SNS pending, freshness guard, API SigV4, CloudWatch alarm, security review và worklog riêng. |
+| [`tuan_4/`](tuan_4/README.md) | Kế hoạch dự kiến: kiểm thử tổng thể, rà soát chi phí, dọn tài nguyên và chuẩn bị báo cáo/demo; chưa phải kết quả đã thực hiện. |
 | [`docs/`](docs/data-sources.md) | Tài liệu nguồn dữ liệu dùng chung, xác định API AWS gốc và giới hạn cách diễn giải. |
 
 ## Tiến độ đã xác minh
