@@ -8,13 +8,13 @@
 
 ## Mục tiêu
 
-Tích hợp các thành phần tuần 2 thành luồng vận hành có thể kiểm tra, rà soát bảo mật, bổ sung giám sát CloudWatch và tự động hóa/IaC nếu quyền Learner Lab cho phép. Tuần 3 là kế hoạch; chưa được tính là công việc đã triển khai.
+Tích hợp các thành phần tuần 2 thành luồng vận hành có thể kiểm tra, rà soát bảo mật, bổ sung giám sát CloudWatch và cân nhắc IaC nếu phù hợp với quyền Learner Lab. Kế hoạch ban đầu được giữ để đối chiếu; phần cập nhật cuối tài liệu ghi kết quả đã chạy trên AWS.
 
 ## Thứ tự công việc
 
 | Thứ tự | Công việc | Cách kiểm tra | Đầu ra |
 |---|---|---|---|
-| 1 | Rà soát luồng inventory/billing → DynamoDB → Lambda đọc → API Gateway; xác nhận tên bảng, khóa, khoảng thời gian và cách nhận biết snapshot lỗi hoặc cũ. | Gọi API có SigV4, so sánh phản hồi với bản ghi DynamoDB tương ứng; kiểm tra trường thời gian, trạng thái và nguồn dữ liệu. | Sơ đồ luồng cập nhật, checklist đầu vào/đầu ra và kết quả đối chiếu. |
+| 1 | Rà soát luồng inventory/billing → DynamoDB → Lambda đọc → API Gateway; xác nhận tên bảng, khóa, khoảng thời gian và cách nhận biết snapshot lỗi hoặc cũ. | Gọi API có SigV4, so sánh phản hồi với bản ghi DynamoDB tương ứng; kiểm tra trường thời gian, trạng thái và nguồn dữ liệu. | Hoàn tất: API HTTP 200; các trường inventory EC2 và billing được chọn khớp snapshot DynamoDB mới nhất. Kết quả chỉ ghi cờ khớp, không ghi số tiền/tài nguyên. |
 | 2 | Đánh giá cách kết nối dashboard S3 với GET /summary đang bảo vệ bằng AWS_IAM. | Xác định phương án xác thực phù hợp Learner Lab; kiểm tra luồng trong trình duyệt mà không đưa credentials tạm thời vào HTML, JavaScript, Git hoặc ảnh. | Quyết định kiến trúc và kiểm thử. Nếu chưa có cách an toàn, giữ xác thực AWS_IAM và ghi rõ thao tác nạp JSON thủ công hiện tại. |
 | 3 | Thiết lập giám sát CloudWatch cho các Lambda và lịch EventBridge. | Kiểm tra log, Errors, Throttles, Duration, Invocations và trạng thái target; tạo thử cảnh báo trong điều kiện kiểm soát nếu quyền Lab cho phép. Không gửi cảnh báo vượt ngưỡng giả như thể là dữ liệu thật. | Log group và cấu hình metric/alarm phù hợp, ảnh kết quả kiểm tra. |
 | 4 | Rà soát bảo mật và quyền truy cập. | Xác nhận S3 vẫn riêng tư, Block Public Access và SSE-S3 còn bật; API vẫn yêu cầu SigV4; rà soát quyền hiện có của LabRole, không tạo IAM user/role mới. | Bảng kiểm soát bảo mật và các điểm cần điều chỉnh nếu phát hiện. |
@@ -29,12 +29,12 @@ Ghi số giờ thực tế theo từng ngày sau khi sinh viên xác nhận. Kh�
 
 ## Điều kiện hoàn tất
 
-- Các luồng dữ liệu chính được kiểm tra từ collector đến API và snapshot lưu trữ.
-- Kết quả kiểm thử ghi rõ điều kiện chạy, phản hồi thực tế và ảnh minh chứng.
-- Chính sách AWS_IAM, quyền LabRole và cấu hình riêng tư của S3 được rà soát.
-- CloudWatch có log và chỉ số cần thiết; cảnh báo chỉ được đánh dấu đã thử khi có kết quả thật.
-- Template và worklog khớp với tài nguyên, lệnh và kết quả thực tế.
-- Tài nguyên thử không cần thiết được dừng hoặc xóa theo quy định Learner Lab.
+- Luồng đọc được kiểm tra bằng request SigV4 tới API; request không ký bị từ chối.
+- Các nhánh SNS `PendingConfirmation`, freshness và dưới ngưỡng có kết quả AWS; unit tests hồi quy đạt.
+- S3 riêng tư, SSE-S3 và AWS_IAM được giữ nguyên; dashboard không nhận credentials.
+- Log group có retention, alarm CloudWatch được kiểm tra cả trạng thái `ALARM` và trạng thái phục hồi `OK` bằng metric thật trên Lambda thử.
+- Evidence/worklog phân biệt rõ thao tác LLM/AI với giờ sinh viên; không ghi giờ AI thành giờ SV.
+- IaC bổ sung là tùy chọn theo yêu cầu đề tài. Không tạo stack giám sát trùng với tài nguyên đã cấu hình.
 
 [Báo cáo tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/README.md) · [Phân công và thời lượng tuần 2](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_2/docs/10-week2-assignment-and-time.md).
 
@@ -44,9 +44,12 @@ Ghi số giờ thực tế theo từng ngày sau khi sinh viên xác nhận. Kh�
 |---|---|---|
 | Nhánh cảnh báo SNS subscription chưa xác nhận | Lambda thử riêng trả `sns_subscription_pending_confirmation`, `published=false`; không phát cảnh báo chi phí. | Không thay Lambda tuần 2; không cần gửi lại email xác nhận. |
 | Snapshot billing và freshness guard | Snapshot thật `SNAPSHOT#20261013T020042Z` được xử lý là cũ; Lambda thử trả `stale_billing_snapshot`, `published=false`. | Dữ liệu mới nhất quan sát là bản ghi lịch sử, không đại diện chi phí hiện tại. |
-| Bảo mật dashboard/API | S3 bật Block Public Access, SSE-S3 và tag; `GET /summary` vẫn dùng `IAM (built-in)`. | Dashboard chưa gọi API tự động do giữ AWS_IAM theo quyết định đã chọn; không đưa credentials vào trình duyệt. |
-| Giám sát CloudWatch | Log group Lambda thử có retention 1 tuần; alarm metric `Errors > 0`/1 phút chuyển sang `OK` khi nhận `Errors=0`. | Chưa có datapoint lỗi để kiểm thử chuyển sang `ALARM`; alarm không có notification action. |
-| Kiểm thử mã | 12/12 unit tests cục bộ đạt; các test live SNS, below-threshold và freshness guard có kết quả AWS được ghi trong evidence. | Chưa có kiểm thử API end-to-end có SigV4 trong lần rà soát này. |
-| Quyền và IaC | Nền tảng tuần 1 có CloudFormation stack đã xác minh. | CloudShell bị explicit deny cho các thao tác đọc CloudWatch/Lambda/EventBridge; chưa rà soát đầy đủ quyền LabRole hoặc triển khai IaC tuần 3. Không thử vòng qua policy. |
+| Bảo mật dashboard/API | S3 bật Block Public Access, SSE-S3 và tag; route `GET /summary` dùng `IAM (built-in)`. Không ký bị `Forbidden`; SigV4 trả HTTP 200 với JSON `billing`, `inventory`, `status`. | Dashboard giữ cách nạp JSON thủ công theo quyết định AWS_IAM; không đưa credentials vào trình duyệt. |
+| Đối chiếu nguồn dữ liệu API | Inventory EC2 `us-east-1` và các trường billing được chọn trong phản hồi SigV4 đều khớp bản ghi snapshot DynamoDB mới nhất (`True`). | Chỉ lưu kết quả khớp/không khớp và trạng thái; không công khai giá trị chi phí hoặc danh sách tài nguyên. |
+| Giám sát CloudWatch | Log group thử retention 7 ngày. Alarm `Errors > 0`/1 phút chuyển `OK → In alarm` sau một fault-injection có chủ đích và trở lại `OK` sau lần gọi an toàn; không có action gửi email. | Alarm theo dõi riêng Lambda thử, không phải mọi Lambda của tài khoản. |
+| Kiểm thử mã và tích hợp | 12/12 unit tests đạt; SNS pending, below-threshold, freshness guard và GET SigV4 đã được kiểm tra. | Snapshot billing dùng trong các test trước là lịch sử/ước tính, không phải chi phí hiện tại. |
+| Quyền và IaC | Quyền cần thiết cho các nhánh Lambda đã được xác nhận qua kết quả chạy; CloudFormation nền tảng tuần 1 và lịch EventBridge tuần 2 tồn tại. IaC giám sát bổ sung là tùy chọn. | Không đọc được đầy đủ policy LabRole do explicit deny `voc-cancel-cred` cho một số API chỉ đọc; không thử vượt policy. Không tạo stack trùng. |
 
-Chi tiết cấu hình CloudWatch và trạng thái alarm: [evidence tuần 3](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/evidence/08-cloudwatch-retention-alarm.md). Tổng hợp triển khai, kiểm thử và giới hạn: [README tuần 3](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/README.md).
+Chi tiết kiểm thử API SigV4 và hai lần chuyển trạng thái alarm: [evidence API/alarm](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/evidence/09-api-and-alarm-live-tests.md). Cấu hình CloudWatch: [retention/alarm](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/evidence/08-cloudwatch-retention-alarm.md). Tổng hợp tuần 3: [README](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/README.md).
+
+**Kết luận:** Các chức năng bắt buộc tuần 3 về tích hợp, bảo mật ứng dụng và giám sát đã được triển khai/kiểm thử trong giới hạn Learner Lab. Việc đọc toàn bộ policy quản trị của `LabRole` vẫn bị explicit deny; tài liệu không tuyên bố đã kiểm toán policy này.

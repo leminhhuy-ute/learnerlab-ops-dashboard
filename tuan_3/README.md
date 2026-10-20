@@ -1,65 +1,54 @@
-# Tuần 3 — Kiểm thử cảnh báo SNS
+# Tuần 3 — Tích hợp, bảo mật và giám sát
 
-## Phần đã làm hôm nay
+**Sinh viên:** Lê Minh Huy — MSSV 24110019
 
-Theo gợi ý của giảng viên, phần đầu tiên tập trung vào nhánh tiêu cực của cảnh báo chi phí: snapshot vượt ngưỡng nhưng email subscription của SNS vẫn ở trạng thái `PendingConfirmation`.
+**Mã học phần:** CLCO332779
 
-Kế hoạch tổng thể tuần 3: [tuan_2/docs/09-week3-plan.md](../tuan_2/docs/09-week3-plan.md).
+**Môi trường:** AWS Learner Lab, account `213858341631`, Region `us-east-1`
 
-### Thay đổi trong mã
+## Kết quả
 
-Handler ứng viên tại `src/threshold-alert/lambda_function.py` kiểm tra subscription của topic trước khi publish:
+Các hạng mục chức năng tuần 3 về freshness guard, xử lý SNS chưa xác nhận, xác thực API và giám sát CloudWatch đã được triển khai/kiểm thử trên AWS. Lambda thử tuần 3 và topic thử được tách riêng; Lambda sản phẩm tuần 2 không bị thay thế.
 
-- Chỉ có subscription chờ xác nhận: trả `sns_subscription_pending_confirmation`, `published=false` và không gọi `Publish`.
-- Không có subscriber đã xác nhận: trả `sns_no_confirmed_subscribers`, `published=false`.
-- Có subscriber đã xác nhận: gửi cảnh báo; nếu topic đồng thời còn subscription chờ xác nhận, kết quả ghi `alert_published_with_pending_subscriptions` để không làm người đọc hiểu nhầm rằng mọi người nhận đều đã nhận thư.
-- Chi phí dưới ngưỡng: trả `below_threshold` mà không cần truy vấn trạng thái SNS.
-- Snapshot lỗi thời, thiếu `collectedAt`, sai định dạng hoặc có mốc thời gian trong tương lai: trả trạng thái riêng với `published=false`; mặc định chỉ nhận snapshot tối đa 48 giờ, có thể chỉnh bằng `MAX_SNAPSHOT_AGE_HOURS`.
+### Mã và kiểm thử cục bộ
 
-Handler dùng `ListSubscriptionsByTopic`. Quyền `sns:ListSubscriptionsByTopic` của `LabRole` đã được kiểm tra là `allowed`. Mã hiện tại, gồm freshness guard, đã được triển khai lên Lambda thử riêng của tuần 3; Lambda tuần 2 không bị thay thế.
+Handler [`src/threshold-alert/lambda_function.py`](src/threshold-alert/lambda_function.py) từ chối snapshot không an toàn trước khi phát cảnh báo:
 
-### Kiểm thử cục bộ
+- Subscription SNS đang `PendingConfirmation`: `sns_subscription_pending_confirmation`, `published=false`; không gọi `Publish`.
+- Không có subscriber đã xác nhận: `sns_no_confirmed_subscribers`, `published=false`.
+- Snapshot cũ, thiếu/sai `collectedAt` hoặc có thời gian tương lai: trả trạng thái riêng, `published=false`.
+- Snapshot hợp lệ dưới ngưỡng: `below_threshold`, `published=false`.
 
-Chạy bằng Python chuẩn, không cần credentials AWS:
+Chạy kiểm thử:
 
 ```powershell
 python -m unittest discover -s tuan_3/tests -v
 ```
 
-Đã chạy 7 test và đều đạt. Các trường hợp gồm: chỉ có subscription chờ xác nhận; subscription đã xác nhận; trạng thái hỗn hợp; chi phí dưới ngưỡng; topic không có subscriber; subscription đã xác nhận nằm ở trang kết quả sau; và lỗi quyền khi đọc subscription. Hai trường hợp chỉ có subscription chờ xác nhận hoặc không đọc được subscription đều không gọi SNS `Publish`.
+**12/12 unit tests đạt.** Bao gồm subscription chờ xác nhận/đã xác nhận/hỗn hợp, phân trang, lỗi quyền SNS, chi phí dưới ngưỡng và các trường hợp freshness. Mã đã được deploy lên Lambda thử riêng; chi tiết từng lần gọi nằm trong [evidence SNS](evidence/01-live-sns-check.md), [evidence freshness](evidence/05-live-freshness-guard.md) và [evidence API/CloudWatch](evidence/09-api-and-alarm-live-tests.md).
 
-### Trạng thái kiểm thử AWS
+## Kết quả kiểm thử AWS
 
-Learner Lab đã vào trạng thái `Ready` ngày 19/10. Đã xác minh Account ID, SNS subscription hiện hành và quyền `sns:ListSubscriptionsByTopic` của `LabRole` qua CloudShell. Handler được triển khai vào **Lambda thử riêng**, cùng một SNS topic thử. Với snapshot thật ngày 13/10 vượt ngưỡng thử, Lambda trả `sns_no_confirmed_subscribers`, `published=false` khi topic trống. Sau đó tạo email subscription chưa xác nhận trên topic thử: SNS trả `PendingConfirmation`; gọi lại Lambda nhận `sns_subscription_pending_confirmation`, `published=false`, `confirmedSubscriptionCount=0`, `pendingSubscriptionCount=1`. [Lệnh, dữ liệu và kết quả đã đối chiếu](evidence/01-live-sns-check.md). SNS chỉ tạo yêu cầu xác nhận đăng ký; không có cảnh báo chi phí nào được publish. Lambda/topic tuần 2 và ngưỡng sản phẩm 10 USD không bị thay đổi.
+| Hạng mục | Kết quả đã quan sát |
+|---|---|
+| SNS chưa xác nhận | Topic thử có 1 email subscription `PendingConfirmation`; Lambda trả `sns_subscription_pending_confirmation`, `published=false`, không gửi email. |
+| Freshness guard | Snapshot lịch sử `SNAPSHOT#20261013T020042Z` bị từ chối là cũ; Lambda trả `stale_billing_snapshot`, `published=false`. |
+| API Gateway `GET /summary` | Request không ký nhận `Forbidden`; request SigV4 trả HTTP 200. Đã đối chiếu các trường inventory EC2 và billing được chọn với snapshot DynamoDB mới nhất; cả hai khớp (`True`). Chỉ lưu kết quả đối chiếu, không ghi giá trị chi phí/tài nguyên vào evidence. |
+| CloudWatch | Log group Lambda thử giữ log 7 ngày. Alarm `Errors > 0` chuyển `OK → In alarm` sau một lỗi đầu vào có chủ đích trên hàm thử; lần kiểm tra SNS an toàn tiếp theo trả thành công và alarm chuyển lại `OK`. Alarm không có notification action. |
+| Bảo mật S3/API | Bucket dashboard vẫn bật Block Public Access, SSE-S3 và tag; API vẫn dùng `IAM (built-in)`. Dashboard tĩnh tiếp tục nhận JSON thủ công theo quyết định giữ AWS_IAM, không nhúng credentials vào trình duyệt. |
+| EventBridge | Ba lịch tuần 2 được ghi nhận `ENABLED` trong lần rà soát CloudWatch. |
 
-### Rà soát giám sát CloudWatch — 20/10
+Biên bản đầy đủ về trạng thái, lệnh và giới hạn của từng phép thử: [API SigV4 và alarm](evidence/09-api-and-alarm-live-tests.md), [retention/alarm](evidence/08-cloudwatch-retention-alarm.md), [rà soát quyền](evidence/06-current-lab-permission-block.md), [bảo mật](evidence/07-security-review.md).
 
-CloudWatch ghi nhận 2 lượt chạy Lambda thử trong khoảng kiểm tra, 0 lỗi; duration trung bình lần lượt `7.355,20 ms` và `7.649,94 ms`, bộ nhớ tối đa `96/128 MB`. Ba lịch EventBridge tuần 2 đang `ENABLED`. Khi rà soát ban đầu, chưa có metric alarm mang prefix dự án và log group chưa đặt thời hạn lưu. Kiểm tra nhanh tại `us-east-1` không thấy EC2 đang chạy, RDS, SageMaker endpoint/notebook, EKS cluster hoặc NAT Gateway `available`. Chi tiết ban đầu: [rà soát CloudWatch](evidence/02-cloudwatch-review.md). Các cấu hình giám sát vừa bổ sung được ghi riêng tại [retention và alarm](evidence/08-cloudwatch-retention-alarm.md).
+## Phạm vi và giới hạn
 
-### Kiểm thử nhánh chi phí dưới ngưỡng — 20/10
+- Tuần 3 đã hoàn tất các chức năng bắt buộc về tích hợp, bảo mật ứng dụng và giám sát trong phạm vi Learner Lab. IaC bổ sung là tùy chọn theo yêu cầu đề tài; không tạo stack giám sát trùng với tài nguyên đã cấu hình trực tiếp.
+- `GET /summary` đã kiểm thử bằng SigV4 từ CloudShell; không tự nối dashboard S3 vì dashboard tĩnh không có cơ chế ký request an toàn và người học đã chọn giữ AWS_IAM.
+- Không thể đọc đầy đủ policy của `LabRole`: CloudShell bị explicit deny bởi `voc-cancel-cred` đối với một số API chỉ đọc (`logs:DescribeLogGroups`, `cloudwatch:DescribeAlarms`, `lambda:GetFunctionConfiguration`, `events:ListRules`). Không tìm cách vòng qua policy. Các quyền cần cho nhánh Lambda thử được kiểm tra qua kết quả chạy thực tế.
+- Billing snapshot được dùng cho kiểm thử là dữ liệu lịch sử/ước tính; không dùng nó để kết luận chi phí hiện tại.
 
-Trên Lambda thử riêng, tạm đặt ngưỡng kiểm thử `10` USD và gọi hàm với snapshot thật mới nhất hiện có trong DynamoDB: `SNAPSHOT#20261013T020042Z`, tổng `0.0000000001` USD, `status=ok`, `estimated=true`. Lời gọi trả `StatusCode=200`, không có `FunctionError`, kết quả `below_threshold`, `published=false`. Nhánh này kết thúc trước khi kiểm tra hoặc publish SNS. Sau phép thử, cấu hình Lambda thử được khôi phục về ngưỡng ban đầu `0.00000000005`; xác nhận `State=Active`, `LastUpdateStatus=Successful`. Lambda sản phẩm tuần 2 không thay đổi. Topic thử vẫn có một email subscription `PendingConfirmation` và không phát sinh cảnh báo.
+## Worklog và AI
 
-Snapshot được lưu từ kỳ `2026-10-01` đến trước `2026-10-14`, nên đây là kiểm thử logic với bản ghi lịch sử mới nhất đang có, không phải số chi phí hiện tại ngày 20/10. [Lệnh, phản hồi Lambda và trạng thái sau khôi phục](evidence/03-below-threshold-test.md).
+Worklog phân biệt thời lượng do sinh viên xác nhận với thao tác của **LLM/AI (ChatGPT)**. Lượt rà soát, gọi API và thử alarm trong phiên này do AI thực hiện, vì vậy không cộng giờ đó vào giờ sinh viên. Xem [worklog.csv](worklog.csv).
 
-### Xử lý snapshot cũ — đã triển khai lên Lambda thử
-
-Snapshot mới nhất đã quan sát có ID `SNAPSHOT#20261013T020042Z` trong khi ngày rà soát là 20/10. Mã collector tuần 2 tạo `SK` và `collectedAt` từ cùng dấu thời gian UTC; do vậy bộ xử lý cảnh báo cần từ chối dữ liệu quá hạn thay vì coi `status=ok` đồng nghĩa dữ liệu còn mới. Mã tuần 3 hiện có chốt kiểm tra tuổi snapshot 48 giờ, các trạng thái thiếu/sai/ở tương lai đều fail closed. Chính sách 48 giờ là mặc định của dự án, không phải cam kết thời gian cập nhật của AWS Cost Explorer.
-
-12 kiểm thử cục bộ đều đạt, gồm các trường hợp snapshot quá cũ, thiếu/sai dấu thời gian, mốc thời gian tương lai và đúng ranh giới 48 giờ. Sau lỗi CloudShell được ghi trong [quá trình chuẩn bị](evidence/04-snapshot-freshness-guard.md), gói ZIP từ mã nguồn hiện tại đã được tải lên Lambda thử qua AWS Console. Console báo cập nhật thành công; SHA-256 của mã trên AWS khớp với gói ZIP. Gọi Lambda bằng `{}` trả `stale_billing_snapshot`, `published=false` cho snapshot ngày 13/10; lời gọi thành công và không gửi SNS. [Kết quả AWS và ảnh chụp](evidence/05-live-freshness-guard.md). Lambda tuần 2 không thay đổi.
-
-### Giám sát CloudWatch — cấu hình bổ sung ngày 20/10
-
-Qua AWS Console, log group `/aws/lambda/learnerlab-ops-week3-threshold-negative-test` hiện có retention `1 week` (7 ngày), dung lượng lưu tại thời điểm kiểm tra `1,119 bytes`, 5 log streams. Tạo metric alarm `learnerlab-ops-week3-test-lambda-errors` cho `AWS/Lambda` → `Errors`, dimension `FunctionName=learnerlab-ops-week3-threshold-negative-test`, statistic `Sum`, chu kỳ 1 phút, ngưỡng `> 0`, 1/1 datapoint. Metric thiếu được xử lý là không vi phạm. Alarm gắn tag `Project=learnerlab-ops`, `Owner=24110019` và không có action SNS/Lambda để tránh gửi thông báo trong lúc kiểm thử.
-
-AWS Console xác nhận alarm đã tạo thành công. Trạng thái ban đầu là `Insufficient data`; sau đó CloudWatch nhận datapoint `Errors=0` và chuyển alarm sang `OK` lúc `2026-10-20 14:46:26 UTC`. Đây là kiểm thử thật cho nhánh metric không vượt ngưỡng. Chưa có datapoint `Errors>0`, nên chưa chứng minh chuyển sang `ALARM`; không cố ý làm hỏng hàm thử để tạo lỗi. Chi tiết cấu hình và trạng thái: [retention và alarm CloudWatch](evidence/08-cloudwatch-retention-alarm.md).
-
-### Trạng thái phần còn lại — rà soát ngày 20/10
-
-Trong lần tiếp tục này, Lambda Monitor hiển thị 2 invocations, `Errors` tối đa 0, `Throttles` tối đa 0 và duration trung bình khoảng 7.396 ms ở cửa sổ 3 giờ. CloudShell trả explicit deny từ policy `voc-cancel-cred` cho các lệnh chỉ đọc `logs:DescribeLogGroups`, `cloudwatch:DescribeAlarms`, `lambda:GetFunctionConfiguration` và `events:ListRules`; vì vậy các lệnh CLI đó không dùng được. Sau đó đã kiểm tra qua CloudWatch Console: log group thử có retention 1 tuần và alarm lỗi Lambda thử đã được tạo. Alarm đang `Insufficient data`; chưa có lần kích hoạt theo metric được xác minh. [Ghi nhận quyền](evidence/06-current-lab-permission-block.md) và [cấu hình CloudWatch mới](evidence/08-cloudwatch-retention-alarm.md).
-
-Rà soát bảo mật qua AWS Console ngày 20/10 xác nhận bucket dashboard vẫn bật Block all public access với cả bốn cờ, mã hóa mặc định SSE-S3, có tag `Project`, `Owner`, `Environment`, và route `GET /summary` vẫn dùng `IAM (built-in)`. Chi tiết ở [bảng kiểm tra bảo mật](evidence/07-security-review.md). Chưa đối chiếu toàn tuyến collector → DynamoDB → API trong phiên này, chưa kiểm tra đầy đủ quyền của LabRole và chưa có kết quả triển khai IaC. Do đó, tuần 3 **chưa thể ghi là hoàn tất 100%**: còn thiếu các kiểm tra tích hợp/quyền/IaC và xác minh trạng thái metric alarm bằng datapoint thật theo [kế hoạch tuần 3](../tuan_2/docs/09-week3-plan.md).
-
-## Worklog
-
-Worklog tuần 3 ghi riêng thời lượng sinh viên tự xác nhận và phần LLM/AI hỗ trợ: [worklog.csv](worklog.csv). Ngày 19/10 sinh viên xác nhận 2 giờ ở lần đầu và thêm 1 giờ thao tác Lab ở lần sau, tổng 3 giờ. Ngày 20/10 sinh viên xác nhận thêm 1 giờ; chưa cung cấp phân bổ theo tác vụ hoặc mốc bắt đầu/kết thúc. Giờ này là tự khai, không có log AWS chứng minh thời lượng. Lần triển khai Lambda thử qua Console được ghi là thao tác AI, không cộng thêm giờ sinh viên.
+Kế hoạch và tiêu chí tuần 3: [09-week3-plan.md](../tuan_2/docs/09-week3-plan.md).

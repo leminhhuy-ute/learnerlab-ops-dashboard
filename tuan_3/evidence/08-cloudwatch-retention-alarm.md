@@ -38,8 +38,12 @@ Console xác nhận alarm hiện hữu và ARN:
 arn:aws:cloudwatch:us-east-1:213858341631:alarm:learnerlab-ops-week3-test-lambda-errors
 ```
 
-## Kết quả và giới hạn kiểm thử
+## Kết quả kiểm thử
 
-Ngay sau khi tạo, alarm ở `Insufficient data`. Lúc `2026-10-20 14:46:26 UTC`, CloudWatch hiển thị datapoint `Errors=0` và alarm chuyển sang `OK`. Đây là kết quả thật của nhánh dưới ngưỡng. Chưa có datapoint `Errors > 0`, nên trạng thái `ALARM` chưa được kiểm chứng. Không chủ động làm hỏng hàm để tạo lỗi và không gửi thông báo.
+Ngay sau khi tạo, alarm ở `Insufficient data`. Lúc `2026-10-20 14:46:26 UTC`, CloudWatch hiển thị datapoint `Errors=0` và alarm chuyển sang `OK`.
 
-Alarm không có action nên không gửi email khi đổi trạng thái. Log retention và alarm đều chỉ áp dụng cho tài nguyên thử tuần 3.
+Sau đó, một lần fault-injection có chủ đích trên **Lambda thử riêng** dùng payload sai kiểu `[1]`; invocation trả `FunctionError=Unhandled`. CloudWatch History xác nhận alarm chuyển `OK → In alarm` lúc `2026-10-20 15:52:26 UTC`. Đây là metric lỗi thật của hàm thử, không phải dữ liệu giả; không sửa snapshot, không gọi SNS `Publish` và không tác động Lambda tuần 2.
+
+Để khôi phục kiểm tra bình thường, xác nhận topic thử chỉ có subscription `PendingConfirmation`, rồi gọi nhánh thử SNS an toàn. Lambda trả `StatusCode=200`, `FunctionError=null`, `sns_subscription_pending_confirmation`, `published=false`, `pendingSubscriptionCount=1`. CloudWatch chuyển alarm `In alarm → OK` lúc `2026-10-20 15:55:26 UTC`. Alarm không có action nên không gửi email. Chi tiết API và các lệnh gọi được ghi tại [evidence 09](09-api-and-alarm-live-tests.md).
+
+Log retention và alarm chỉ áp dụng cho tài nguyên thử tuần 3.
