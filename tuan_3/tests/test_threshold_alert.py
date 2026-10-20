@@ -143,6 +143,41 @@ class ThresholdAlertTests(unittest.TestCase):
         self.assertFalse(sns.paginator_requested)
         self.assertEqual(sns.published, [])
 
+    def test_invalid_snapshot_timestamp_fails_closed(self):
+        item = billing_item()
+        item["collectedAt"] = "not-a-timestamp"
+        sns = FakeSNS([])
+
+        result = ALERT._evaluate_billing_item(
+            item, sns, "arn:aws:sns:us-east-1:000000000000:test-topic", 10
+        )
+
+        self.assertEqual(result["status"], "billing_snapshot_timestamp_invalid")
+        self.assertFalse(result["published"])
+        self.assertFalse(sns.paginator_requested)
+        self.assertEqual(sns.published, [])
+
+    def test_future_snapshot_timestamp_fails_closed(self):
+        now = datetime(2026, 10, 20, 6, 21, 41, tzinfo=timezone.utc)
+        item = billing_item()
+        item["collectedAt"] = (now + timedelta(seconds=1)).isoformat().replace("+00:00", "Z")
+        sns = FakeSNS([])
+
+        result = ALERT._evaluate_billing_item(
+            item,
+            sns,
+            "arn:aws:sns:us-east-1:000000000000:test-topic",
+            10,
+            max_age_hours=48,
+            now=now,
+        )
+
+        self.assertEqual(result["status"], "billing_snapshot_timestamp_in_future")
+        self.assertFalse(result["published"])
+        self.assertEqual(result["snapshotAgeSeconds"], -1)
+        self.assertFalse(sns.paginator_requested)
+        self.assertEqual(sns.published, [])
+
     def test_snapshot_exactly_at_age_limit_is_accepted(self):
         now = datetime(2026, 10, 20, 6, 21, 41, tzinfo=timezone.utc)
         item = billing_item("9.99")
