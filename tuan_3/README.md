@@ -49,7 +49,7 @@ Biên bản đầy đủ về trạng thái, lệnh và giới hạn của từn
 
 ## Worklog và AI
 
-Worklog phân biệt thời lượng do sinh viên xác nhận với thao tác của **LLM/AI (ChatGPT)**. Lượt rà soát, gọi API và thử alarm trong phiên này do AI thực hiện, vì vậy không cộng giờ đó vào giờ sinh viên. Xem [worklog.csv](worklog.csv).
+Sinh viên xác nhận 8 giờ cho tuần 3: ngày 19/10 có 3 giờ làm dự án và 1 giờ tìm hiểu ngoài hệ thống; ngày 20/10 cũng có 3 giờ làm dự án và 1 giờ tìm hiểu ngoài hệ thống. Hai giờ tìm hiểu được xác nhận bổ sung ngày 21/10. Đây là thời lượng sinh viên tự xác nhận, chưa có mốc bắt đầu/kết thúc hay minh chứng độc lập để kiểm tra độ dài từng buổi. Worklog phân biệt thời lượng này với thao tác của **LLM/AI (ChatGPT)**. Lượt rà soát, gọi API và thử alarm do AI thực hiện không được cộng vào giờ sinh viên. Xem [phân công và thời lượng tuần 3](docs/10-week3-assignment-and-time.md) và [worklog.csv](worklog.csv).
 
 Kế hoạch và tiêu chí tuần 3: [09-week3-plan.md](../tuan_2/docs/09-week3-plan.md).
 
