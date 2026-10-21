@@ -6,7 +6,7 @@
 
 **Môi trường:** AWS Learner Lab, account `213858341631`, Region `us-east-1`
 
-> **Đối chiếu trước khi nộp:** Mã tuần 3 đã được triển khai lên Lambda cảnh báo sản phẩm và các test chính có kết quả cục bộ/AWS. Tuy vậy, theo checklist đã lập, tuần 3 **chưa thể xác nhận hoàn tất 100%**: CloudWatch alarm mới theo dõi Lambda thử, chưa bao phủ Lambda sản phẩm và ba lịch EventBridge. Bảng đối chiếu từng mục, bằng chứng và việc còn thiếu nằm trong [rà soát hoàn tất tuần 3](evidence/14-final-completion-review.md). Không trình bày các mục còn thiếu như đã triển khai.
+> **Đối chiếu trước khi nộp:** Handler tuần 3 đã chạy trên Lambda cảnh báo sản phẩm; CloudWatch có alarm cho Lambda sản phẩm và ba lịch EventBridge. Sau chu kỳ đánh giá, cả bốn alarm mới ở `OK`; riêng alarm billing xác nhận không có datapoint và CloudWatch áp dụng `TreatMissingData=notBreaching`. Trạng thái này không chứng minh lịch billing đã chạy thành công. Không có lỗi thật nào được ghi nhận để kiểm tra nhánh vượt ngưỡng trên Lambda sản phẩm. Chi tiết giới hạn và trạng thái được ghi tại [rà soát hoàn tất tuần 3](evidence/14-final-completion-review.md) và [cấu hình alarm CloudWatch](evidence/15-cloudwatch-alarm-coverage.md).
 
 ## Kết quả
 
@@ -36,7 +36,7 @@ python -m unittest discover -s tuan_3/tests -v
 | SNS chưa xác nhận | Topic thử có 1 email subscription `PendingConfirmation`; Lambda trả `sns_subscription_pending_confirmation`, `published=false`, không gửi email. |
 | Freshness guard | Snapshot lịch sử `SNAPSHOT#20261013T020042Z` bị từ chối là cũ; Lambda trả `stale_billing_snapshot`, `published=false`. |
 | API Gateway `GET /summary` | Request không ký nhận `Forbidden`; request SigV4 trả HTTP 200. Đã đối chiếu các trường inventory EC2 và billing được chọn với snapshot DynamoDB mới nhất; cả hai khớp (`True`). Chỉ lưu kết quả đối chiếu, không ghi giá trị chi phí/tài nguyên vào evidence. |
-| CloudWatch | Log group và alarm `Errors > 0` của Lambda thử được kiểm tra; alarm chuyển `OK → In alarm → OK` theo metric thật. Chưa có alarm cho Lambda sản phẩm và ba lịch EventBridge. Không có notification action. |
+| CloudWatch | Alarm `Errors > 0` của Lambda thử chuyển `OK → In alarm → OK` theo metric thật. Đã tạo alarm `Errors > 0` cho Lambda sản phẩm và `FailedInvocations > 0` cho cả ba lịch EventBridge. Sau chu kỳ đánh giá, bốn alarm mới ở `OK`; alarm billing ghi rõ không có datapoint trong một kỳ và được xử lý theo `notBreaching`. Trạng thái `OK` của các alarm EventBridge không xác nhận target đã chạy thành công. Các alarm không có notification action. |
 | Bảo mật S3/API | Bucket dashboard vẫn bật Block Public Access, SSE-S3 và tag; API vẫn dùng `IAM (built-in)`. Dashboard tĩnh tiếp tục nhận JSON thủ công theo quyết định giữ AWS_IAM, không nhúng credentials vào trình duyệt. |
 | EventBridge | Ba lịch tuần 2 được ghi nhận `ENABLED` trong lần rà soát CloudWatch. |
 | Lambda sản phẩm | Mã tuần 3 cập nhật thành công ngày 21/10; gọi `{}` với snapshot mới trả `StatusCode=200`, `FunctionError=null`, `below_threshold`, `published=false`; giữ ngưỡng 10 USD. |
@@ -47,7 +47,7 @@ Biên bản đầy đủ về trạng thái, lệnh và giới hạn của từn
 
 ## Phạm vi và giới hạn
 
-- Mã cảnh báo tuần 3 đã chạy trên Lambda sản phẩm; kiểm thử ứng dụng, API và phần giám sát Lambda thử có bằng chứng. Tuy nhiên, mục giám sát trong kế hoạch chưa bao phủ Lambda sản phẩm/EventBridge, nên chưa kết luận tuần 3 hoàn tất 100% theo checklist.
+- Mã guard tuần 3 đã chạy trên Lambda sản phẩm; kiểm thử ứng dụng, API và cấu hình giám sát cho Lambda sản phẩm/EventBridge có bằng chứng. Nhánh vượt ngưỡng của Lambda sản phẩm chưa được gọi trực tiếp trên AWS để tránh tạo dữ liệu chi phí giả hoặc phát cảnh báo giả; alarm billing rule chưa có datapoint tại lần rà soát. Vì vậy báo cáo phân biệt rõ cấu hình đã triển khai với nhánh chưa kiểm thử trực tiếp.
 - IaC bổ sung là tùy chọn theo yêu cầu đề tài; không tạo stack giám sát trùng với tài nguyên đã cấu hình trực tiếp.
 - `GET /summary` đã kiểm thử bằng SigV4 từ CloudShell; không tự nối dashboard S3 vì dashboard tĩnh không có cơ chế ký request an toàn và người học đã chọn giữ AWS_IAM.
 - Trong phiên 20/10, một số truy vấn chỉ đọc (`logs:DescribeLogGroups`, `cloudwatch:DescribeAlarms`, `lambda:GetFunctionConfiguration`, `events:ListRules`) bị explicit deny bởi `voc-cancel-cred`; không tìm cách vòng qua policy. Phiên 21/10 đã gọi được `lambda:GetFunctionConfiguration` cho hàm sản phẩm để đối chiếu gói mã/cấu hình. Chưa khẳng định các quyền bị từ chối khác đã thay đổi.

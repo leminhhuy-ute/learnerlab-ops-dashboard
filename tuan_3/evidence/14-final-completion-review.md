@@ -16,14 +16,14 @@ Tài liệu này đối chiếu kết quả đã có với checklist ở [kế h
 | Bảo vệ dashboard và API | Bucket dashboard bật Block Public Access/SSE-S3; `GET /summary` giữ `AWS_IAM`, không đưa credentials vào JavaScript. | Đạt — AWS Console |
 | CloudWatch log retention | Log group của Lambda thử có retention 7 ngày. | Đạt — chỉ Lambda thử |
 | CloudWatch alarm Lambda | Alarm `learnerlab-ops-week3-test-lambda-errors` đã chuyển `OK → In alarm → OK` theo metric Errors thật của Lambda thử; không gắn action gửi thông báo. | Đạt — chỉ Lambda thử |
-| CloudWatch cho Lambda sản phẩm và lịch EventBridge | Chưa có bằng chứng alarm theo dõi `learnerlab-ops-week2-threshold-alert` và `FailedInvocations` của ba rule tuần 2. | Chưa đạt checklist giám sát |
+| CloudWatch cho Lambda sản phẩm và lịch EventBridge | Đã tạo alarm `learnerlab-ops-week3-product-alert-errors` cho Lambda sản phẩm và ba alarm `FailedInvocations` cho các rule `alert-daily`, `billing-daily`, `inventory-6h`. Sau chu kỳ đánh giá, cả bốn ở `OK`; alarm billing ghi rõ không nhận datapoint trong một kỳ và xử lý datapoint thiếu theo `notBreaching`. Không gắn notification action. Trạng thái `OK` không chứng minh rule/target chạy thành công. | Đạt về cấu hình; cần datapoint để chứng minh lần chạy lịch billing |
 | Rà soát LabRole | Một số API đọc policy bị explicit deny `voc-cancel-cred`; không tìm cách vòng qua quyền. | Bị giới hạn bởi policy Learner Lab |
 | IaC giám sát bổ sung | Không tạo stack giám sát mới để tránh trùng tài nguyên; IaC bổ sung là tùy chọn trong đề. | Không bắt buộc |
 | Kiểm thử mã | Bộ `tuan_3/tests` chạy thành công **12/12**. | Đạt — kiểm thử cục bộ |
 
 ## Kết luận trung thực
 
-Mã guard đã được triển khai lên Lambda sản phẩm và các kiểm tra tích hợp/bảo mật có bằng chứng. Tuy nhiên, nếu áp dụng đúng checklist giám sát trong kế hoạch, **chưa thể ghi tuần 3 hoàn tất 100%** cho đến khi CloudWatch bao phủ Lambda sản phẩm và ba lịch EventBridge, rồi xác minh cấu hình/trạng thái trên AWS. Lần rà soát này không thể thực hiện thao tác tiếp trong CloudShell; vì vậy không ghi nhận thay đổi AWS mới.
+Mã guard đã được triển khai lên Lambda sản phẩm; kiểm tra tích hợp, bảo mật, cấu hình alarm và unit test có bằng chứng. Bốn alarm bổ sung đã được tạo và xác minh trên AWS. Alarm billing hiện `OK` nhờ chính sách thiếu datapoint `notBreaching`, nhưng chưa có datapoint để xác nhận lần chạy lịch. Nhánh vượt ngưỡng của Lambda sản phẩm chưa được gọi trực tiếp trên AWS vì không tạo chi phí giả hoặc cảnh báo giả. Báo cáo không mô tả hai điểm này như đã kiểm thử thành công.
 
 Không thêm giờ sinh viên vào worklog cho lượt rà soát này. Worklog chỉ giữ các giờ sinh viên đã xác nhận; việc chạy test và cập nhật tài liệu do LLM/AI thực hiện không được cộng vào thời lượng sinh viên.
 
@@ -31,6 +31,7 @@ Không thêm giờ sinh viên vào worklog cho lượt rà soát này. Worklog c
 
 - [Triển khai Lambda sản phẩm và kết quả gọi thật](10-product-alert-deployment.md)
 - [SNS PendingConfirmation và lịch sử CloudWatch](11-additional-live-results.md)
+- [Bốn alarm CloudWatch cho Lambda sản phẩm và lịch EventBridge](15-cloudwatch-alarm-coverage.md)
 - [API SigV4 và CloudWatch alarm](09-api-and-alarm-live-tests.md)
 - [Kết quả 12 unit tests](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/tests/test_threshold_alert.py)
 - [Mã Lambda tuần 3](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/src/threshold-alert/lambda_function.py)
