@@ -8,7 +8,7 @@ REGIONS=json.loads(os.environ['REGIONS'])
 SERVICES=['EC2','RDS','SAGEMAKER_ENDPOINT','SAGEMAKER_NOTEBOOK','EKS']
 def latest(pk):
     result=TABLE.query(KeyConditionExpression=Key('PK').eq(pk) & Key('SK').begins_with('SNAPSHOT#'),ScanIndexForward=False,Limit=1)
-    return result.get('Items',[None])[0]
+    return (result.get('Items') or [None])[0]
 def handler(event, context):
     inventory=[]
     for region in REGIONS:

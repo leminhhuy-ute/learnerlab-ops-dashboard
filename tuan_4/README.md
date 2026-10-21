@@ -2,7 +2,15 @@
 
 **Sinh viên phụ trách:** Lê Minh Huy — MSSV 24110019
 **Mã học phần:** CLCO332779
-**Trạng thái:** Kế hoạch; các việc bên dưới chưa được tính là đã thực hiện.
+**Trạng thái:** Hoàn thành buổi kiểm thử đầu tiên ngày 21/10/2026 (25% kế hoạch tuần 4); phần rà soát, dọn dẹp và tổng kết tiếp tục ở các buổi sau.
+
+## Tiến độ ngày 21/10/2026 — buổi 1 (25%)
+
+Đã chạy 12/12 unit tests của guard tuần 3 và 3/3 kiểm thử hồi quy cục bộ cho Lambda đọc snapshot. Kiểm thử mới phát hiện và sửa lỗi `IndexError` khi DynamoDB trả `Items` rỗng. Bản sửa nằm trong repo cục bộ, **chưa triển khai lên Lambda AWS**.
+
+Learner Lab đã Ready; lần kiểm tra AWS lúc 13:46 ICT xác nhận account `213858341631`, Region `us-east-1`. Bảng DynamoDB `learnerlab-ops-week2-snapshots` ở trạng thái `ACTIVE`, PAY_PER_REQUEST, có 78 item. Lambda `learnerlab-ops-week2-read-api` được gọi trực tiếp và trả `StatusCode=200`; response có trạng thái `ok`, 10/10 hàng inventory đều `ok`, không thiếu snapshot; billing `ok`, `estimated=true`, kỳ dữ liệu `2026-10-01` đến trước `2026-10-22`. API `GET /summary` trả HTTP 200 khi ký SigV4 và HTTP 403 khi không xác thực; đối chiếu trực tiếp với DynamoDB cho kết quả 10/10 snapshot inventory khớp và snapshot billing khớp. Năm alarm CloudWatch đang `OK`, ba lịch EventBridge đang `ENABLED`, SNS có email subscription đã xác nhận. Chi tiết lệnh, kết quả và giới hạn nằm trong [biên bản kiểm thử](evidence/01-regression-2026-10-21.md).
+
+Theo kế hoạch 4 buổi, buổi 1 tương ứng 25% tổng thời lượng dự kiến. Worklog ghi 2 giờ do sinh viên tự xác nhận, không có mốc giờ độc lập; thời gian và các thao tác do LLM/AI (ChatGPT) thực hiện được khai riêng, không cộng vào giờ sinh viên.
 
 ## Mục tiêu
 
@@ -26,7 +34,8 @@ Kiểm thử lại luồng dashboard từ nguồn dữ liệu đến API, rà so
 - Không gọi Cost Explorer liên tục; API có tính phí theo request. Ưu tiên snapshot đã có và chỉ gọi thêm khi cần xác minh.
 - Lưu ảnh/log minh chứng trước khi dọn tài nguyên thử. Không xóa VPC, bucket dữ liệu, bảng DynamoDB hoặc tài nguyên lõi trước khi kiểm tra phụ thuộc và xác nhận chúng không cần cho demo/bàn giao.
 - Không đưa credentials vào repo hoặc trình duyệt. Nếu LabRole tiếp tục bị explicit deny, ghi rõ phạm vi không thể kiểm tra thay vì suy đoán.
-- Chưa có kết quả AWS, ảnh chụp, số liệu chi phí hoặc worklog thực tế nào của tuần 4 được khẳng định trong tài liệu này.
+- Kết quả billing trong buổi 1 là snapshot ước tính (`estimated=true`), không phải hóa đơn chốt. Không lưu giá trị tiền hoặc địa chỉ email vào evidence.
+- Bản sửa `Items=[]` mới vượt qua kiểm thử hồi quy cục bộ; Lambda sản phẩm trên AWS vẫn là phiên bản triển khai trước đó. Chưa kết luận lỗi biên này đã được khắc phục trên AWS.
 
 ## Tiêu chí kết thúc tuần 4
 
