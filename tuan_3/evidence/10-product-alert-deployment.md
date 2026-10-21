@@ -1,7 +1,9 @@
 # Lambda cảnh báo sản phẩm chạy mã tuần 3 — 21/10/2026
 
-**Môi trường:** AWS Learner Lab, account `213858341631`, Region `us-east-1`.  
-**Hàm sản phẩm:** `learnerlab-ops-week2-threshold-alert`, runtime Python 3.13, handler `lambda_function.lambda_handler`.  
+**Môi trường:** AWS Learner Lab, account `213858341631`, Region `us-east-1`.
+
+**Hàm sản phẩm:** `learnerlab-ops-week2-threshold-alert`, runtime Python 3.13, handler `lambda_function.lambda_handler`.
+
 **Mã nguồn:** [`tuan_3/src/threshold-alert/lambda_function.py`](../src/threshold-alert/lambda_function.py), commit [`093141b`](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/commit/093141b).
 
 ## Triển khai và đối chiếu

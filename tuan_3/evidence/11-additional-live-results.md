@@ -1,6 +1,7 @@
 # Ảnh kết quả bổ sung — 21/10/2026
 
-**Account:** `213858341631`  
+**Account:** `213858341631`
+
 **Region:** `us-east-1`
 
 ## SNS chưa xác nhận trên tài nguyên thử
