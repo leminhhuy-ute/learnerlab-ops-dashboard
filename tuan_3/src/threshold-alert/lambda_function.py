@@ -1,7 +1,7 @@
-"""Week 3 test Lambda: fail closed for unsafe SNS delivery and stale snapshots.
+"""Guard SNS delivery and snapshot freshness before publishing cost alerts.
 
-This handler is deployed only to the isolated Week 3 test Lambda. It does not
-replace the Week 2 alert function.
+The same handler can run in the isolated test function or the product alert
+function; its topic, table, account, and threshold come from the environment.
 """
 
 from decimal import Decimal
