@@ -52,4 +52,15 @@ Ghi số giờ thực tế theo từng ngày sau khi sinh viên xác nhận. Kh�
 
 Chi tiết kiểm thử API SigV4 và hai lần chuyển trạng thái alarm: [evidence API/alarm](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/evidence/09-api-and-alarm-live-tests.md). Cấu hình CloudWatch: [retention/alarm](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/evidence/08-cloudwatch-retention-alarm.md). Tổng hợp tuần 3: [README](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard/blob/main/tuan_3/README.md).
 
-**Kết luận:** Các chức năng bắt buộc tuần 3 về tích hợp, bảo mật ứng dụng và giám sát đã được triển khai/kiểm thử trong giới hạn Learner Lab. Việc đọc toàn bộ policy quản trị của `LabRole` vẫn bị explicit deny; tài liệu không tuyên bố đã kiểm toán policy này.
+## Đối chiếu cuối — 21/10/2026
+
+| Checklist | Trạng thái cuối | Bằng chứng / việc còn lại |
+|---|---|---|
+| Tích hợp API, DynamoDB và guard cảnh báo | Handler tuần 3 đã triển khai lên Lambda sản phẩm; invocation dưới ngưỡng trả `below_threshold`, `published=false`. API SigV4 trả HTTP 200, không ký bị `Forbidden`. | [Lambda sản phẩm](../../tuan_3/evidence/10-product-alert-deployment.md), [API/alarm](../../tuan_3/evidence/09-api-and-alarm-live-tests.md). Nhánh cảnh báo vượt ngưỡng của sản phẩm chưa phát thử email trên AWS. |
+| SNS PendingConfirmation và freshness guard | Có kết quả AWS trên Lambda/topic thử tách riêng; cả hai nhánh đều không publish. | [Kết quả bổ sung](../../tuan_3/evidence/11-additional-live-results.md), [freshness](../../tuan_3/evidence/05-live-freshness-guard.md). |
+| Bảo mật S3/API | Block Public Access, SSE-S3 và AWS_IAM được giữ. | [Rà soát bảo mật](../../tuan_3/evidence/07-security-review.md). Policy LabRole chỉ đọc được một phần do explicit deny. |
+| Giám sát CloudWatch | Log retention 7 ngày và alarm đã được kiểm tra trên Lambda thử; alarm ghi nhận `OK → In alarm → OK`. | Chưa có alarm cho Lambda sản phẩm và ba lịch EventBridge; xem [rà soát cuối](../../tuan_3/evidence/14-final-completion-review.md). |
+| Kiểm thử mã | 12/12 unit tests đạt. | Kiểm thử cục bộ bổ trợ, không thay cho kiểm thử AWS. |
+| IaC bổ sung | Không tạo stack giám sát mới; IaC là tùy chọn và tránh tạo tài nguyên trùng. | Các tài nguyên tuần 1/2 đã có cấu hình trực tiếp. |
+
+**Kết luận:** Tuần 3 đã triển khai mã guard lên Lambda sản phẩm và có bằng chứng tích hợp/bảo mật/kiểm thử. Theo checklist giám sát đã ghi ở kế hoạch, tuần 3 **chưa được xác nhận hoàn tất 100%** vì alarm hiện chỉ bao phủ Lambda thử, chưa có alarm cho Lambda sản phẩm và các lịch EventBridge. Một số thao tác đọc policy `LabRole` bị explicit deny; không tìm cách vòng qua policy.
