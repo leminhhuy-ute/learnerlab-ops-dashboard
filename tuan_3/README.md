@@ -8,7 +8,7 @@
 
 ## Kết quả
 
-Các hạng mục chức năng tuần 3 về freshness guard, xử lý SNS chưa xác nhận, xác thực API và giám sát CloudWatch đã được triển khai/kiểm thử trên AWS. Lambda thử tuần 3 và topic thử được tách riêng; Lambda sản phẩm tuần 2 không bị thay thế.
+Các hạng mục tuần 3 gồm kiểm tra tuổi snapshot trước khi cảnh báo, xử lý SNS chưa xác nhận, xác thực API và giám sát CloudWatch đã được triển khai/kiểm thử trên AWS. Ngày 21/10, cùng handler tuần 3 được cập nhật lên **Lambda cảnh báo sản phẩm** `learnerlab-ops-week2-threshold-alert`; topic, bảng snapshot, ngưỡng 10 USD và trigger EventBridge được giữ nguyên. Topic/Lambda thử vẫn tách riêng cho các phép thử tiêu cực. Xem [biên bản triển khai sản phẩm và ảnh kết quả](evidence/10-product-alert-deployment.md).
 
 ### Mã và kiểm thử cục bộ
 
@@ -25,7 +25,7 @@ Chạy kiểm thử:
 python -m unittest discover -s tuan_3/tests -v
 ```
 
-**12/12 unit tests đạt.** Bao gồm subscription chờ xác nhận/đã xác nhận/hỗn hợp, phân trang, lỗi quyền SNS, chi phí dưới ngưỡng và các trường hợp freshness. Mã đã được deploy lên Lambda thử riêng; chi tiết từng lần gọi nằm trong [evidence SNS](evidence/01-live-sns-check.md), [evidence freshness](evidence/05-live-freshness-guard.md) và [evidence API/CloudWatch](evidence/09-api-and-alarm-live-tests.md).
+**12/12 unit tests đạt.** Bao gồm subscription chờ xác nhận/đã xác nhận/hỗn hợp, phân trang, lỗi quyền SNS, chi phí dưới ngưỡng và các trường hợp freshness. Mã được triển khai trước trên Lambda thử, rồi lên Lambda sản phẩm ngày 21/10. Chi tiết từng lần gọi nằm trong [evidence SNS](evidence/01-live-sns-check.md), [evidence freshness](evidence/05-live-freshness-guard.md), [evidence API/CloudWatch](evidence/09-api-and-alarm-live-tests.md) và [evidence sản phẩm](evidence/10-product-alert-deployment.md).
 
 ## Kết quả kiểm thử AWS
 
@@ -37,15 +37,18 @@ python -m unittest discover -s tuan_3/tests -v
 | CloudWatch | Log group Lambda thử giữ log 7 ngày. Alarm `Errors > 0` chuyển `OK → In alarm` sau một lỗi đầu vào có chủ đích trên hàm thử; lần kiểm tra SNS an toàn tiếp theo trả thành công và alarm chuyển lại `OK`. Alarm không có notification action. |
 | Bảo mật S3/API | Bucket dashboard vẫn bật Block Public Access, SSE-S3 và tag; API vẫn dùng `IAM (built-in)`. Dashboard tĩnh tiếp tục nhận JSON thủ công theo quyết định giữ AWS_IAM, không nhúng credentials vào trình duyệt. |
 | EventBridge | Ba lịch tuần 2 được ghi nhận `ENABLED` trong lần rà soát CloudWatch. |
+| Lambda sản phẩm | Mã tuần 3 cập nhật thành công ngày 21/10; gọi `{}` với snapshot mới trả `StatusCode=200`, `FunctionError=null`, `below_threshold`, `published=false`; giữ ngưỡng 10 USD. |
 
 Biên bản đầy đủ về trạng thái, lệnh và giới hạn của từng phép thử: [API SigV4 và alarm](evidence/09-api-and-alarm-live-tests.md), [retention/alarm](evidence/08-cloudwatch-retention-alarm.md), [rà soát quyền](evidence/06-current-lab-permission-block.md), [bảo mật](evidence/07-security-review.md).
+
+Ảnh AWS thật được đặt ngay tại phần kết quả tương ứng: [Lambda sản phẩm](evidence/10-product-alert-deployment.md), [SNS chưa xác nhận và CloudWatch History](evidence/11-additional-live-results.md), [freshness guard trên Lambda thử](evidence/05-live-freshness-guard.md).
 
 ## Phạm vi và giới hạn
 
 - Tuần 3 đã hoàn tất các chức năng bắt buộc về tích hợp, bảo mật ứng dụng và giám sát trong phạm vi Learner Lab. IaC bổ sung là tùy chọn theo yêu cầu đề tài; không tạo stack giám sát trùng với tài nguyên đã cấu hình trực tiếp.
 - `GET /summary` đã kiểm thử bằng SigV4 từ CloudShell; không tự nối dashboard S3 vì dashboard tĩnh không có cơ chế ký request an toàn và người học đã chọn giữ AWS_IAM.
-- Không thể đọc đầy đủ policy của `LabRole`: CloudShell bị explicit deny bởi `voc-cancel-cred` đối với một số API chỉ đọc (`logs:DescribeLogGroups`, `cloudwatch:DescribeAlarms`, `lambda:GetFunctionConfiguration`, `events:ListRules`). Không tìm cách vòng qua policy. Các quyền cần cho nhánh Lambda thử được kiểm tra qua kết quả chạy thực tế.
-- Billing snapshot được dùng cho kiểm thử là dữ liệu lịch sử/ước tính; không dùng nó để kết luận chi phí hiện tại.
+- Trong phiên 20/10, một số truy vấn chỉ đọc (`logs:DescribeLogGroups`, `cloudwatch:DescribeAlarms`, `lambda:GetFunctionConfiguration`, `events:ListRules`) bị explicit deny bởi `voc-cancel-cred`; không tìm cách vòng qua policy. Phiên 21/10 đã gọi được `lambda:GetFunctionConfiguration` cho hàm sản phẩm để đối chiếu gói mã/cấu hình. Chưa khẳng định các quyền bị từ chối khác đã thay đổi.
+- Snapshot ngày 13/10 dùng cho phép thử freshness là dữ liệu lịch sử/ước tính. Snapshot ngày 21/10 dùng cho lần gọi Lambda sản phẩm là dữ liệu mới tại thời điểm đó; không suy ra chi phí tương lai từ nó.
 
 ## Worklog và AI
 

@@ -2,6 +2,8 @@
 
 Các handler Lambda bên dưới được lấy nguyên trạng từ gói mã đang triển khai qua AWS Lambda Console ngày 15/10/2026. Giao diện được lấy từ đối tượng `index.html` đang lưu trong S3 cùng ngày. Các tệp không chứa giá trị biến môi trường, credentials hay URL tải tạm thời. Runtime Lambda là Python 3.13.
 
+**Cập nhật 21/10/2026:** tệp threshold-alert trong thư mục tuần 2 là bản lịch sử tại ngày 15/10. Lambda cảnh báo sản phẩm hiện chạy [handler tuần 3](../../tuan_3/src/threshold-alert/lambda_function.py) với chốt kiểm tra tuổi snapshot và subscription SNS. [Biên bản triển khai và kiểm thử](../../tuan_3/evidence/10-product-alert-deployment.md) ghi rõ bản đang chạy; các Lambda khác trong bảng không bị cập nhật ở bước này.
+
 | Hàm Lambda | Handler | Mục đích | Biến môi trường |
 |---|---|---|---|
 | `learnerlab-ops-week2-inventory-core` | `index.handler` | Gọi API EC2, RDS, SageMaker và EKS tại các Region cấu hình; lưu snapshot vào DynamoDB. | `REGIONS`, `TABLE` |

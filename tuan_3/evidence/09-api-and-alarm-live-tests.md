@@ -43,7 +43,9 @@ Alarm `learnerlab-ops-week3-test-lambda-errors` theo dõi `AWS/Lambda / Errors` 
 4. Kiểm tra subscription topic trước khi phục hồi: chỉ có một email subscription với `SubscriptionArn=PendingConfirmation`; địa chỉ email không được truy vấn/in ra. Gọi nhánh `{"test":true}` trả `StatusCode=200`, `FunctionError=null`, `status=sns_subscription_pending_confirmation`, `published=false`, `pendingSubscriptionCount=1`.
 5. CloudWatch xác nhận `In alarm → OK` lúc `2026-10-20 15:55:26 UTC`. Không có email cảnh báo nào được gửi.
 
-Đây là fault-injection có kiểm soát để kiểm tra alarm, được thực hiện riêng trên hàm thử; không phải dữ liệu vận hành hoặc báo cáo lỗi sản phẩm. Lambda và topic tuần 2 không bị thay đổi. Sau phép thử, alarm ở `OK` và SNS subscription thử vẫn chờ xác nhận.
+Đây là fault-injection có kiểm soát để kiểm tra alarm, được thực hiện riêng trên hàm thử; không phải dữ liệu vận hành hoặc báo cáo lỗi sản phẩm. Tại thời điểm phép thử 20/10, Lambda và topic tuần 2 không bị thay đổi. Sau phép thử, alarm ở `OK` và SNS subscription thử vẫn chờ xác nhận. Ngày 21/10, mã tuần 3 được [cập nhật riêng lên Lambda sản phẩm](10-product-alert-deployment.md).
+
+![CloudWatch History xác nhận nhánh lỗi và hồi phục trên Lambda thử](13-cloudwatch-alarm-history.png)
 
 ## Giới hạn còn ghi nhận
 

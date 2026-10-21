@@ -3,7 +3,7 @@
 **Ngày kiểm tra:** 20/10/2026  
 **Region:** `us-east-1`  
 **Account:** `213858341631`  
-**Phạm vi:** chỉ Lambda thử `learnerlab-ops-week3-threshold-negative-test`; không thay đổi Lambda tuần 2.
+**Phạm vi tại ngày kiểm tra:** chỉ Lambda thử `learnerlab-ops-week3-threshold-negative-test`; Lambda sản phẩm được cập nhật mã riêng vào ngày 21/10, xem [biên bản triển khai](10-product-alert-deployment.md).
 
 ## Retention của log group
 
@@ -47,3 +47,5 @@ Sau đó, một lần fault-injection có chủ đích trên **Lambda thử riê
 Để khôi phục kiểm tra bình thường, xác nhận topic thử chỉ có subscription `PendingConfirmation`, rồi gọi nhánh thử SNS an toàn. Lambda trả `StatusCode=200`, `FunctionError=null`, `sns_subscription_pending_confirmation`, `published=false`, `pendingSubscriptionCount=1`. CloudWatch chuyển alarm `In alarm → OK` lúc `2026-10-20 15:55:26 UTC`. Alarm không có action nên không gửi email. Chi tiết API và các lệnh gọi được ghi tại [evidence 09](09-api-and-alarm-live-tests.md).
 
 Log retention và alarm chỉ áp dụng cho tài nguyên thử tuần 3.
+
+![CloudWatch History ghi nhận alarm chuyển sang In alarm rồi trở lại OK](13-cloudwatch-alarm-history.png)

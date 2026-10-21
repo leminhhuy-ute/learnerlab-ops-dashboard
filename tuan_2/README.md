@@ -16,6 +16,8 @@ Theo báo cáo ngày 15/10/2026, các chức năng lõi đã được triển kh
 
 Repo có [mã handler của cả bốn Lambda và giao diện dashboard](src/README.md), được lấy từ bản đang chạy trên AWS ngày 15/10/2026. Tên hàm, handler, mục đích và biến môi trường (chỉ tên, không có giá trị nhạy cảm) được đối chiếu ở đó. [Mã kiểm kê](src/lambdas/inventory-core/index.py) lưu snapshot EC2/RDS/SageMaker/EKS; [mã billing](src/lambdas/billing-collector/index.py) truy vấn Cost Explorer; [mã đọc API](src/lambdas/read-api/index.py) trả snapshot mới nhất; [mã cảnh báo](src/lambdas/threshold-alert/lambda_function.py) gửi SNS khi đạt ngưỡng; [giao diện tĩnh](src/dashboard/index.html) nhận JSON `GET /summary` đã xác thực do người dùng dán vào.
 
+Từ ngày 21/10, Lambda cảnh báo sản phẩm đã chạy [mã tuần 3](../tuan_3/src/threshold-alert/lambda_function.py). Liên kết mã cảnh báo trong đoạn trên là bản tuần 2 để đối chiếu lịch sử; [biên bản cập nhật sản phẩm](../tuan_3/evidence/10-product-alert-deployment.md) ghi kết quả đang chạy trên AWS.
+
 ## Kiểm thử thu thập và lưu trữ
 
 Lambda kiểm kê trả HTTP 200, không có `FunctionError`. Snapshot DynamoDB có đủ 10 tổ hợp (5 nhóm dịch vụ × 2 Region), mỗi dòng `status=ok`, `count=0`. Đây là trạng thái tại thời điểm chụp và trong phạm vi tài nguyên đã hỗ trợ.
