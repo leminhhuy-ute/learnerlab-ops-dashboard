@@ -2,7 +2,7 @@
 
 **Sinh viên phụ trách:** Lê Minh Huy — MSSV 24110019
 **Mã học phần:** CLCO332779
-**Trạng thái:** Hoàn thành buổi kiểm thử đầu tiên ngày 21/10/2026 (25% kế hoạch tuần 4); phần rà soát, dọn dẹp và tổng kết tiếp tục ở các buổi sau.
+**Trạng thái:** Hoàn thành 2/4 buổi đến ngày 22/10/2026 (50% kế hoạch tuần 4); còn rà soát dọn dẹp và hoàn thiện tổng kết.
 
 ## Tiến độ ngày 21/10/2026 — buổi 1 (25%)
 
@@ -11,6 +11,18 @@
 Learner Lab đã Ready; lần kiểm tra AWS lúc 13:46 ICT xác nhận account `213858341631`, Region `us-east-1`. Bảng DynamoDB `learnerlab-ops-week2-snapshots` ở trạng thái `ACTIVE`, PAY_PER_REQUEST, có 78 item. Lambda `learnerlab-ops-week2-read-api` được gọi trực tiếp và trả `StatusCode=200`; response có trạng thái `ok`, 10/10 hàng inventory đều `ok`, không thiếu snapshot; billing `ok`, `estimated=true`, kỳ dữ liệu `2026-10-01` đến trước `2026-10-22`. API `GET /summary` trả HTTP 200 khi ký SigV4 và HTTP 403 khi không xác thực; đối chiếu trực tiếp với DynamoDB cho kết quả 10/10 snapshot inventory khớp và snapshot billing khớp. Năm alarm CloudWatch đang `OK`, ba lịch EventBridge đang `ENABLED`, SNS có email subscription đã xác nhận. Chi tiết lệnh, kết quả và giới hạn nằm trong [biên bản kiểm thử](evidence/01-regression-2026-10-21.md).
 
 Theo kế hoạch 4 buổi, buổi 1 tương ứng 25% tổng thời lượng dự kiến. Worklog ghi 2 giờ do sinh viên tự xác nhận, không có mốc giờ độc lập; thời gian và các thao tác do LLM/AI (ChatGPT) thực hiện được khai riêng, không cộng vào giờ sinh viên.
+
+## Tiến độ ngày 22/10/2026 — buổi 2 (50% lũy kế)
+
+Đã rà soát snapshot billing, tài nguyên có khả năng phát sinh chi phí và trạng thái tag trong hai Region được phép. Snapshot billing mới nhất được tìm thấy có `collectedAt=20261021T020041Z` (09:00:41 ICT ngày 21/10), `periodStart=2026-10-01`, `periodEndExclusive=2026-10-22`, `estimated=true`; snapshot không bao gồm ngày 22/10. Buổi này không gọi Cost Explorer, không ghi giá trị tiền và không coi số liệu ước tính là hóa đơn chốt.
+
+Trong các dịch vụ đã kiểm tra, không thấy EC2 instance, EBS volume, NAT Gateway hoặc Elastic IP đang tồn tại ở `us-east-1`/`us-west-2`; cũng không thấy RDS, SageMaker endpoint/notebook, EKS, ELBv2 hoặc EFS. Redshift provisioned cluster, serverless workgroup và namespace đều không có ở `us-east-1`. Các kết quả này không chứng minh tài khoản không phát sinh phí: Lambda, DynamoDB, S3, CloudWatch và các dịch vụ khác vẫn có thể phát sinh phí.
+
+Resource Groups Tagging API trả 22 tài nguyên mang tag `Project=learnerlab-ops` ở `us-east-1`, tất cả có `Owner=24110019`; không có tài nguyên mang tag Project này ở `us-west-2`. API này chỉ liệt kê tài nguyên có ít nhất một tag và có thể hỗ trợ khác nhau theo dịch vụ, nên không dùng nó để khẳng định mọi tài nguyên chưa gắn tag đều đã được phát hiện. Bucket dashboard được xác minh có đủ bốn cờ S3 Block Public Access bật, mã hóa SSE-S3/AES256 và các tag `Project`, `Environment`, `Owner`.
+
+Rà soát phát hiện bốn CloudWatch alarm tuần 3 thuộc dự án thiếu `Project`/`Owner`. Đã gắn hai tag này cho bốn alarm và kiểm tra lại: cả năm alarm tuần 3 hiện đều có `Project` và `Owner`. Đây là thay đổi cấu hình duy nhất của buổi rà soát; không tạo/xóa tài nguyên. Chi tiết thời điểm, phạm vi lệnh, kết quả và giới hạn nằm trong [biên bản rà soát chi phí, tài nguyên và tag](evidence/02-cost-resource-review-2026-10-22.md).
+
+Worklog ghi **3 giờ** do sinh viên tự xác nhận cho ngày 22/10/2026; không có mốc bắt đầu/kết thúc hay phân chia theo từng thao tác để kiểm chứng độc lập. CloudShell/AWS API được LLM/AI (ChatGPT) dùng để đọc trạng thái, gắn tag cho bốn alarm và xác minh sau thay đổi; thời gian AI khai riêng, không cộng vào giờ sinh viên.
 
 ## Mục tiêu
 
