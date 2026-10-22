@@ -1,8 +1,8 @@
-# Kế hoạch dự kiến tuần 4 — Kiểm thử tổng thể và hoàn thiện bàn giao
+# Tuần 4 — Kiểm thử tổng thể và hoàn thiện bàn giao
 
 **Sinh viên phụ trách:** Lê Minh Huy — MSSV 24110019
 **Mã học phần:** CLCO332779
-**Trạng thái:** Hoàn thành 2/4 buổi đến ngày 22/10/2026 (50% kế hoạch tuần 4); còn rà soát dọn dẹp và hoàn thiện tổng kết.
+**Trạng thái:** Hoàn thành 3/4 nhóm công việc đến ngày 22/10/2026 (**75% kế hoạch tuần 4**); còn chốt sản phẩm, tổng kết và demo. Tỷ lệ tính theo nhóm công việc, không suy ra từ số giờ.
 
 ## Tiến độ ngày 21/10/2026 — buổi 1 (25%)
 
@@ -24,6 +24,22 @@ Rà soát phát hiện bốn CloudWatch alarm tuần 3 thuộc dự án thiếu 
 
 Worklog ghi **3 giờ** do sinh viên tự xác nhận cho ngày 22/10/2026; không có mốc bắt đầu/kết thúc hay phân chia theo từng thao tác để kiểm chứng độc lập. CloudShell/AWS API được LLM/AI (ChatGPT) dùng để đọc trạng thái, gắn tag cho bốn alarm và xác minh sau thay đổi; thời gian AI khai riêng, không cộng vào giờ sinh viên.
 
+## Tiến độ ngày 22/10/2026 — buổi 3 (75% lũy kế)
+
+Đã kiểm tra trực tiếp hai bucket của dự án: đủ bốn cờ Block Public Access, SSE-S3/AES256, không có ACL công khai và có tag Project/Owner. API `GET /summary` vẫn dùng `AWS_IAM`; sau dọn dẹp, request không ký trả **403**, request SigV4 trả **200**, `status=ok`, có 10 hàng inventory và billing `status=ok`. Sáu Lambda dự án tại `us-east-1` đều dùng `LabRole`, không có Function URL; không thấy Lambda mang prefix dự án tại `us-west-2`.
+
+Đã lưu cấu hình, tags và **4** bản ghi lịch sử của alarm thử `learnerlab-ops-week3-test-lambda-errors`, tải bản sao về máy, đối chiếu hash và kiểm tra không có composite alarm phụ thuộc. Sau đó dọn riêng alarm này. Bốn alarm sản phẩm vẫn còn, tham số cấu hình khớp trước/sau; ba rule EventBridge vẫn `ENABLED`. Lambda/topic thử và log retention 7 ngày được giữ để phục vụ phép thử gửi email thật và demo ở buổi cuối. Topic sản phẩm có 1 subscription đã xác nhận; topic thử hiện không còn subscription, khác với trạng thái PendingConfirmation được ghi trong tuần 3.
+
+Chi tiết và ảnh AWS nằm trong [biên bản bảo mật/dọn dẹp](evidence/03-security-cleanup-2026-10-22.md); cấu hình và lịch sử alarm thử nằm ở [bản lưu trước dọn](evidence/04-test-alarm-archive-2026-10-22.md). [Script rà soát](scripts/review_security.py) chỉ đọc các trường cần kiểm tra và đã chạy trên CloudShell; SHA-256 nguồn khớp repo.
+
+Buổi 3 ghi **thêm 2 giờ** theo xác nhận của sinh viên, giữ nguyên 3 giờ buổi 2 cùng ngày. [Worklog tuần 4](worklog.csv) hiện tổng **7 giờ**: 21/10 có 2 giờ, 22/10 có 3 + 2 giờ. LLM/AI ChatGPT trực tiếp chạy truy vấn, lưu/dọn alarm thử, kiểm tra API và thu ảnh; phần hỗ trợ được ghi riêng, không cộng vào giờ sinh viên.
+
+## Phần còn lại cho buổi 4
+
+- Triển khai và xác minh bản sửa `Items=[]` của Lambda đọc API; hiện bản sửa mới được kiểm thử cục bộ.
+- Nếu thực hiện gợi ý nâng cao của GVHD: dùng snapshot chi phí thật, ngưỡng thử riêng và topic thử có subscription đã xác nhận để kiểm tra nhánh gửi email. Hiện topic thử chưa có subscriber; chưa coi nhánh này đã hoàn tất.
+- Hoàn thiện tổng kết, kịch bản demo tối đa 10 phút và kiểm tra link mã nguồn/kết quả/commit. Chốt tài nguyên thử cần giữ hay dọn sau khi có đủ minh chứng.
+
 ## Mục tiêu
 
 Kiểm thử lại luồng dashboard từ nguồn dữ liệu đến API, rà soát chi phí và cấu hình bảo mật, dọn tài nguyên thử không còn cần thiết, sau đó hoàn thiện báo cáo và bản demo. Mọi kết quả trong báo cáo sẽ dựa trên lần kiểm tra thực tế của tuần 4; số liệu cũ được ghi rõ ngày và không trình bày như số liệu hiện tại.
@@ -35,7 +51,7 @@ Kiểm thử lại luồng dashboard từ nguồn dữ liệu đến API, rà so
 | 1 | 2 giờ | Chạy kiểm thử hồi quy inventory, billing snapshot, freshness guard, SNS, API Gateway và CloudWatch alarm. Kiểm tra request API có SigV4 và request không xác thực; đối chiếu phản hồi đọc với snapshot DynamoDB tương ứng. | Bảng test case ghi điều kiện, kết quả quan sát, thời điểm và đường dẫn evidence. Không thay dữ liệu thật bằng kết quả giả lập. |
 | 2 | 2 giờ | Rà soát chi phí và tài nguyên trong các Region được phép. Đọc snapshot Cost Explorer hiện có; nếu cần gọi Cost Explorer thì giới hạn vài request trong ngày. Kiểm tra các tài nguyên có thể phát sinh phí và trạng thái tag. | Bảng tổng hợp ghi rõ kỳ dữ liệu, nguồn, thời điểm và việc số liệu là ước tính hay dữ liệu đã chốt. Không tạo EC2/RDS/SageMaker/EKS mới chỉ để làm demo. |
 | 3 | 2 giờ | Rà soát bảo mật và dọn tài nguyên thử tuần 3 nếu đã lưu đủ minh chứng, không còn phụ thuộc và quyền Lab cho phép. Kiểm tra lại S3 Block Public Access/SSE-S3, API AWS_IAM, tag và giới hạn Region. | Checklist trước/sau dọn dẹp; chỉ xóa đúng tài nguyên thử đã xác định, kiểm tra phụ thuộc trước khi thao tác. Nếu quyền bị từ chối thì ghi lại, không tìm cách vượt quyền. |
-| 4 | 2 giờ | Hoàn thiện nội dung báo cáo tổng kết, liên kết đến mã nguồn/evidence/commit, chuẩn bị kịch bản demo tối đa 10 phút và kiểm tra repository. | Báo cáo và demo khớp trạng thái AWS đã quan sát; link Git mở được; không chứa credentials, URL ký tạm thời hoặc thông tin nhạy cảm. |
+| 4 | 2 giờ | Chốt bản sửa Lambda đọc API, kiểm thử nhánh gửi cảnh báo thật trên topic thử nếu đủ điều kiện; hoàn thiện nội dung tổng kết, liên kết mã nguồn/evidence/commit, kịch bản demo tối đa 10 phút và kiểm tra repository. | Báo cáo và demo khớp trạng thái AWS đã quan sát; link Git mở được; không chứa credentials, URL ký tạm thời hoặc thông tin nhạy cảm. |
 
 **Tổng thời lượng dự kiến: 8 giờ.** Đây là phân bổ kế hoạch theo yêu cầu học phần, không phải worklog đã làm. Worklog tuần 4 sẽ chỉ ghi thời gian và phần việc sinh viên xác nhận sau từng buổi; thời gian LLM/AI (ChatGPT) hỗ trợ sẽ được ghi riêng, không cộng vào giờ sinh viên.
 
