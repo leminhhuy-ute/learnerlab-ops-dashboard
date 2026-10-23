@@ -15,7 +15,7 @@
 
 ## Cảnh báo SNS nâng cao
 
-Nhánh PendingConfirmation đã đạt; nhánh gửi sau xác nhận còn chờ người nhận bấm liên kết xác nhận email. Bảng replay và Lambda thử đang được giữ tạm để tiếp tục. Chưa ghi hoàn thành 100% toàn bộ checklist kỹ thuật. Xem [điều kiện và kết quả SNS](08-sns-replay-2026-10-23.md).
+Đã kiểm thử cả nhánh subscription chưa xác nhận và nhánh xác nhận với dữ liệu lịch sử thật trên topic riêng; SNS chấp nhận Publish và trả MessageId. Cấu hình thử đã phục hồi, bảng replay đã xóa. Xem [biên bản SNS và ảnh](08-sns-replay-2026-10-23.md).
 
 ## Giới hạn và tài nguyên giữ lại
 
@@ -34,7 +34,7 @@ Nguồn script: [review_security.py](../scripts/review_security.py), chỉ đọ
 ```json
 {
   "security-final.json": {
-    "checkedAtUtc": "2026-10-23T00:56:47.157640+00:00",
+    "checkedAtUtc": "2026-10-23T01:56:34.369146+00:00",
     "account": "213858341631",
     "buckets": [
       {
@@ -244,8 +244,8 @@ Nguồn script: [review_security.py](../scripts/review_security.py), chỉ đọ
       },
       {
         "name": "learnerlab-ops-week3-negative-test",
-        "confirmed": 0,
-        "pending": 1,
+        "confirmed": 1,
+        "pending": 0,
         "policy": [
           {
             "Effect": "Allow",

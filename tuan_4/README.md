@@ -2,7 +2,7 @@
 
 **Sinh viên phụ trách:** Lê Minh Huy — MSSV 24110019
 **Mã học phần:** CLCO332779
-**Trạng thái:** Các hạng mục hồi quy, rà soát và sửa lỗi trên AWS đã hoàn tất đến 23/10/2026. Còn bước xác nhận subscription và kiểm thử Publish trên topic SNS thử để chốt toàn bộ checklist kỹ thuật. Video demo và báo cáo Word tổng kết toàn dự án làm sau.
+**Trạng thái:** Hoàn tất 4/4 nhóm công việc kỹ thuật tuần 4 đến 23/10/2026 (**100% checklist kỹ thuật**). Video demo và báo cáo Word tổng kết toàn dự án thực hiện sau theo yêu cầu sinh viên; chưa tính là đã hoàn thành hai sản phẩm này.
 
 ## Tiến độ ngày 21/10/2026 — buổi 1 (25%)
 
@@ -39,7 +39,7 @@ Buổi 3 ghi **thêm 2 giờ** theo xác nhận của sinh viên, giữ nguyên 
 - Đã triển khai bản sửa `Items=[]` lên Lambda read-api sản phẩm, tải ZIP để đối chiếu nguồn; thử cùng mã trên bảng DynamoDB rỗng thật, nhận `missing/null` rồi dọn tài nguyên dùng một lần.
 - Đã thu inventory và billing mới, chạy guard sản phẩm ở ngưỡng 10 USD/48 giờ; API SigV4 trả 200, unsigned 403; 10/10 hàng inventory và billing khớp DynamoDB. Billing gọi thêm một lần, bộ đếm ngày là 1/4, kết quả vẫn là ước tính.
 - Đã sửa và triển khai dashboard lên S3; kiểm tra dữ liệu đủ, thiếu snapshot và JSON lỗi ngay trên trang thật. Dữ liệu thiếu được phân biệt với số lượng 0.
-- Đã kiểm thử lại nhánh SNS chưa xác nhận bằng snapshot lịch sử thật và cấu hình replay riêng; nhánh gửi sau xác nhận còn chờ người nhận bấm Confirm subscription. Chưa ghi nhánh này là đạt.
+- Đã kiểm thử lại nhánh SNS chưa xác nhận bằng snapshot lịch sử thật và cấu hình replay riêng; nhánh xác nhận cũng đã trả `alert_published`, có messageId. Đã trả cấu hình thử về 10 USD/48 giờ và dọn bảng replay.
 - **16/16 unit tests đạt**. Worklog ngày 23/10 bổ sung **3 giờ**, tổng tuần **10 giờ**; phần LLM/AI ChatGPT trực tiếp thao tác được khai riêng.
 
 | Tài liệu | Nội dung |

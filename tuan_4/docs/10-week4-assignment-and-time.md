@@ -15,10 +15,10 @@ Nhóm có một sinh viên. Lê Minh Huy phụ trách theo dõi tiến độ, t�
 | 21/10/2026 — buổi 1 | Hồi quy mã cảnh báo và API đọc snapshot; đối chiếu API với DynamoDB; xác định lỗi khi kết quả truy vấn rỗng. | 2 |
 | 22/10/2026 — buổi 2 | Rà soát nguồn/kỳ billing, tài nguyên có thể phát sinh phí và tag; bổ sung Project/Owner cho bốn alarm. | 3 |
 | 22/10/2026 — buổi 3 | Rà soát S3, API IAM, Lambda, SNS; lưu cấu hình/lịch sử rồi dọn một alarm thử; kiểm tra lại sản phẩm. | 2 |
-| 23/10/2026 — buổi 4 | Hoàn thiện bản sửa read-api trên AWS; kiểm thử bảng rỗng, luồng dữ liệu mới và giao diện; kiểm thử hai trạng thái subscription SNS trên topic riêng, tổng hợp kết quả. | 3 |
+| 23/10/2026 — buổi 4 | Hoàn thiện bản sửa read-api trên AWS; kiểm thử bảng rỗng, luồng dữ liệu mới và giao diện; kiểm thử hai trạng thái subscription SNS trên topic riêng, khôi phục cấu hình thử và dọn bảng replay. | 3 |
 | **Tổng tuần 4** | | **10** |
 
-Hai buổi ngày 22/10 được xác nhận riêng (3 giờ và thêm 2 giờ). Ngày 23/10 sinh viên xác nhận thêm 3 giờ. Đây là thời lượng sinh viên cung cấp, không có bảng chấm công hay mốc bắt đầu/kết thúc độc lập. Không phân bổ lại số giờ cho từng lệnh AWS và không lấy thời gian AI thao tác làm giờ sinh viên. Nội dung buổi 4 bao gồm phép thử đang chờ xác nhận email; trạng thái từng kiểm thử phải đọc theo [tổng hợp tuần 4](../README.md), không suy ra từ số giờ.
+Hai buổi ngày 22/10 được xác nhận riêng (3 giờ và thêm 2 giờ). Ngày 23/10 sinh viên xác nhận thêm 3 giờ. Đây là thời lượng sinh viên cung cấp, không có bảng chấm công hay mốc bắt đầu/kết thúc độc lập. Không phân bổ lại số giờ cho từng lệnh AWS và không lấy thời gian AI thao tác làm giờ sinh viên. Ngày 23/10, AI hỗ trợ kiểm thử nhánh SNS chưa xác nhận (dừng trước Publish), sau đó sinh viên xác nhận subscription; AI gọi nhánh Publish trên topic thử riêng và khôi phục cấu hình/dọn bảng replay. Thời điểm lệnh AWS là minh chứng kỹ thuật, không dùng để suy ra số giờ sinh viên.
 
 ## Phần LLM/AI ChatGPT hỗ trợ
 
