@@ -15,7 +15,7 @@
 
 ## Cảnh báo SNS nâng cao
 
-Đã kiểm thử cả nhánh subscription chưa xác nhận và nhánh xác nhận với dữ liệu lịch sử thật trên topic riêng; SNS chấp nhận Publish và trả MessageId. Cấu hình thử đã phục hồi, bảng replay đã xóa. Xem [biên bản SNS và ảnh](08-sns-replay-2026-10-23.md).
+Đã kiểm thử cả nhánh subscription chưa xác nhận và nhánh xác nhận với dữ liệu lịch sử thật trên topic riêng; SNS chấp nhận Publish và trả MessageId, người nhận sau đó xác nhận đã nhận email cảnh báo. Cấu hình thử đã phục hồi, bảng replay đã xóa. Xem [biên bản SNS và ảnh](08-sns-replay-2026-10-23.md).
 
 ## Giới hạn và tài nguyên giữ lại
 

@@ -39,7 +39,7 @@ Buổi 3 ghi **thêm 2 giờ** theo xác nhận của sinh viên, giữ nguyên 
 - Đã triển khai bản sửa `Items=[]` lên Lambda read-api sản phẩm, tải ZIP để đối chiếu nguồn; thử cùng mã trên bảng DynamoDB rỗng thật, nhận `missing/null` rồi dọn tài nguyên dùng một lần.
 - Đã thu inventory và billing mới, chạy guard sản phẩm ở ngưỡng 10 USD/48 giờ; API SigV4 trả 200, unsigned 403; 10/10 hàng inventory và billing khớp DynamoDB. Billing gọi thêm một lần, bộ đếm ngày là 1/4, kết quả vẫn là ước tính.
 - Đã sửa và triển khai dashboard lên S3; kiểm tra dữ liệu đủ, thiếu snapshot và JSON lỗi ngay trên trang thật. Dữ liệu thiếu được phân biệt với số lượng 0.
-- Đã kiểm thử lại nhánh SNS chưa xác nhận bằng snapshot lịch sử thật và cấu hình replay riêng; nhánh xác nhận cũng đã trả `alert_published`, có messageId. Đã trả cấu hình thử về 10 USD/48 giờ và dọn bảng replay.
+- Đã kiểm thử lại nhánh SNS chưa xác nhận bằng snapshot lịch sử thật và cấu hình replay riêng; nhánh xác nhận cũng đã trả `alert_published`, có messageId và người nhận xác nhận đã nhận email. Đã trả cấu hình thử về 10 USD/48 giờ và dọn bảng replay.
 - **16/16 unit tests đạt**. Worklog ngày 23/10 bổ sung **3 giờ**, tổng tuần **10 giờ**; phần LLM/AI ChatGPT trực tiếp thao tác được khai riêng.
 
 | Tài liệu | Nội dung |
