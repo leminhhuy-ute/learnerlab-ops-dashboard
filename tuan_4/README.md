@@ -2,7 +2,7 @@
 
 **Sinh viên phụ trách:** Lê Minh Huy — MSSV 24110019
 **Mã học phần:** CLCO332779
-**Trạng thái:** Hoàn thành 3/4 nhóm công việc đến ngày 22/10/2026 (**75% kế hoạch tuần 4**); còn chốt sản phẩm, tổng kết và demo. Tỷ lệ tính theo nhóm công việc, không suy ra từ số giờ.
+**Trạng thái:** Các hạng mục hồi quy, rà soát và sửa lỗi trên AWS đã hoàn tất đến 23/10/2026. Còn bước xác nhận subscription và kiểm thử Publish trên topic SNS thử để chốt toàn bộ checklist kỹ thuật. Video demo và báo cáo Word tổng kết toàn dự án làm sau.
 
 ## Tiến độ ngày 21/10/2026 — buổi 1 (25%)
 
@@ -34,15 +34,27 @@ Chi tiết và ảnh AWS nằm trong [biên bản bảo mật/dọn dẹp](evide
 
 Buổi 3 ghi **thêm 2 giờ** theo xác nhận của sinh viên, giữ nguyên 3 giờ buổi 2 cùng ngày. [Worklog tuần 4](worklog.csv) hiện tổng **7 giờ**: 21/10 có 2 giờ, 22/10 có 3 + 2 giờ. LLM/AI ChatGPT trực tiếp chạy truy vấn, lưu/dọn alarm thử, kiểm tra API và thu ảnh; phần hỗ trợ được ghi riêng, không cộng vào giờ sinh viên.
 
-## Phần còn lại cho buổi 4
+## Tiến độ ngày 23/10/2026 — buổi 4
 
-- Triển khai và xác minh bản sửa `Items=[]` của Lambda đọc API; hiện bản sửa mới được kiểm thử cục bộ.
-- Nếu thực hiện gợi ý nâng cao của GVHD: dùng snapshot chi phí thật, ngưỡng thử riêng và topic thử có subscription đã xác nhận để kiểm tra nhánh gửi email. Hiện topic thử chưa có subscriber; chưa coi nhánh này đã hoàn tất.
-- Hoàn thiện tổng kết, kịch bản demo tối đa 10 phút và kiểm tra link mã nguồn/kết quả/commit. Chốt tài nguyên thử cần giữ hay dọn sau khi có đủ minh chứng.
+- Đã triển khai bản sửa `Items=[]` lên Lambda read-api sản phẩm, tải ZIP để đối chiếu nguồn; thử cùng mã trên bảng DynamoDB rỗng thật, nhận `missing/null` rồi dọn tài nguyên dùng một lần.
+- Đã thu inventory và billing mới, chạy guard sản phẩm ở ngưỡng 10 USD/48 giờ; API SigV4 trả 200, unsigned 403; 10/10 hàng inventory và billing khớp DynamoDB. Billing gọi thêm một lần, bộ đếm ngày là 1/4, kết quả vẫn là ước tính.
+- Đã sửa và triển khai dashboard lên S3; kiểm tra dữ liệu đủ, thiếu snapshot và JSON lỗi ngay trên trang thật. Dữ liệu thiếu được phân biệt với số lượng 0.
+- Đã kiểm thử lại nhánh SNS chưa xác nhận bằng snapshot lịch sử thật và cấu hình replay riêng; nhánh gửi sau xác nhận còn chờ người nhận bấm Confirm subscription. Chưa ghi nhánh này là đạt.
+- **16/16 unit tests đạt**. Worklog ngày 23/10 bổ sung **3 giờ**, tổng tuần **10 giờ**; phần LLM/AI ChatGPT trực tiếp thao tác được khai riêng.
+
+| Tài liệu | Nội dung |
+|---|---|
+| [Triển khai read-api và hồi quy luồng](evidence/06-read-api-deployment-2026-10-23.md) | Bảng rỗng, nguồn trên AWS, snapshot mới, API/DynamoDB và ảnh |
+| [Kiểm thử SNS](evidence/08-sns-replay-2026-10-23.md) | Dữ liệu lịch sử 13/10, cửa sổ thử 336 giờ; trạng thái từng nhánh và giới hạn |
+| [Giao diện và ảnh kết quả](evidence/10-dashboard-regression-2026-10-23.md) | Triển khai S3, ba trường hợp kiểm thử trên trình duyệt |
+| [Rà soát cuối tuần](evidence/12-final-review-2026-10-23.md) | Checklist, cấu hình bảo mật và tài nguyên giữ cho demo |
+| [Phân công và thời lượng](docs/10-week4-assignment-and-time.md) | Bốn buổi, tổng 10 giờ; [worklog CSV](worklog.csv) |
+
+Video demo và Word tổng kết **toàn bộ dự án** được làm ở bước tiếp theo. Tỷ lệ hoàn tất kỹ thuật không được dùng để khẳng định video hoặc Word đã xong.
 
 ## Mục tiêu
 
-Kiểm thử lại luồng dashboard từ nguồn dữ liệu đến API, rà soát chi phí và cấu hình bảo mật, dọn tài nguyên thử không còn cần thiết, sau đó hoàn thiện báo cáo và bản demo. Mọi kết quả trong báo cáo sẽ dựa trên lần kiểm tra thực tế của tuần 4; số liệu cũ được ghi rõ ngày và không trình bày như số liệu hiện tại.
+Kiểm thử lại luồng dashboard từ nguồn dữ liệu đến API, rà soát chi phí và cấu hình bảo mật, dọn tài nguyên thử không còn cần thiết, sau đó hoàn thiện repository và chuẩn bị cho Word tổng kết/video demo ở bước tiếp theo. Mọi kết quả trong báo cáo sẽ dựa trên lần kiểm tra thực tế của tuần 4; số liệu cũ được ghi rõ ngày và không trình bày như số liệu hiện tại.
 
 ## Thứ tự công việc dự kiến
 
@@ -63,14 +75,14 @@ Kiểm thử lại luồng dashboard từ nguồn dữ liệu đến API, rà so
 - Lưu ảnh/log minh chứng trước khi dọn tài nguyên thử. Không xóa VPC, bucket dữ liệu, bảng DynamoDB hoặc tài nguyên lõi trước khi kiểm tra phụ thuộc và xác nhận chúng không cần cho demo/bàn giao.
 - Không đưa credentials vào repo hoặc trình duyệt. Nếu LabRole tiếp tục bị explicit deny, ghi rõ phạm vi không thể kiểm tra thay vì suy đoán.
 - Kết quả billing trong buổi 1 là snapshot ước tính (`estimated=true`), không phải hóa đơn chốt. Không lưu giá trị tiền hoặc địa chỉ email vào evidence.
-- Bản sửa `Items=[]` mới vượt qua kiểm thử hồi quy cục bộ; Lambda sản phẩm trên AWS vẫn là phiên bản triển khai trước đó. Chưa kết luận lỗi biên này đã được khắc phục trên AWS.
+- Bản sửa `Items=[]` đã triển khai và kiểm thử AWS ngày 23/10; các đoạn ghi “chưa triển khai” ở buổi 1 là trạng thái lịch sử ngày 21/10.
 
 ## Tiêu chí kết thúc tuần 4
 
 - Các kiểm thử hồi quy cần thiết có trạng thái và evidence đối chiếu được.
 - Chi phí được trình bày theo đúng nguồn và kỳ dữ liệu; không gọi nhầm ước tính là hóa đơn cuối kỳ.
 - Tài nguyên thử được giữ lại có lý do hoặc được dọn có kiểm soát; trạng thái trước/sau được ghi lại.
-- Báo cáo tổng kết, repo và demo thống nhất với trạng thái thật trên AWS.
+- Repository và minh chứng thống nhất với trạng thái AWS; Word tổng kết toàn dự án và video demo được hoàn thiện ở bước tiếp theo.
 - Worklog phản ánh việc và giờ sinh viên xác nhận, đồng thời khai báo phần LLM/AI hỗ trợ riêng.
 
 **Tham chiếu:** [Tổng hợp tuần 3](../tuan_3/README.md) · [Nguồn dữ liệu](../docs/data-sources.md) · [Repository](https://github.com/leminhhuy-ute/learnerlab-ops-dashboard).
