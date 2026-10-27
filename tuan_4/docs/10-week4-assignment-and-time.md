@@ -26,4 +26,4 @@ Hai buổi ngày 22/10 được xác nhận riêng (3 giờ và thêm 2 giờ). 
 - Dùng CloudShell để triển khai, gọi Lambda/API, đối chiếu DynamoDB, kiểm tra bảo mật và lưu kết quả thực tế.
 - Chuẩn bị phép thử SNS riêng, thu ảnh, sắp xếp minh chứng và cập nhật repository.
 
-Video demo và báo cáo Word tổng kết toàn bộ dự án được thực hiện ở bước tiếp theo theo yêu cầu sinh viên. Không có báo cáo Word theo tuần được tạo trong buổi này.
+Trong buổi kỹ thuật cuối ngày 23/10, video và bản Word tổng kết còn được tách sang bước tiếp theo. Bản Word tổng kết sau đó đã hoàn tất; video vẫn chưa được ghi nhận hoàn thành tại lần đối chiếu ngày 27/10. Đây là báo cáo tổng kết cả dự án, không phải Word theo tuần. Xem [đối chiếu hiện tại](12-completion-audit-2026-10-27.md) và [kịch bản video riêng](11-demo-script.md).

@@ -2,7 +2,9 @@
 
 **Sinh viên phụ trách:** Lê Minh Huy — MSSV 24110019
 **Mã học phần:** CLCO332779
-**Trạng thái:** Hoàn tất 4/4 nhóm công việc kỹ thuật tuần 4 đến 23/10/2026 (**100% checklist kỹ thuật**). Video demo và báo cáo Word tổng kết toàn dự án thực hiện sau theo yêu cầu sinh viên; chưa tính là đã hoàn thành hai sản phẩm này.
+**Trạng thái:** Các nhóm công việc kỹ thuật tuần 4 có minh chứng AWS đến 23/10/2026. Ngày 27/10 chạy lại 16/16 kiểm thử cục bộ đều đạt; bản Word tổng kết đã hoàn tất. Video chưa được ghi nhận hoàn thành; tài nguyên lõi và một số tài nguyên thử đang giữ cần được rà soát/dọn sau buổi quay.
+
+**Đối chiếu ngày 27/10:** [Bảng kiểm tra mức độ hoàn tất](docs/12-completion-audit-2026-10-27.md) phân biệt kiểm thử cục bộ mới với minh chứng AWS ngày 23/10. Phiên AWS hiện tại chưa kiểm tra lại được vì lỗi phiên Console và kết nối Academy. [Kịch bản demo](docs/11-demo-script.md) có từng thao tác, lời thoại và thời lượng khoảng 9 phút.
 
 ## Tiến độ ngày 21/10/2026 — buổi 1 (25%)
 
@@ -50,7 +52,7 @@ Buổi 3 ghi **thêm 2 giờ** theo xác nhận của sinh viên, giữ nguyên 
 | [Rà soát cuối tuần](evidence/12-final-review-2026-10-23.md) | Checklist, cấu hình bảo mật và tài nguyên giữ cho demo |
 | [Phân công và thời lượng](docs/10-week4-assignment-and-time.md) | Bốn buổi, tổng 10 giờ; [worklog CSV](worklog.csv) |
 
-Video demo và Word tổng kết **toàn bộ dự án** được làm ở bước tiếp theo. Tỷ lệ hoàn tất kỹ thuật không được dùng để khẳng định video hoặc Word đã xong.
+Bản Word tổng kết **toàn bộ dự án** đã hoàn tất sau buổi kỹ thuật cuối. Video được nộp riêng và còn phải quay; tỷ lệ hoàn tất kỹ thuật không có nghĩa toàn bộ việc bàn giao, gồm video và dọn tài nguyên còn giữ, đã kết thúc.
 
 ## Mục tiêu
 
