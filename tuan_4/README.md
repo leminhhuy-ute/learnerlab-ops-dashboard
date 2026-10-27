@@ -4,7 +4,7 @@
 **Mã học phần:** CLCO332779
 **Trạng thái:** Các nhóm công việc kỹ thuật tuần 4 có minh chứng AWS đến 23/10/2026. Ngày 27/10 chạy lại 16/16 kiểm thử cục bộ đều đạt; bản Word tổng kết đã hoàn tất. Video chưa được ghi nhận hoàn thành; tài nguyên lõi và một số tài nguyên thử đang giữ cần được rà soát/dọn sau buổi quay.
 
-**Đối chiếu ngày 27/10:** [Bảng kiểm tra mức độ hoàn tất](docs/12-completion-audit-2026-10-27.md) phân biệt kiểm thử cục bộ mới với minh chứng AWS ngày 23/10. Phiên AWS hiện tại chưa kiểm tra lại được vì lỗi phiên Console và kết nối Academy. [Kịch bản demo](docs/11-demo-script.md) có từng thao tác, lời thoại và thời lượng khoảng 9 phút.
+**Đối chiếu ngày 27/10:** [Bảng kiểm tra mức độ hoàn tất](docs/12-completion-audit-2026-10-27.md) ghi kết quả kiểm thử cục bộ và kiểm tra trực tiếp AWS sau khi Lab Ready. API và cấu hình bảo mật đã được đối chiếu; snapshot kiểm kê và chi phí vẫn thu ngày 23/10. [Kịch bản demo](docs/11-demo-script.md) có từng thao tác, lời thoại và thời lượng khoảng 9 phút.
 
 ## Tiến độ ngày 21/10/2026 — buổi 1 (25%)
 
@@ -30,7 +30,7 @@ Worklog ghi **3 giờ** do sinh viên tự xác nhận cho ngày 22/10/2026; kh�
 
 Đã kiểm tra trực tiếp hai bucket của dự án: đủ bốn cờ Block Public Access, SSE-S3/AES256, không có ACL công khai và có tag Project/Owner. API `GET /summary` vẫn dùng `AWS_IAM`; sau dọn dẹp, request không ký trả **403**, request SigV4 trả **200**, `status=ok`, có 10 hàng inventory và billing `status=ok`. Sáu Lambda dự án tại `us-east-1` đều dùng `LabRole`, không có Function URL; không thấy Lambda mang prefix dự án tại `us-west-2`.
 
-Đã lưu cấu hình, tags và **4** bản ghi lịch sử của alarm thử `learnerlab-ops-week3-test-lambda-errors`, tải bản sao về máy, đối chiếu hash và kiểm tra không có composite alarm phụ thuộc. Sau đó dọn riêng alarm này. Bốn alarm sản phẩm vẫn còn, tham số cấu hình khớp trước/sau; ba rule EventBridge vẫn `ENABLED`. Lambda/topic thử và log retention 7 ngày được giữ để phục vụ phép thử gửi email thật và demo ở buổi cuối. Topic sản phẩm có 1 subscription đã xác nhận; topic thử hiện không còn subscription, khác với trạng thái PendingConfirmation được ghi trong tuần 3.
+Đã lưu cấu hình, tags và **4** bản ghi lịch sử của alarm thử `learnerlab-ops-week3-test-lambda-errors`, tải bản sao về máy, đối chiếu hash và kiểm tra không có composite alarm phụ thuộc. Sau đó dọn riêng alarm này. Bốn alarm sản phẩm vẫn còn, tham số cấu hình khớp trước/sau; ba rule EventBridge vẫn `ENABLED`. Lambda/topic thử và log retention 7 ngày được giữ để phục vụ phép thử gửi email thật và demo ở buổi cuối. Tại lần rà soát 22/10, topic thử chưa còn subscription; ngày 27/10 kiểm tra lại thấy cả topic thử và topic sản phẩm đều có một subscription đã xác nhận.
 
 Chi tiết và ảnh AWS nằm trong [biên bản bảo mật/dọn dẹp](evidence/03-security-cleanup-2026-10-22.md); cấu hình và lịch sử alarm thử nằm ở [bản lưu trước dọn](evidence/04-test-alarm-archive-2026-10-22.md). [Script rà soát](scripts/review_security.py) chỉ đọc các trường cần kiểm tra và đã chạy trên CloudShell; SHA-256 nguồn khớp repo.
 

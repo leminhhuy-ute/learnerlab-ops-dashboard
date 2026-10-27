@@ -20,7 +20,7 @@ Kịch bản dùng cho video nộp riêng. Phần thao tác API và dashboard c�
 7. Mở `summary.json` bằng Notepad để sẵn việc sao chép. Trong Lambda `learnerlab-ops-week2-read-api`, chuẩn bị sự kiện Test riêng tư tên `demo-summary`, JSON `{}`.
 8. Quay thử 10 giây và nghe lại để kiểm tra micro. Trên Windows 11 có thể dùng Snipping Tool: **Windows + Shift + R**, chọn vùng quay, bật micro, Start; khi xong bấm Stop và lưu MP4.
 
-**Điểm cần kiểm tra ngày quay:** lần minh chứng AWS gần nhất trong hồ sơ là 23/10. Nếu dữ liệu vẫn dừng ở ngày đó thì đang xem snapshot đã lưu, không được gọi là dữ liệu vừa thu ngày 27/10. Guard sản phẩm có cửa sổ 48 giờ nên dữ liệu cũ có thể bị từ chối đúng thiết kế. Cần kiểm tra lại phiên và thời điểm snapshot trước buổi quay, không sửa timestamp hoặc số liệu trong JSON.
+**Điểm cần kiểm tra ngày quay:** lượt kiểm tra AWS sáng 27/10 cho thấy snapshot vẫn được thu ngày 23/10. Nếu dữ liệu chưa được cập nhật khi quay, hãy nói rõ đây là snapshot đã lưu, không nói là dữ liệu vừa thu. Guard sản phẩm dùng mặc định 48 giờ nên snapshot cũ có thể bị từ chối đúng thiết kế. Kiểm tra lại thời điểm trước buổi quay, không sửa timestamp hoặc số liệu trong JSON.
 
 ## 0:00–0:35 Giới thiệu đề tài và repo
 
@@ -98,7 +98,7 @@ JSON sai ở bước 4 là đầu vào cố ý để kiểm thử giao diện, k
 
 **Thao tác:**
 
-1. Lambda → `learnerlab-ops-week2-threshold-alert` → Configuration → Environment variables. Chỉ `ALERT_THRESHOLD_USD=10` và `MAX_SNAPSHOT_AGE_HOURS=48`; không sửa cấu hình.
+1. Lambda → `learnerlab-ops-week2-threshold-alert` → Configuration → Environment variables. Chỉ `ALERT_THRESHOLD_USD=10`; xem mã nguồn để chỉ giá trị mặc định `MAX_SNAPSHOT_AGE_HOURS=48` nếu biến này không xuất hiện trong môi trường. Không sửa cấu hình.
 2. SNS → topic `learnerlab-ops-week2-alerts` → Subscriptions, chỉ người nhận đã xác nhận nếu console hiện đúng như vậy.
 3. Mở [biên bản SNS ngày 23/10](../evidence/08-sns-replay-2026-10-23.md). Cuộn đến kết quả trước và sau xác nhận cùng ảnh.
 4. Nếu mở email đã nhận, chuẩn bị sẵn đúng email cảnh báo để chỉ nội dung cần thiết, không quay cả hộp thư.
@@ -127,7 +127,7 @@ Không tìm alarm thử đã bị dọn ngày 22/10 rồi coi việc không th�
 
 **Lời thoại:**
 
-> Các chức năng và kết quả kiểm thử trên AWS được lưu trong biên bản ngày 23/10. Ngày 27/10, bộ kiểm thử mã được chạy lại: 12 kiểm thử cảnh báo và 4 kiểm thử hồi quy đều đạt; JavaScript của dashboard qua kiểm tra cú pháp. Đây là kiểm thử cục bộ, không thay cho kiểm tra phiên AWS hiện tại. Hệ thống đã có luồng snapshot, API có xác thực, giao diện xử lý dữ liệu thiếu và hai nhánh SNS có minh chứng. Giới hạn còn lại là dashboard nạp JSON thủ công, số chi phí vẫn là ước tính và các tài nguyên lõi được giữ đến khi hoàn tất trình bày.
+> Các chức năng và kết quả kiểm thử trên AWS được lưu trong biên bản ngày 23/10. Ngày 27/10, 12 kiểm thử cảnh báo và 4 kiểm thử hồi quy chạy cục bộ đều đạt; JavaScript của dashboard qua kiểm tra cú pháp. Lần kiểm tra AWS ngày 27/10 xác nhận API và cấu hình bảo mật, nhưng snapshot vẫn có thời điểm thu ngày 23/10. Dashboard hiện nạp JSON thủ công, chi phí là ước tính và các tài nguyên lõi được giữ đến khi hoàn tất trình bày.
 
 > Trong quá trình thực hiện, em dùng LLM/AI ChatGPT hỗ trợ mã nguồn, kiểm thử và thao tác AWS. Phần hỗ trợ được khai riêng trong worklog. Em xin kết thúc phần demo.
 

@@ -21,6 +21,6 @@ Mỗi tuần có thư mục riêng ở cấp repository để giảng viên xem 
 
 Worklog giữ giờ sinh viên chưa xác nhận ở dạng trống; không suy ra giờ học từ thời gian AI thao tác, thời lượng phiên Lab hay mốc CloudTrail.
 
-**Cập nhật 27/10/2026:** Bản Word tổng kết đã hoàn tất. Xem [đối chiếu tuần 4](tuan_4/docs/12-completion-audit-2026-10-27.md) và [kịch bản demo có lời thoại](tuan_4/docs/11-demo-script.md). Kiểm thử mã cục bộ hôm nay đạt 16/16; trạng thái AWS đang chạy chưa xác minh lại được trong phiên hiện tại. Video chưa được ghi nhận hoàn thành; việc dọn tài nguyên còn giữ được thực hiện sau khi quay và kiểm tra phụ thuộc.
+**Cập nhật 27/10/2026:** Bản Word tổng kết đã hoàn tất. Xem [đối chiếu tuần 4](tuan_4/docs/12-completion-audit-2026-10-27.md) và [kịch bản demo có lời thoại](tuan_4/docs/11-demo-script.md). Kiểm thử mã cục bộ đạt 16/16; đã kiểm tra trực tiếp API, bảo mật và đối chiếu mã trên AWS. Snapshot hiện có vẫn thu ngày 23/10. Video chưa được ghi nhận hoàn thành; việc dọn tài nguyên còn giữ được thực hiện sau khi quay và kiểm tra phụ thuộc.
 
 Không đưa access key, secret key, session token, URL presigned hoặc thông tin đăng nhập vào repository. Ảnh SNS công khai không hiển thị địa chỉ email người nhận.
